@@ -1,0 +1,28 @@
+[graph]
+all-features = true
+
+[advisories]
+version = 2
+yanked = "deny"
+
+[licenses]
+version = 2
+allow = ["MIT", "Apache-2.0", "Apache-2.0 WITH LLVM-exception", "BSD-3-Clause", "BSD-2-Clause", "ISC", "BSL-1.0", "Unicode-3.0", "Unlicense", "Zlib", "CC0-1.0"]
+private = { ignore = true }
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+allow-wildcard-paths = true
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+required-git-spec = "rev"
+allow-git = ["https://github.com/craftguild/chigiri.rs", "https://github.com/craftguild/oriha.rs", "https://github.com/craftguild/standards.rs"]
+
+# The pinned common build-time JSON Schema validator uses this permissive dependency.
+[[licenses.exceptions]]
+name = "borrow-or-share"
+version = "=0.2.4"
+allow = ["MIT-0"]

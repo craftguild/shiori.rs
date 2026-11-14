@@ -1,0 +1,9 @@
+{
+  "file": "cmyk.jpg",
+  "sha256": "89da462f70b61ec4e96b566361acdc150cb28e4a5cfd32f73000454813ec8b65",
+  "width": 32,
+  "height": 16,
+  "bits_per_component": 8,
+  "components": 4,
+  "source": "Locally generated RGB pattern (x*8,y*16,(x+y)*5), converted with macOS sips and the system Generic CMYK profile. APP1/APP2 metadata removed; no system ICC profile is redistributed. Committed fixture needs no sips at test/build/runtime."
+}

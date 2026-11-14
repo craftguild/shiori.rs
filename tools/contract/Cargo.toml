@@ -1,0 +1,14 @@
+[workspace]
+
+[package]
+name = "shiori-contract-tools"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.95"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[dependencies]
+chigiri_codegen = { git = "https://github.com/craftguild/chigiri.rs", rev = "5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6", version = "=0.1.1" }
+serde_json = "1.0.149"
+sha2 = "0.10.9"

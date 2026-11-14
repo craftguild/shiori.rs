@@ -1,0 +1,36 @@
+query RssIndex {
+  posts(first: 20) { nodes { id title createdAt } }
+}
+query RssItem($id: ID!) {
+  post(id: $id) {
+    id title createdAt
+    structured {
+      schemaVersion rootIds anchors
+      references { label destination title }
+      footnotes { label richTextIds }
+      blocks {
+        __typename id text childIds
+        ... on BlockParagraph { richTextIds tight }
+        ... on BlockHeading { level richTextIds }
+        ... on BlockFencedCode { language info closed indent }
+        ... on BlockIndentedCode { language info closed indent }
+        ... on BlockMathBlock { display closed }
+        ... on BlockLinkReferenceDefinition { source }
+        ... on BlockList { ordered loose marker start }
+        ... on BlockListItem { marker checked }
+        ... on BlockGfmTable { alignments header { text richTextIds } rows { cells { text richTextIds } } }
+        ... on BlockCallout { calloutKind title }
+        ... on BlockForeignHtml { origin trustLevel }
+      }
+      inlines {
+        __typename id text childIds
+        ... on InlineAnnotation { annotationKind annotationId classes data { key value } }
+        ... on InlineEmoji { shortcode }
+        ... on InlineHtml { tagfilter }
+        ... on InlineLink { url normalizedUrl title }
+        ... on InlineImage { url normalizedUrl title }
+        ... on InlineFootnoteReference { label }
+      }
+    }
+  }
+}

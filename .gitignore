@@ -1,0 +1,15 @@
+/.beads/
+/.dolt/
+/.codex/
+/.claude/
+/.cursor/
+/.private/
+/.craftguild/
+/target/
+/generated/.chigiri-cache/
+*.gate.lock*
+*.db
+.beads-credential-key
+/tools/contract/target/
+/tools/browser/node_modules/
+/tools/browser/test-results/

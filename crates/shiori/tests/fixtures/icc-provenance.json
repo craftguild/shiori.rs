@@ -1,0 +1,24 @@
+{
+  "repository": "https://github.com/saucecontrol/Compact-ICC-Profiles",
+  "revision": "bdd84663061bc4ae95ca70decff54f581e27f702",
+  "files": [
+    {
+      "file": "sRGB-v4.icc",
+      "source": "https://raw.githubusercontent.com/saucecontrol/Compact-ICC-Profiles/bdd84663061bc4ae95ca70decff54f581e27f702/profiles/sRGB-v4.icc",
+      "sha256": "c56e1685d888f5edb92fe07f2750f387f8fe8e91b32ff8fb0b56bfbbb9458353",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "sGrey-v4.icc",
+      "source": "https://raw.githubusercontent.com/saucecontrol/Compact-ICC-Profiles/bdd84663061bc4ae95ca70decff54f581e27f702/profiles/sGrey-v4.icc",
+      "sha256": "00c0f94e09127520a17dc0e1d9264b5702081d96dbdb1549ee88e3631ce42a9d",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "compact-icc-license.txt",
+      "source": "https://raw.githubusercontent.com/saucecontrol/Compact-ICC-Profiles/bdd84663061bc4ae95ca70decff54f581e27f702/license",
+      "sha256": "469d87b5fa48f8aaf69e25f4fcac3a309c97dbb7d561b917638abdb640e004d9",
+      "license": "CC0-1.0"
+    }
+  ]
+}

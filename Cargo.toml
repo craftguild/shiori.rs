@@ -1,0 +1,5 @@
+[workspace]
+members = ["crates/shiori"]
+exclude = ["generated/shiori-contract"]
+resolver = "3"
+

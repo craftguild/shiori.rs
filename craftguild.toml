@@ -1,0 +1,162 @@
+schema_version = 2
+standards_version = "0.1.0"
+rust_output_layout = "standard"
+
+[[releases]]
+id = "shiori"
+initial_version = "0.1.0"
+tag_prefix = "v"
+notes = "docs/releases"
+paths = ["Cargo.toml", "Cargo.lock", "crates", "generated", "graphql", "chigiri.toml", "tools", "scripts", "standards", "craftguild.toml", "Makefile", "rust-toolchain.toml", "deny.toml", "README.md", "docs", "LICENSE", "LICENSE-MIT", "LICENSE-APACHE", "NOTICE.md", "SECURITY.md", "AGENTS.md", "CLAUDE.md", ".agents", ".github", ".gitignore"]
+[[releases.cargo]]
+manifest = "crates/shiori/Cargo.toml"
+lockfile = "Cargo.lock"
+packages = ["shiori"]
+[[releases.cargo]]
+manifest = "tools/contract/Cargo.toml"
+lockfile = "tools/contract/Cargo.lock"
+packages = ["shiori-contract-tools"]
+
+[[artifacts]]
+id = "shiori"
+command = "shiori"
+project = "shiori.rs"
+kind = "rust"
+manifest = "crates/shiori/Cargo.toml"
+lockfile = "Cargo.lock"
+package = "shiori"
+inputs = ["rust-toolchain.toml", "crates/shiori/banner.txt", "chigiri.toml", "scripts/shipped-assets.py"]
+input_dirs = ["graphql", "generated/shiori-contract"]
+supplemental = ".craftguild/shipped-assets/supplemental.json"
+[[artifacts.build.hooks]]
+id = "shipped-assets"
+stage = "evidence"
+argv = ["python3", "scripts/shipped-assets.py"]
+inputs = ["scripts/shipped-assets.py", "Cargo.lock"]
+output_dirs = [".craftguild/shipped-assets"]
+
+[[installers]]
+artifact = "shiori"
+repository = "craftguild/shiori.rs"
+release_group = "shiori"
+output = "scripts/install.sh"
+
+[[sources]]
+pattern = "crates/shiori/src/**/tests.rs"
+role = "test"
+reason = "Standalone product unit tests"
+[[sources]]
+pattern = "crates/shiori/src/{main,lib,storage,catalog,preview,reload,metadata,config,generate,server,graphiql}.rs"
+role = "implementation"
+reason = "Filesystem CMS application"
+[[sources]]
+pattern = "crates/shiori/src/{graphql/mod,graphql/objects,graphql/post,graphql/query,graphql/structured/blocks,graphql/structured/document,graphql/structured/inlines,graphql/structured/mod,graphql/subscription,images/accept,images/cache,images/codec,images/http,images/metadata,images/mod,images/service,images/source,preview/assets,rendering/cache,rendering/derivation,rendering/images,rendering/mod,search/mod,structured/flatten,structured/mod,structured/retained}.rs"
+role = "implementation"
+reason = "Image delivery, rendering, typed queries and read model; conditional tests use the Rust adapter"
+[[sources]]
+pattern = "crates/shiori/build.rs"
+role = "implementation"
+reason = "Thin common build identity and SBOM connection"
+[[sources]]
+pattern = "crates/shiori/tests/**"
+role = "test"
+reason = "Product integration, release-binary and fixture assertions"
+[[sources]]
+pattern = "tools/contract/src/**"
+role = "implementation"
+reason = "Canonical Chigiri replay and common ownership conversion"
+[[sources]]
+pattern = "generated/shiori-contract/**/*.rs"
+role = "generated"
+reason = "Canonical Chigiri Rust, verified before exception"
+[[sources]]
+pattern = "graphql/**"
+role = "implementation"
+reason = "Public GraphQL contract"
+[[sources]]
+pattern = "scripts/**"
+role = "implementation"
+reason = "Thin source acquisition, build and documentation connections"
+[[sources]]
+pattern = "Makefile"
+role = "implementation"
+reason = "Standard entry points and product gates"
+[[sources]]
+pattern = "standards/**"
+role = "implementation"
+reason = "Published immutable common entry"
+[[sources]]
+pattern = "docs/**"
+role = "documentation"
+reason = "Public product contract and notices"
+
+[[adapters]]
+language = "rust"
+test = ["cargo", "test", "--workspace", "--locked", "--lib", "--tests"]
+format = ["cargo", "fmt", "--all", "--check"]
+lint = ["cargo", "clippy", "--workspace", "--all-targets", "--locked", "--", "-D", "warnings"]
+
+[[policies]]
+kind = "publication"
+repository = "craftguild/shiori.rs"
+manifest = "Cargo.toml"
+
+[[generated]]
+owner = "chigiri"
+manifest = ".craftguild/contract-ownership.json"
+output_root = "generated/shiori-contract"
+reproduce = ["cargo", "run", "--offline", "--locked", "--quiet", "--manifest-path", "tools/contract/Cargo.toml", "--", "{output}"]
+rust_size_exception = true
+
+[[commands]]
+id = "dependency-audit"
+phase = "check"
+purpose = "Advisory, license and source policy for the distributed Rust graph"
+argv = ["cargo", "deny", "check", "advisories", "bans", "licenses", "sources"]
+[[commands]]
+id = "product-docs"
+phase = "check"
+purpose = "Local links and exact public SDL"
+argv = ["python3", "scripts/check-docs.py"]
+[[commands]]
+id = "release-binary"
+phase = "acceptance"
+purpose = "Actual generated files, sockets, rendering, resources and recovery"
+argv = ["python3", "scripts/acceptance.py"]
+
+[[sources]]
+pattern = ".agents/**"
+role = "documentation"
+reason = "Agent workflow pointers and skill metadata"
+
+[[sources]]
+pattern = ".github/**"
+role = "implementation"
+reason = "Native CI and release qualification"
+
+[[sources]]
+pattern = "generated/shiori-contract/chigiri-generated.json"
+role = "documentation"
+reason = "Canonical generator ownership and provenance record, always verified with all outputs"
+
+[[sources]]
+pattern = "generated/shiori-contract/Cargo.toml"
+role = "implementation"
+reason = "Canonical generated package configuration"
+
+[[sources]]
+pattern = "tools/browser/**"
+role = "test"
+reason = "Explicit Playwright native-browser acceptance of real CMS image output"
+
+[[adapters]]
+language = "npm"
+test = ["cargo", "test", "--locked", "--test", "release_binary", "responsive_browser_layout", "--", "--ignored", "--exact"]
+lint = ["npm", "exec", "--prefix", "tools/browser", "--", "playwright", "test", "--config", "tools/browser/playwright.config.ts", "--list"]
+typecheck = ["npm", "exec", "--prefix", "tools/browser", "--", "tsc", "--project", "tools/browser/tsconfig.json", "--noEmit"]
+
+[[commands]]
+id = "contract-tool"
+phase = "check"
+purpose = "Format and Clippy for the independent canonical replay adapter"
+argv = ["sh", "scripts/check-contract-tool.sh"]

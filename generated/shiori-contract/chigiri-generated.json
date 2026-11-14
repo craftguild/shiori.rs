@@ -1,0 +1,1297 @@
+{
+  "schema_version": "chigiri/generated-crate-v1",
+  "package": {
+    "name": "shiori-contract",
+    "version": "0.1.0",
+    "edition": "2024"
+  },
+  "abi": 8,
+  "generator": {
+    "schema_version": "chigiri/generator-info-v1",
+    "version": "0.1.1",
+    "revision": "5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6",
+    "git_commit": "5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6",
+    "dirty": false,
+    "build": {
+      "rustc": "rustc 1.95.0 (59807616e 2026-04-14)",
+      "host": "aarch64-apple-darwin",
+      "target": "aarch64-apple-darwin",
+      "profile": "release"
+    }
+  },
+  "runtime": {
+    "source": "git",
+    "url": "https://github.com/craftguild/chigiri.rs",
+    "revision": "5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6"
+  },
+  "provenance": {
+    "manifest_label": "chigiri.toml",
+    "manifest_sha256": "fdb02308ef4b89c40da6f8e37a1f7eb411a63990f0a257efa27e1903aee47b99",
+    "schema_sha256": "ce49321bd371a1a1c9ef17d248d168be0372e43ee027bebdd3991a5af73b6564",
+    "binding_sha256": "45c8ff0c5974f886e130b97833005691c161e7b50dad410edf3102537a315e18",
+    "sources": [
+      {
+        "path": "schema.graphql",
+        "bytes": 5604,
+        "sha256": "704c9b11f52f07fb12df66e4cc74a39fa469161a758216861453e20d6eab9e26"
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "Cargo.toml",
+      "bytes": 384,
+      "sha256": "65fce42ac2e82747e3d032653cf7a68f2e46016c8d2c8dd07526bb1a25292a09"
+    },
+    {
+      "path": "src/__chigiri/assembly.rs",
+      "bytes": 45264,
+      "sha256": "aa225abc23bb0cfc0779d1994829e631d0deeabb6a94f89300e4b55db443bd4e"
+    },
+    {
+      "path": "src/__chigiri/generator_info.rs",
+      "bytes": 964,
+      "sha256": "aca8c05447a8406bec871679247c256f98cf81b43538aab04e61e6065d1ae20d"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/dispatch.rs",
+      "bytes": 4183,
+      "sha256": "db8870f33b37a7bffcbb7ce6220a72b7cb849c7c6f0a9cbb9190bde375a4b456"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_blank_line.rs",
+      "bytes": 8440,
+      "sha256": "6a2f4edd37b6197a7a21d25418a728bb16873c0f6fb208a92e4e84656cab5a44"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_block_quote.rs",
+      "bytes": 8470,
+      "sha256": "ccf3329fbf4d7cf973bcf029aa50d253b608f034d8b8c00f95fb7255b0da656c"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_callout.rs",
+      "bytes": 12162,
+      "sha256": "e5949ccfde405bd26788efef08b76031c69080b263ecbb6bf67b3433eac8ef37"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_document.rs",
+      "bytes": 8422,
+      "sha256": "26027537d627f42d2a99be395cfad85d270b2dfc36586865def19cc85bf785c6"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_fenced_code.rs",
+      "bytes": 16005,
+      "sha256": "ddfa79e1b9536b713d2323fb3eedcd651a15a4bc1ac5fdfb61f5f50472dc1908"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_foreign_html.rs",
+      "bytes": 12277,
+      "sha256": "d933104f3e352a7df9bf7f63e3d4b08222c432671a6ca56cbb4b8f825b176d89"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_gfm_table.rs",
+      "bytes": 14280,
+      "sha256": "a7d58eaed66cafb8fd38824d3eb5d333f640254275b01948b9ecca39f141d483"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_heading.rs",
+      "bytes": 12235,
+      "sha256": "4625015a0e64ddca8d243a1f7dbf477026035ce88a3937a91b314f98d8ed8818"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_html_block.rs",
+      "bytes": 8440,
+      "sha256": "2c2b1d308611247d98b9bd9f60aedf1a5c3ea3b1fc58d3e32fe41600160cef1b"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_indented_code.rs",
+      "bytes": 16081,
+      "sha256": "9b00b6b7baebf680d5b598b6ca1d7574c2cef07cdaef25d6764a0e4906f16dbe"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_link_reference_definition.rs",
+      "bytes": 10701,
+      "sha256": "b9afcc5d10c2e90690722ed450d22bae4a069bd539d94bdd68f3ecaa4a1144f4"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_list.rs",
+      "bytes": 15541,
+      "sha256": "30d6c30736d59bfbe29fccce1939d5ff2b930dc13d1d57582fc2a320b08f5c1c"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_list_item.rs",
+      "bytes": 12192,
+      "sha256": "ee3061c6b7f915b7618def55a68ed57f5afe48acd106d83391fb5c2743a13a21"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_math_block.rs",
+      "bytes": 12181,
+      "sha256": "2a05081addbab6f2741e7ba08bfdfb4bc48349fb07c6f44389e533a4f0f805ec"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_paragraph.rs",
+      "bytes": 12303,
+      "sha256": "d295d319f051cd5d331e445efa02c487e347c5d3bd19a6800e3bb9deecb8d13c"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/block_thematic_break.rs",
+      "bytes": 8524,
+      "sha256": "8428c5cb4397115d1fe1b1d0062865d52df8a32f3c3d59c14ca6258c5de40211"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/content_change.rs",
+      "bytes": 4620,
+      "sha256": "182298c9bf55372d018ab3233b7e1782d163af960ff2cf89eebf96cf5a8569b6"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/html_block.rs",
+      "bytes": 8094,
+      "sha256": "d205b441bddf0e491fe427e6def26d71a6563b7399f1e027d6feaf09d457cfb7"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_annotation.rs",
+      "bytes": 16164,
+      "sha256": "4b24181fb28e8b4447396eafa2146fc66b7128343d44cd29c146a2cff70f6c25"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_code.rs",
+      "bytes": 8287,
+      "sha256": "fedb51f37f27a56f8179b74eb653c2195ae4bd9ac3f4808492a6a2df5025ad6d"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_emoji.rs",
+      "bytes": 10237,
+      "sha256": "7aab0f48da729eb777869de0b9942aea1bb919b05c852862db3f88173dea971f"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_emphasis.rs",
+      "bytes": 8440,
+      "sha256": "bdc61def31eac3cbe387cbc0e86fc176658574d58e2cd11698ee9938cdab936b"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_footnote_reference.rs",
+      "bytes": 10477,
+      "sha256": "4592fc45d0b870d0df778006627091fdb0aefccc4832494128822c05e0ed9050"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_hard_break.rs",
+      "bytes": 8470,
+      "sha256": "f254ecfb97a0c2722282a983b3a6af21c640676ec4f44b0171e364460f6d9593"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_html.rs",
+      "bytes": 10122,
+      "sha256": "97f2cdb35ee205d78c23579c5def39d4587479c92e53aaf719ea732a766b717a"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_image.rs",
+      "bytes": 13961,
+      "sha256": "e3f380444ad2a6fe7a2e602e24e1987993747c7586042f683c4024dcfd95ba96"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_link.rs",
+      "bytes": 13790,
+      "sha256": "828670458d4ba83c2375433fba6e84c87ad9722da4dbec71e3a43054f3e8bcca"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_math.rs",
+      "bytes": 8287,
+      "sha256": "4dc4b6909fe9999fb7ee631d1590236e345ec1f9ba2cb21f2e383bf64d841f7b"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_soft_break.rs",
+      "bytes": 8470,
+      "sha256": "8aeb4609cdf3f8040107926868398bc76fee3b8db01c58fde84efa4c48ed7587"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_strikethrough.rs",
+      "bytes": 8542,
+      "sha256": "bc8215f092c5056d9edcf0f2f79a897f9b58088fa0666c67cf1c029d6fa81dcc"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_strong.rs",
+      "bytes": 8392,
+      "sha256": "92be51abaf647499c74beb9eb50c4434b9a001d9dbcf9f3f1e42ce4d36232a50"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/inline_text.rs",
+      "bytes": 8287,
+      "sha256": "b7c3810a617b918b5dd1314ff58173f2585a2aa8618d4cf14a8c21de3e1b63b6"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/monthly_archive.rs",
+      "bytes": 8348,
+      "sha256": "20506365caff20d057e0f004365c140189c232b45602695dc61b1d08a86bcbbe"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/page_info.rs",
+      "bytes": 10149,
+      "sha256": "cb991742f009a63a0e554e8f96ab6ec90a18f4924f95f5b10cad2a5d54bd7866"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/post.rs",
+      "bytes": 19245,
+      "sha256": "1f3b02df33a997af3f1d6b0d8aec63c9ec859b662edad4e923f928ca7cd6cf4e"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/post_connection.rs",
+      "bytes": 8454,
+      "sha256": "efa7c3ab40231210d4f7d6664fa134ba71ca61b42233e85b622137fc43a931e5"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/query.rs",
+      "bytes": 15160,
+      "sha256": "6c737acc0619c509a79e70527d3775bf6c53106e6aa0da7b944e2c644764a9e7"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/render_asset.rs",
+      "bytes": 10081,
+      "sha256": "31c2ac933a8b6431866cf8f0e0ae098276601f3c1d2b74c56edaa6fb93887d5c"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/structured_document.rs",
+      "bytes": 16531,
+      "sha256": "f68791964914eb5b78581368973ea11e108192bc8e8fc2ce00144e435d2fd9b8"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/structured_entry.rs",
+      "bytes": 6492,
+      "sha256": "044370e90e58e9ec035114501bc0a5471ac33e4617367e8d95aab448bb7df280"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/structured_footnote.rs",
+      "bytes": 6668,
+      "sha256": "a89a006ce787fab0179cd474103bacaf4a4557b179b8200a1b3227f55d3c79cb"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/structured_reference.rs",
+      "bytes": 8498,
+      "sha256": "6a90b09445b01800219de191349e46dae598b9d12d0972cbaffe50398eff67e0"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/structured_table_cell.rs",
+      "bytes": 6678,
+      "sha256": "9918998d2b2dd61695b59095e5ebc22d7c98e0a28a81c23cd9aaafa86cfd9f3d"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/structured_table_row.rs",
+      "bytes": 4740,
+      "sha256": "ce4f26765bbfdd500f8bda5c2328341d88925dfe836589b5c5b61cb03e4daa84"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/objects/tag.rs",
+      "bytes": 6269,
+      "sha256": "f216c8f2c82b7e7ede6fad43d253461b9ff25c3434ef74805beab7fee949948d"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/schema.rs",
+      "bytes": 17070,
+      "sha256": "a2ce3e2cf1672d913f381d6b70eeafa8075f466ed8943e3943d247b1145bdaa3"
+    },
+    {
+      "path": "src/__chigiri/internal/bridge/subscription/subscription.rs",
+      "bytes": 5586,
+      "sha256": "ec3ca43f5abcb713e423e28d6a5f36a57e2dcfa9fedcfb81f009d4b105c17072"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_blank_line.rs",
+      "bytes": 476,
+      "sha256": "96256f6101bdc28ca2060571c105b48d9a72ef273f0ee34d93f160eb43d60a15"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_block_quote.rs",
+      "bytes": 479,
+      "sha256": "de85bf0291065983f161d53e40ef9596a31c4337b4df87874d3996ba424d8cb9"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_callout.rs",
+      "bytes": 469,
+      "sha256": "b8fc1926b6c6273f94a5fd713b531ef33e90956e0470872e3c829d33b1a367b5"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_document.rs",
+      "bytes": 472,
+      "sha256": "c14d09f6266ed9631dc3d0a3208604b30c3bf2d60513185ab29c45e5ec026402"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_fenced_code.rs",
+      "bytes": 479,
+      "sha256": "e1a6b83d67132dc7494d852cf0d699be77fb4d8c4d9cc7e51d6de3898f2aa416"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_foreign_html.rs",
+      "bytes": 482,
+      "sha256": "384e756b3f4a354ea442385737ea8cf9aa738c4957fdc5657e6136e322060535"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_gfm_table.rs",
+      "bytes": 473,
+      "sha256": "c1ac8ae676247aeada22b2ac5094d679fbcdd6e6de482475f3593ed68b2489fa"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_heading.rs",
+      "bytes": 469,
+      "sha256": "632ebf25032234c9fc6e5e67b5eeebf07523e82f7e33ff223e4c13c240ad1cd3"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_html_block.rs",
+      "bytes": 476,
+      "sha256": "bb22393f267f9e19c01095f26e296309b5a290113e87814c7581efa2fbf07ff4"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_indented_code.rs",
+      "bytes": 485,
+      "sha256": "e2569500a76fc35d0003d1cce2eab7b5a767ff2f64f4a1b9b8144b42f7c19eba"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_link_reference_definition.rs",
+      "bytes": 519,
+      "sha256": "77a75089fe268ebf4c6457d8e849a6edb093e3ada7589a0c61981b8258acd0b5"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_list.rs",
+      "bytes": 460,
+      "sha256": "1879422cd0916d568a99df9b231c91ad773d5330593b5d832698f1f1bb30489a"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_list_item.rs",
+      "bytes": 473,
+      "sha256": "6f3fc565006839965e33cd08c7e0e36efa8155f04caf233861b67910f874c14c"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_math_block.rs",
+      "bytes": 476,
+      "sha256": "eeca1dd73349624ab581c26c14e7412784839e863fdae11958ef873f200dd67e"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_paragraph.rs",
+      "bytes": 475,
+      "sha256": "223a5343a2937c8dc64c72f2399194de928a6bf5e8fb73a1ea3bb0cbda8f3576"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/block_thematic_break.rs",
+      "bytes": 488,
+      "sha256": "deba4d2e7bf5e5b7cf3094a3104d14c3afade0019ff43a3b4504891f1e327b2d"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/content_change.rs",
+      "bytes": 472,
+      "sha256": "0f8828843cf1ff4218910f71050fb5fd9abb0bed25137e612f69a7ca5e9c5a4c"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/html_block.rs",
+      "bytes": 460,
+      "sha256": "2081390f77afede788a06a1b07cb7fe18c75338ef11b174fb49a81ab17fb433f"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_annotation.rs",
+      "bytes": 481,
+      "sha256": "8eaaf219af55dacecf37f51f188e16107d182726aa285c1da1ab00f86c5fc68c"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_code.rs",
+      "bytes": 463,
+      "sha256": "514a33f3529adc4079cfe177360f6a9777bba77796ced561c9bce2172921dbe6"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_emoji.rs",
+      "bytes": 466,
+      "sha256": "36e56be1d06ed4f9e06049564089a1f945b731e1ebc0d4bff199f95cfd87c6b3"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_emphasis.rs",
+      "bytes": 475,
+      "sha256": "33af4ff419fadda4614cba479295bf015568357e459a95512aeff1110dc4ef40"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_footnote_reference.rs",
+      "bytes": 503,
+      "sha256": "3e8b89aced62521e49e863a4e7ee5eb9c901f9fb1808b3ecbe895a5b1f23e1fa"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_hard_break.rs",
+      "bytes": 479,
+      "sha256": "976c22c607242f1517c33075c3026f1f4d22e15ac0a79b0d784c5a788a06d5bc"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_html.rs",
+      "bytes": 463,
+      "sha256": "6e693cd920f55bf3af4c3f48d4100e33d9679876f39ff930992d10f5974083a1"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_image.rs",
+      "bytes": 466,
+      "sha256": "0ff3d039777c0454d0f7a14b00f725e637a179a26424a71cebf4040ef25565e9"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_link.rs",
+      "bytes": 463,
+      "sha256": "44fad2330f7143a537a5781f08795a5cb78af59c47019935efec8144680e6496"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_math.rs",
+      "bytes": 463,
+      "sha256": "f5f74189a2ac680b96b1540850601eed55845e396f91971b1a2858df079b3d4a"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_soft_break.rs",
+      "bytes": 479,
+      "sha256": "dfdd3b8d13ce7545ecb3acabd3a03e68d01ac87be1104a0bc818934eaf1f15c7"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_strikethrough.rs",
+      "bytes": 490,
+      "sha256": "64974632f048a927417bf486ed90aed66556cad39f55e1cb6758226975a60079"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_strong.rs",
+      "bytes": 469,
+      "sha256": "0b6bbb6c63889cfde43e5bcd1bcd7c8c8df1d4bbb1a020fba6069d1e1258b218"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/inline_text.rs",
+      "bytes": 463,
+      "sha256": "f9fee67be473ee5b0e557c5c428059263f30f545e431c45b52f7cfdd3fc627ac"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/monthly_archive.rs",
+      "bytes": 475,
+      "sha256": "2fc28e6514759c5a4c50d699a84c26853dfb4d03a044fb90b32eae675e48fa1d"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/page_info.rs",
+      "bytes": 449,
+      "sha256": "9e41e217b2c256c3aea164418a67d1851d66881ff7bec5cbe1522f44ea4e9f8d"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/post.rs",
+      "bytes": 421,
+      "sha256": "87fe929b8b7cef766015a25864627c3a8a57a61b2c7b2666ece71b66cd9c3404"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/post_connection.rs",
+      "bytes": 475,
+      "sha256": "caa1bec5a550086242cfb8d0cbffb551fb8570d8e605c1932517fa40c1d90460"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/render_asset.rs",
+      "bytes": 466,
+      "sha256": "3ea53489d9b8f77f8d5a6ae3cd354e28494a196f5dc8cf0fdf0c641810545f72"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/structured_block.rs",
+      "bytes": 2551,
+      "sha256": "80179f16f119502e88c4b2d559f1637e663db735964aeb4e716b0f60d28e21c5"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/structured_document.rs",
+      "bytes": 487,
+      "sha256": "f6bf8c49fb99c734f1ac5eb419ccb87ad245b6ef7891853ffac2bbb062d6cda7"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/structured_entry.rs",
+      "bytes": 478,
+      "sha256": "c260e0c6cf4f5814d620b994a279b18d2bb37ad9417cba0ccd15bce29cea1f11"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/structured_footnote.rs",
+      "bytes": 487,
+      "sha256": "e55a12922fc3b367278f343778c1f3e94275e76d396c446be74ab6c69082c647"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/structured_inline.rs",
+      "bytes": 2269,
+      "sha256": "979594ed7f4e7cf30f95f21d719e1cbd4d77e872d99730ddc63a86d1b1f3c504"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/structured_reference.rs",
+      "bytes": 490,
+      "sha256": "c69ebed3a09ab7aac44ee4d5c7c8210e98e004f4bdb88c4d136ad1437cc49d5b"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/structured_table_cell.rs",
+      "bytes": 491,
+      "sha256": "c53b851d20b228378625e40cb8e011ebd53aa88e41224914da0261614cb3cc77"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/structured_table_row.rs",
+      "bytes": 488,
+      "sha256": "05b72efa3566e18ac4fde0649880925fa8757ecac928a991b997c9cbc13ff37a"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/structured_trust_level.rs",
+      "bytes": 1543,
+      "sha256": "a8a50436c19e4711c1baa649a79f2d079ab025040b1b7c999af615171c1bce36"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/table_alignment.rs",
+      "bytes": 1535,
+      "sha256": "8521481449ef1ae567998c41d646ad3c1bc7d61295d670b32ae02bcc0ce0a180"
+    },
+    {
+      "path": "src/__chigiri/internal/coercion/tag.rs",
+      "bytes": 418,
+      "sha256": "29f6f08735f5e5c0f3be7185c53a293140719cd5e145764f01d175d096a65407"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/schema.rs",
+      "bytes": 2890,
+      "sha256": "a40997b1ec966af72fc49e5084f41efe749d3f686c46c5975c54eba4dbf7c46b"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_blank_line.rs",
+      "bytes": 2748,
+      "sha256": "8360a29e3c33c291f834e6c01f51ffc97dc90a25e4311e2082fb315490c23a6e"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_block_quote.rs",
+      "bytes": 2749,
+      "sha256": "f7ae3a6d6dd90d112e9c0bf480ba4385dae6706362940d5c792148e74e8b6ba8"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_callout.rs",
+      "bytes": 3734,
+      "sha256": "6f8a2497cefa7b5c01fe4f1844719b316eb6e0ad741251ead38940f1a7b5b11d"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_document.rs",
+      "bytes": 2747,
+      "sha256": "1ef3aba36f69905d21934404894b702c2ae1df816e36ec556de968be1090388b"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_fenced_code.rs",
+      "bytes": 4777,
+      "sha256": "76ca91660951baa352f1741755712166c4933d612c119ae247eb2c19b9cdfe15"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_foreign_html.rs",
+      "bytes": 3830,
+      "sha256": "b5b70f37f34d8a097cb7c36576adcefdd28a80400084cbc62d5fc4dee971751c"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_gfm_table.rs",
+      "bytes": 4720,
+      "sha256": "87deb2475a59c73997fb1486f6971cd9ef597507dccbc393cb17f350baac0361"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_heading.rs",
+      "bytes": 3823,
+      "sha256": "d4d10784a693f4bf4e839ff5f919536a58529bf7729914ab2c9b4468896e2c5f"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_html_block.rs",
+      "bytes": 2748,
+      "sha256": "d94b00b917c367f556923f63ab509caf61212fa97b7d8ecfe3cd81b73673b517"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_indented_code.rs",
+      "bytes": 4779,
+      "sha256": "e4885e433101d6eb34900fe98533c5f83144236092c1a71e6073b5ac81c308b1"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_link_reference_definition.rs",
+      "bytes": 3286,
+      "sha256": "c257996bb03a66fcbeb67d31522394569e7b4f41145ce62d0240e218741a07b0"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_list.rs",
+      "bytes": 4778,
+      "sha256": "3ae80d620c9be5c1c5925c25e3cdf51f2d2439d51e53dc40df6d044358c34216"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_list_item.rs",
+      "bytes": 3734,
+      "sha256": "e71b0571997ec1a39e9ebb5af27b67a5a83962898aca3dd08b49e0d9281b1251"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_math_block.rs",
+      "bytes": 3801,
+      "sha256": "45383a678f30d5dcdfacbe20fcaa8e9b6ed252757f40445d482c992a5494c0e5"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_paragraph.rs",
+      "bytes": 3833,
+      "sha256": "12ec8367c74a563f5a998410706790a21479d0353d8462a7f49ce293da2fa077"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/block_thematic_break.rs",
+      "bytes": 2752,
+      "sha256": "0e02c3c1f7725178907073a45b0b6dc2c823e9872d9529ccfdd768e2f7d11d50"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/content_change.rs",
+      "bytes": 1446,
+      "sha256": "9082e4af529654242d12c0570b2d16d1a147bf5ac902aede86a00caa223aa968"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/html_block.rs",
+      "bytes": 2483,
+      "sha256": "825867198d67e809858774ae128eff1e77f581da7188cb723db43c47df61c8c2"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_annotation.rs",
+      "bytes": 5100,
+      "sha256": "621517434cbd6b250b693fabff5147ac6548544ddde37d27e68ff915ed1eabc5"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_code.rs",
+      "bytes": 2745,
+      "sha256": "1f9876262a562d423b7f2ced9d1efa9d74f5fdf4e462ae75348aacb147ab8573"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_emoji.rs",
+      "bytes": 3273,
+      "sha256": "cd5fd55886db0c684f423292c066f4337da644e202ba0487fbade9ea3bdc83e8"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_emphasis.rs",
+      "bytes": 2749,
+      "sha256": "19d92d91ae701a83a9277cd0e759c43ebc8ad9298d127eb1a007f75c66af3ce0"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_footnote_reference.rs",
+      "bytes": 3281,
+      "sha256": "bf7fefee3ce63a2f29ec754e841e2fcd8b586a65b2dbc8eae3992701db4b95f3"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_hard_break.rs",
+      "bytes": 2750,
+      "sha256": "07f402a58aeab48b664d6614e7fac0a1c7397c09aa5f72be3bdf7b927e04a9a7"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_html.rs",
+      "bytes": 3274,
+      "sha256": "77126f572dfef854b87f076ed86a46ee0499600725c5e841d4830174104dc061"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_image.rs",
+      "bytes": 4257,
+      "sha256": "73ffd4021f556b25d9a89789b0eae06c8a167b214f2880159173023a41a90322"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_link.rs",
+      "bytes": 4256,
+      "sha256": "daa288066ded1a27e3525b64f1e708be6fbd7827e7ff8e3c973344d723fc5da2"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_math.rs",
+      "bytes": 2745,
+      "sha256": "9af2197c718087ebceecdb5071c5c5a6fb38c340f4c5b91954b7852dd18a8161"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_soft_break.rs",
+      "bytes": 2750,
+      "sha256": "76a1b621df662a44924c97dcfa5c2c8df25643dd9da7b902f9be33a23b34a6e1"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_strikethrough.rs",
+      "bytes": 2754,
+      "sha256": "5d544f346abfd2832f4ffdcf8f1e73373b8aa34a1b63e058e1fab49e57435441"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_strong.rs",
+      "bytes": 2747,
+      "sha256": "32a6584c0283a362d0b91f9d3cfdfe8e88fa2005f515848e9804bc30fb23e566"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/inline_text.rs",
+      "bytes": 2745,
+      "sha256": "2d3107e0a36b7f6c0f162bd65893bfa6e3a65fcf5b3cb021a99ac5c03fc54c8a"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/monthly_archive.rs",
+      "bytes": 2482,
+      "sha256": "9569aef22a99ff2141b03185c57789ffad8c3effe2c92de413934c5ca83f2402"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/page_info.rs",
+      "bytes": 2904,
+      "sha256": "94890b60fc57832d0cb47dd52ec99f513def575c0925146ec7ffdfd6014fd8ba"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/post.rs",
+      "bytes": 5798,
+      "sha256": "5632157676dd5a03f86a0d7d3fe0db8dbbb548fbb2caf52c4d5704da2a304ac0"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/post_connection.rs",
+      "bytes": 2614,
+      "sha256": "009b9c8a1c29b8390d6525f0b0055a063d4f32cb555f8bf916dd97fd3633db14"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/query.rs",
+      "bytes": 10643,
+      "sha256": "4b8ba7803694dc8ef137f93304d96a7790508cdf5aca2abcddbed8bcb194265e"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/render_asset.rs",
+      "bytes": 3014,
+      "sha256": "a650833f1b66a89e219d94a2c86d67a8fb4f2b140b909ca5d0cda3c5899bd8e2"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/structured_block.rs",
+      "bytes": 3117,
+      "sha256": "052870b49115b3df91c59a47571ee8ee9d1fab8c182338a1c2fa4726c64600e2"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/structured_document.rs",
+      "bytes": 5289,
+      "sha256": "2315487fad7f5e80edd93b72fd201f89bb1c9a2f16b3bf35b4b076b9b31a4727"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/structured_entry.rs",
+      "bytes": 1977,
+      "sha256": "de274a94ec47849cc85895b43aa7d3f59c35b29ed3e8b07d8495045e42199979"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/structured_footnote.rs",
+      "bytes": 2019,
+      "sha256": "a875e68ec7d75256ca9fae7860e8c4c2bda8d47461f3541fc3e4626492355a78"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/structured_inline.rs",
+      "bytes": 3051,
+      "sha256": "137ea8876f283bf6a1ab82523f376dc199b06e915e279d8cd4e3a5584f4da9c0"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/structured_reference.rs",
+      "bytes": 2448,
+      "sha256": "646e8a64847a4a2ef1ab3ba8ae325e09bbb4645b99826b3a3e675d560cdb74e3"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/structured_table_cell.rs",
+      "bytes": 2019,
+      "sha256": "2beb6a733478487afe8db2fd832fd24a14b0e678c6c59b5ffeb3ddb2d898d785"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/structured_table_row.rs",
+      "bytes": 1593,
+      "sha256": "3a60b05d8ef3a1c2f13f5e0b9effcf4501c592a4ed6d402ba14aebead95d3955"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/structured_trust_level.rs",
+      "bytes": 1940,
+      "sha256": "acbe2bc4dabbbbe8ce56c40e1bc77a32a38a746a82a4ac9baad2d8a2567fe3f9"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/subscription.rs",
+      "bytes": 1473,
+      "sha256": "eb924e43809de56a285c340b0920d0b9d2a3d3037d3f7c4064d7f3e4efabdcc9"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/table_alignment.rs",
+      "bytes": 2245,
+      "sha256": "c341aa65a7d6446e55055036e0ab173fba746283285324db411104e25f7c56a4"
+    },
+    {
+      "path": "src/__chigiri/internal/descriptor/types/tag.rs",
+      "bytes": 1960,
+      "sha256": "90857e56e1380ec639231c420ac50a7260cfbd754c936ccb7e6ab3d06e137173"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_blank_line.rs",
+      "bytes": 1794,
+      "sha256": "541942f06f9d59248c5737ce6ed89a3c2cb6d560b866b14f6df92efa37d0e132"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_block_quote.rs",
+      "bytes": 1798,
+      "sha256": "1893fb8c0517ef5991607f7fb7a98edbc3553189a85ab25982e3c571db76c419"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_callout.rs",
+      "bytes": 1782,
+      "sha256": "0532d9088a5ef2ebce6da06b6053251b698429b5d329f03320143c7c7eacdea0"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_document.rs",
+      "bytes": 1786,
+      "sha256": "eaea66e0f0c60119f44065c397408138d2d61ed9fc0319c93a79c14b8410a8c5"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_fenced_code.rs",
+      "bytes": 1798,
+      "sha256": "0270e42b62eeb0eceb46baaedba963a905ebffd967affb1dc48d8252acb6d5b2"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_foreign_html.rs",
+      "bytes": 1802,
+      "sha256": "445fcf97b8071c8da45cb3f52f56ed0830210a32315a487704ad8bc1ad6b1fab"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_gfm_table.rs",
+      "bytes": 1786,
+      "sha256": "d094f96c0c26f482b2c9d1a0336fb3645fdebf23df0497a749c03e9c469f92e5"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_heading.rs",
+      "bytes": 1782,
+      "sha256": "531f8948f3e14c6ef2bab3d9cf373ad0587c9712a402ffc0d27033ef2d0b01cf"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_html_block.rs",
+      "bytes": 1794,
+      "sha256": "2c7d5511fcbd69c63b201bda4e5c7310e040fa97e122761a4a58f46f9e118499"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_indented_code.rs",
+      "bytes": 1806,
+      "sha256": "a8e80685cd0a18d522add6a00111aad0715066655b5c1c820e56c6777fffebf8"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_link_reference_definition.rs",
+      "bytes": 1850,
+      "sha256": "07fd8960535eefaea9acca39a7e7b55549372c31da8fe5e858a8a74f3bbed269"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_list.rs",
+      "bytes": 1770,
+      "sha256": "cdbbeb382383e839f789ea46cc1de0f3249e8d1c454414c3e2c0b38b9622f1cf"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_list_item.rs",
+      "bytes": 1786,
+      "sha256": "73d98fe87ce6724e7eeb067176e7ce5f0d3a5e8090d8a0f5d9e442c4b8454fbb"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_math_block.rs",
+      "bytes": 1794,
+      "sha256": "8ae426c6ac7a869b87c8b5d630429f9d8bc2cf6f118abe99c51892f8dd69c53e"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_paragraph.rs",
+      "bytes": 1794,
+      "sha256": "bd50df5f6fd835db62e42210e9d6094ad5501d32d0978abd197b68d4753ec9cc"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/block_thematic_break.rs",
+      "bytes": 1810,
+      "sha256": "cccc52f4b42e6a4be8b99d8b7b40c1bec82a25d5809f118efef04e88d00a3f69"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/content_change.rs",
+      "bytes": 1785,
+      "sha256": "4f48397900ab111b8cf7b2d3a52daff6b0a3550eaa1fdb7cbb429689bc983b9d"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/html_block.rs",
+      "bytes": 1769,
+      "sha256": "1d5e5c42faee0c4f78597b90e653281446d792351798fd3a81ec4e175b542803"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_annotation.rs",
+      "bytes": 1802,
+      "sha256": "c7508c0dd02e063c9b61b71a6ef7a154711d1b88c772e10f896a2e227a934c8a"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_code.rs",
+      "bytes": 1774,
+      "sha256": "b5024ca141ebc653422e44516b8cce78321f3eee1b570d8406f4f5fe5e55876d"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_emoji.rs",
+      "bytes": 1778,
+      "sha256": "810282f8296a5c8bf2109ee961474d7fb6550500463b5333d286da045eebd712"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_emphasis.rs",
+      "bytes": 1794,
+      "sha256": "4f01c63c99d92c0e2a829359c88d8af5ceb4381e120f5b06452981302d645196"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_footnote_reference.rs",
+      "bytes": 1830,
+      "sha256": "6be336c9059482632226c8aacef37d9eff0a1d9e0d3ec95ab79cab4070047f2d"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_hard_break.rs",
+      "bytes": 1798,
+      "sha256": "b9bec9b768ae050eb2c8c6b3e7783a468d7a29cec6f20ed06feb7cbcde9fbc97"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_html.rs",
+      "bytes": 1774,
+      "sha256": "2db76253fdfdb67ca52da9804cc7e68e8d3ef6581ad19ba996eb30e018a834bc"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_image.rs",
+      "bytes": 1778,
+      "sha256": "94a765f64789aad838e2e15adf9ed20594db6005a6e1d5be726e3e4c19288f8e"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_link.rs",
+      "bytes": 1774,
+      "sha256": "f9e646f5c23259290881f09e5ad1bcfd67af70f0212b45901c063bee5fbbd35b"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_math.rs",
+      "bytes": 1774,
+      "sha256": "bfc9da2e90b9d5b63e2cd47f2a617385319f656d3f011ead52e31c9b57f8fe58"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_soft_break.rs",
+      "bytes": 1798,
+      "sha256": "04813cde885b17be265c93e4d7933a4fbb9503fd5c768397c438507c877ff244"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_strikethrough.rs",
+      "bytes": 1814,
+      "sha256": "c63ef07c6198508fe0be3d215ca85b7b0dbcb5276db91932309ff730dd0b50e3"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_strong.rs",
+      "bytes": 1782,
+      "sha256": "474aa1e0050618f9f819bcd12ce4d701f2a4873bca848809b6159db98341078b"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/inline_text.rs",
+      "bytes": 1774,
+      "sha256": "2cd94a64b1a518e1436d644b8dae29ff24d112fd0c702d86ddd9538e6b1c6074"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/monthly_archive.rs",
+      "bytes": 1793,
+      "sha256": "58364651d83c631289c7e3e5b2c957b3c60abcd724cd284f727d45e8f0c757d5"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/page_info.rs",
+      "bytes": 1765,
+      "sha256": "063a92f716a93ef8eb7b7636c8ef0d8b0f5ba6b30af66130813819769b280b0d"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/post.rs",
+      "bytes": 1749,
+      "sha256": "c836f995fb2e242aa44669ace03da76cf4bbd4b474903c558c31391344df7622"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/post_connection.rs",
+      "bytes": 1793,
+      "sha256": "1cf89ea253cd4f08c1af983586824f843f7aeeb502a2b7c9dc35cdd660fe2c7a"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/query.rs",
+      "bytes": 1753,
+      "sha256": "825d4bc5c3d5742892eb9096f925a78e3b5ba7b0ec34b5289e4f135ead30d66d"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/render_asset.rs",
+      "bytes": 1777,
+      "sha256": "935d65f985c8c27eea11d0852944e2ceda59f035bcb4243050b7ebe4c4bf75d8"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/structured_document.rs",
+      "bytes": 1810,
+      "sha256": "3844c7118de03b89b857b10458ee1f63c378408898b036b0a7303508c11defc5"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/structured_entry.rs",
+      "bytes": 1798,
+      "sha256": "1bbfab21b0f5f342adfa74cdff46343eb3d7c682058024c27ed569e6560d09de"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/structured_footnote.rs",
+      "bytes": 1810,
+      "sha256": "bb2b4a541f37aaf21f326d75d658ef0f40c288e93c9138478feee727879a335d"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/structured_reference.rs",
+      "bytes": 1814,
+      "sha256": "d7e14c4915abc2874cf222d8e13900434a9f1e87a60de1900d49f8429331de78"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/structured_table_cell.rs",
+      "bytes": 1814,
+      "sha256": "f0a15fb2dd27d8b80c55f8ce5c680947b69336935cb9432711efd3055b83aaf0"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/structured_table_row.rs",
+      "bytes": 1810,
+      "sha256": "03c4da03c7cccc308468a150262aaca346e4e3d65f1968c3da7ef8c4d1bcb9d4"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/subscription.rs",
+      "bytes": 3432,
+      "sha256": "93ce38ffc674f65a9afc0950ab95d90011b3ed5fcd88c36d8f42b42a4c9251f2"
+    },
+    {
+      "path": "src/__chigiri/internal/dispatch/tag.rs",
+      "bytes": 1745,
+      "sha256": "c3068d2450d6f33c1046b25f48a0367d8c173bb0831633135f40d3daac67e03e"
+    },
+    {
+      "path": "src/__chigiri/mod.rs",
+      "bytes": 1348,
+      "sha256": "eae09cd299846a6666bcfe0c0b8d9fa18d8d545282628319ed11dca5c21b67fd"
+    },
+    {
+      "path": "src/__chigiri/modules.rs",
+      "bytes": 40393,
+      "sha256": "3d3dae8cd891c141f53070fbb15f055d229dcfafe8c70ce9ea878c7ed33dfd5e"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_blank_line.rs",
+      "bytes": 1241,
+      "sha256": "1e6ea4dfa5f76900fd7675546d8864027541af3d9a008470db8ee82c47b9e860"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_block_quote.rs",
+      "bytes": 1246,
+      "sha256": "5e18fb7c1d1a087fbd45a3868041e75c17b0d52acc57f922c45953b952884324"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_callout.rs",
+      "bytes": 1768,
+      "sha256": "6581bc640031213c4629f57ad5fd12806ff2ac90873d2d19a779b3b5276cf14f"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_document.rs",
+      "bytes": 1236,
+      "sha256": "f012f6b7f9da5a7b4677876e6f1cff8fff82b59c490d0997de3dd9625ca8234d"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_fenced_code.rs",
+      "bytes": 2237,
+      "sha256": "4aa87a382950853aa69fbacaeb1f12f01277802603567de4e13b007c48fd2dd4"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_foreign_html.rs",
+      "bytes": 1768,
+      "sha256": "828da6ad7492d88baac46f7c1c6eb5a0a72b6ea47ebd59fb5a7175d31af777d3"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_gfm_table.rs",
+      "bytes": 2073,
+      "sha256": "4ca34ec4c5a24938fc0b5740946736f96ba8a1d2f74c58f7d7720c80a24ba77b"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_heading.rs",
+      "bytes": 1752,
+      "sha256": "46cd2c023974e5d6e61c808cabc67c653e05fb850026db33d617464e30b07966"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_html_block.rs",
+      "bytes": 1241,
+      "sha256": "097f7f75664f6384fb94a8846fe429ed0ec3ef9d27d3d24d4b1070d879c1d1e0"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_indented_code.rs",
+      "bytes": 2255,
+      "sha256": "b9723c9375d91db77af714c2d61dc4e341df5d2b453a20db462eb908c158e0f8"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_link_reference_definition.rs",
+      "bytes": 1576,
+      "sha256": "65dc92e952c42f46d53273d274f37a058dc598672a32a869e6f9e0e17d10cbbf"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_list.rs",
+      "bytes": 2179,
+      "sha256": "1d9d6b5341221b8950e1ea603d7490da552044fdc136d74e4de1c2c6e2b65777"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_list_item.rs",
+      "bytes": 1743,
+      "sha256": "c03defefba179580f53ef1db70f4a4460c715dc4b86496cacb385703e4a29386"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_math_block.rs",
+      "bytes": 1694,
+      "sha256": "686d3df37a43129b531d1788a69e0672d25dee3b77ea2bcda15b5e65a18055ba"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_paragraph.rs",
+      "bytes": 1767,
+      "sha256": "36fdaf2bee7cd0dd70f791ebcd5e7913731ebe53a8186a68db6c514f48d8a37e"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/block_thematic_break.rs",
+      "bytes": 1261,
+      "sha256": "b6052b2e47fed3ccdf4f5bced4b1cc7c35b70ae2996fa0894236508bd2e7183d"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/content_change.rs",
+      "bytes": 664,
+      "sha256": "f1896dcfeb540e64831fd998959e2e5b1622fb8b1243dc6e36bafa56dd211e64"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/html_block.rs",
+      "bytes": 1130,
+      "sha256": "1c29ba8eaf83044b43b0c4fee70b68a503191c599178ebfb30c973436d6f0973"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_annotation.rs",
+      "bytes": 2331,
+      "sha256": "9aba43125865e9e9adedfd27d14a48f4c5c264cf60b63fb7eaecb7f53924e294"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_code.rs",
+      "bytes": 1217,
+      "sha256": "d4723ff4f8fb2b32d44e61690117b9239d2aa3e1fecc70a2ff1940de85894d37"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_emoji.rs",
+      "bytes": 1477,
+      "sha256": "de78eb2c628e2c0103dc3e538b901d54ca4bd6305e9b367c17d90f8ff0ae6753"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_emphasis.rs",
+      "bytes": 1241,
+      "sha256": "f56f3b47f1640e807ff478a5e396ee533b8c58e92bc704f89ef4757927a777e1"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_footnote_reference.rs",
+      "bytes": 1545,
+      "sha256": "ade84ee7ac8f66fa1e5898fa70f287ec9315dc0e780d6222622bcc1c72ed9aa6"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_hard_break.rs",
+      "bytes": 1246,
+      "sha256": "a03afb40f20ff70a5a9f248abd26a5388047e005469fd7dc0ecb71e7daa010ea"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_html.rs",
+      "bytes": 1442,
+      "sha256": "0aa84df6fc652733d0fc43076181f839389c11aabfb30ed741d0af353d603b30"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_image.rs",
+      "bytes": 2008,
+      "sha256": "3a8ba4e563195a1e00e7dbfea5db4cdee688938a8a54052405844e5b52c6a23d"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_link.rs",
+      "bytes": 1996,
+      "sha256": "d096e41e18b94ffa8b9ea13685d781e21868f8b6c4e341bab0d3ff609a946cb8"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_math.rs",
+      "bytes": 1217,
+      "sha256": "b89ad920b6622384d08aef8aa31f0d2bac1762443ad4d5271ae0916029ce0a7f"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_soft_break.rs",
+      "bytes": 1246,
+      "sha256": "b4705bd741a63dbcd1bee21cd779c0c0ab5ada0b8d673fb7c9f6f0915769cf9d"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_strikethrough.rs",
+      "bytes": 1266,
+      "sha256": "ed87245e2591634f52b31014803a4040de324f93e1ff74535b75b86b1fff87b8"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_strong.rs",
+      "bytes": 1231,
+      "sha256": "2295fc4f4da920d42350a94489798340435f3911cf63e9cc7ba6a907828e6a8e"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/inline_text.rs",
+      "bytes": 1217,
+      "sha256": "3b2cd809de9697fcdf08e5f4bfe55f5480899e30fa44d3b037cc617b280b90d8"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/monthly_archive.rs",
+      "bytes": 1093,
+      "sha256": "4914ef9d38fdfdc38d570f61fa6e171d694a8cf1c5b393c0b191b87defd4bc31"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/page_info.rs",
+      "bytes": 1416,
+      "sha256": "9a512ee54635fe2fcaa1f64e31947336d347e422e0399cff020eb5ad92cffb61"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/post.rs",
+      "bytes": 2747,
+      "sha256": "b626b014ebdf6d81511590c4d485e1ea8b49edf4ff52c6998ecf54b228d36ef3"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/post_connection.rs",
+      "bytes": 1149,
+      "sha256": "bbaeba3ef4f73b025390bea20c8b40f40b4069b735f0f5ac0488634457af37f5"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/render_asset.rs",
+      "bytes": 1398,
+      "sha256": "f16f795c9c8373d1bd95aadc395bb55010c7f4ed9c1752eb6c659950ba7580cf"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/structured_document.rs",
+      "bytes": 2401,
+      "sha256": "96a7cca3cc3bf14e90ee1445c02762e231eba5c9bfacf6dba0ba1628733500a7"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/structured_entry.rs",
+      "bytes": 924,
+      "sha256": "47ad7970d51d961cde4f063b835160d10f97b5900f1191ef5b6265c38575d26b"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/structured_footnote.rs",
+      "bytes": 989,
+      "sha256": "f3b1828809944be44f4ddd85e9a4ffca7e1d250c723bfff9db2e2b428c60eda7"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/structured_reference.rs",
+      "bytes": 1237,
+      "sha256": "2731fcb1aa644da835ea607b82f50bfb28341b173db6684d5507195ca6edf85b"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/structured_table_cell.rs",
+      "bytes": 992,
+      "sha256": "21b9918290a671109659d98936b19f42d467a9a3091036fbff23921d8c146b53"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/structured_table_row.rs",
+      "bytes": 713,
+      "sha256": "90314b63e02329cceaeb9db90f875fd454180d7b3da355d56e5cab754946e00c"
+    },
+    {
+      "path": "src/__chigiri/resolvers/objects/tag.rs",
+      "bytes": 847,
+      "sha256": "3841dd4c9a2e243fabe573c1813714d8212c5a3bb8f913b40a2e3ac54ed22369"
+    },
+    {
+      "path": "src/__chigiri/resolvers/query.rs",
+      "bytes": 2369,
+      "sha256": "44636723920d1cec51dd9a87754a51aac635031324208c17f67e99065db0ed46"
+    },
+    {
+      "path": "src/__chigiri/resolvers/subscription.rs",
+      "bytes": 1106,
+      "sha256": "a75269c19d0c0fb9793e1431118426b2e4550d894ff2430a6bd7420ffe2efde2"
+    },
+    {
+      "path": "src/__chigiri/schema_types.rs",
+      "bytes": 3649,
+      "sha256": "a7229764c59943200cd064b82326622f7685dba9437d94d69ad101dc36031150"
+    },
+    {
+      "path": "src/__chigiri/sources.rs",
+      "bytes": 101,
+      "sha256": "4443c98ea7a06f739a375254dbe48c5afdca40ad7b67f3db728b81e6dda13915"
+    },
+    {
+      "path": "src/__chigiri/types/structured_block.rs",
+      "bytes": 767,
+      "sha256": "93c4f3a0b892175ee79d46433983e1de2b9eab8254f1b2a2f128ca7aab8df40c"
+    },
+    {
+      "path": "src/__chigiri/types/structured_inline.rs",
+      "bytes": 644,
+      "sha256": "18c498502b69a444f256973d0e53fbc0d05be0ca9f33ef13b3fceafc89c8b232"
+    },
+    {
+      "path": "src/__chigiri/types/structured_trust_level.rs",
+      "bytes": 187,
+      "sha256": "f5500fe0b2eb4355c6798936359d5652b48f53b9b713da3c8a9e3c7133af5a56"
+    },
+    {
+      "path": "src/__chigiri/types/table_alignment.rs",
+      "bytes": 181,
+      "sha256": "2f302a362f9681d397fc6f07eee4c9b4cc698df344940c0265595a87b6bdddc2"
+    },
+    {
+      "path": "src/lib.rs",
+      "bytes": 501,
+      "sha256": "88b1b1d7e35946621e39976546454887167d10f4213285b2b9560f1f087d8a84"
+    }
+  ]
+}
