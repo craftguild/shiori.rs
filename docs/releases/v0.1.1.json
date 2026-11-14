@@ -1,0 +1,42 @@
+{
+  "schema_version": 2,
+  "group": "shiori",
+  "config_hash": "f62a41bfe92278f23798fdb062f9b4a18b69f11583161f6af85f7c389b923945",
+  "head": "88ccd42ee2a1eca8b87dfa7e0c8ea81ad8822902",
+  "base": "v0.1.0",
+  "current": "0.1.0",
+  "next": "0.1.1",
+  "tag": "v0.1.1",
+  "bump": "patch",
+  "mode": "normal",
+  "prepared": false,
+  "receipt_path": "docs/releases/v0.1.1.json",
+  "notes": "# v0.1.1\n\nGroup: `shiori`\n\nCompare: `v0.1.0` → `88ccd42ee2a1eca8b87dfa7e0c8ea81ad8822902`\n\n## Changes\n\n- fix: keep agent configuration and task state local (88ccd42ee2a1eca8b87dfa7e0c8ea81ad8822902)\n",
+  "changes": [
+    {
+      "path": "crates/shiori/Cargo.toml",
+      "before": "698aa5bdc7d1f666db1ea04e98f6932775a6225c51d06283fc620233a51a9027",
+      "after": "b4358940101958be01b8088a0583b9d1d8a6772dd705a2fde98129e5f73c53f2"
+    },
+    {
+      "path": "Cargo.lock",
+      "before": "9994dd7f940affd263ba7abdf9a4ac13c66be0604b099dcabf71c092b7ed7056",
+      "after": "d635abdc9c7d4cfa63928156c07f76a6b6ce73985fc25088753be3e67e6dec8e"
+    },
+    {
+      "path": "tools/contract/Cargo.toml",
+      "before": "c6b2d70356e2d43d976a6b03161aa8dc950ec5ec0a5278ca8979198f7c9e47e8",
+      "after": "0ddc78511bbf69868afa516e780770cc5bd005906581f01c80540c5ec70c73d2"
+    },
+    {
+      "path": "tools/contract/Cargo.lock",
+      "before": "f231586a90b30011652a01379b08cd719a23c88f44e2624678fb194b60d34362",
+      "after": "40fc11095521fd50026815303570b85bcf7a3b38fe1f7aa89e9b31f7b915cc24"
+    },
+    {
+      "path": "docs/releases/v0.1.1.md",
+      "before": null,
+      "after": "1ca6cc59ba90896eacf803bc25a8605714114a3289d0168951061af8e6f3eef2"
+    }
+  ]
+}
