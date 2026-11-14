@@ -1,3 +1,3 @@
-# Agent instructions
+# shiori.rs contributor instructions
 
-Follow [AGENTS.md](AGENTS.md) for the shared repository instructions.
+Read [AGENTS.md](AGENTS.md), the shared authority for product contracts, Craftguild standards, verification and Beads task tracking. The conservative no-commit/no-push profile and current user restrictions apply.

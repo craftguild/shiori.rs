@@ -1,15 +1,51 @@
+# Local agent integration and task state
+/.claude/
+/.codex/
+/.cursor/
 /.beads/
 /.dolt/
-/.codex/
-/.claude/
-/.cursor/
-/.private/
 /.craftguild/
-/target/
-/generated/.chigiri-cache/
+/.private/
+/.ac-wakeup
+/.agentchat-wakeup
 *.gate.lock*
-*.db
 .beads-credential-key
-/tools/contract/target/
-/tools/browser/node_modules/
+
+# Local environment and editor settings
+.env
+.env.*
+!.env.example
+!.env.*.example
+.direnv/
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Operating system metadata
+.DS_Store
+Thumbs.db
+
+# Build caches and temporary output
+target/
+node_modules/
+__pycache__/
+*.py[cod]
+*.rs.bk
+/.tmp/
+/tmp/
+
+# Coverage and profiling output
+coverage/
+lcov.info
+cobertura.xml
+tarpaulin-report.html
+*.profraw
+*.profdata
+*.log
+
+# Shiori local databases, generator cache and browser test output
+*.db
+/generated/.chigiri-cache/
 /tools/browser/test-results/
