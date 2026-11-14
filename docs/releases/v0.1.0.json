@@ -1,0 +1,22 @@
+{
+  "schema_version": 2,
+  "group": "shiori",
+  "config_hash": "f62a41bfe92278f23798fdb062f9b4a18b69f11583161f6af85f7c389b923945",
+  "head": "c3a7bc362b9a5d48370ff07d93fcda8b259735b4",
+  "base": null,
+  "current": "0.1.0",
+  "next": "0.1.0",
+  "tag": "v0.1.0",
+  "bump": "none",
+  "mode": "normal",
+  "prepared": false,
+  "receipt_path": "docs/releases/v0.1.0.json",
+  "notes": "# v0.1.0\n\nGroup: `shiori`\n\nCompare: `repository root (initial release)` → `c3a7bc362b9a5d48370ff07d93fcda8b259735b4`\n\n## Changes\n\n- feat: initial import (c3a7bc362b9a5d48370ff07d93fcda8b259735b4)\n",
+  "changes": [
+    {
+      "path": "docs/releases/v0.1.0.md",
+      "before": null,
+      "after": "1b8d788e077e7d8b1c79e6e16b2f43beea2605ef722ae573891b08cf73745f92"
+    }
+  ]
+}
