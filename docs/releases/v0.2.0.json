@@ -1,0 +1,42 @@
+{
+  "schema_version": 2,
+  "group": "shiori",
+  "config_hash": "f62a41bfe92278f23798fdb062f9b4a18b69f11583161f6af85f7c389b923945",
+  "head": "70a6d31b6da5ee2b6ae375e8056d1ffcc6422de3",
+  "base": "v0.1.1",
+  "current": "0.1.1",
+  "next": "0.2.0",
+  "tag": "v0.2.0",
+  "bump": "minor",
+  "mode": "normal",
+  "prepared": false,
+  "receipt_path": "docs/releases/v0.2.0.json",
+  "notes": "# v0.2.0\n\nGroup: `shiori`\n\nCompare: `v0.1.1` → `70a6d31b6da5ee2b6ae375e8056d1ffcc6422de3`\n\n## Changes\n\n- feat!: support path-based articles and source timestamps (70a6d31b6da5ee2b6ae375e8056d1ffcc6422de3)\n\n## Breaking changes\n\n- article storage defaults to ./articles, timestamps no longer derive from filenames, and previous pagination cursors must be restarted. Set SHIORI_ARTICLES_DIR=./contents to retain the earlier storage location. (70a6d31b6da5ee2b6ae375e8056d1ffcc6422de3)\n",
+  "changes": [
+    {
+      "path": "crates/shiori/Cargo.toml",
+      "before": "4971f37cc77a017b9cb02c8c1add5b4b16e7ae1de140d8c569249c882d1807b9",
+      "after": "6b5063bc8426ffc76aff0cee838cf539e4ecc51fe840f12d57d0e3702295a26d"
+    },
+    {
+      "path": "Cargo.lock",
+      "before": "36c1a814dcf469126477018a8651b126345da574d0753024786cbf82649de510",
+      "after": "67444f10540237124cfb43c982bcb9b204488d8fe972e1f365a55096899c8c8c"
+    },
+    {
+      "path": "tools/contract/Cargo.toml",
+      "before": "0ddc78511bbf69868afa516e780770cc5bd005906581f01c80540c5ec70c73d2",
+      "after": "8e70d202cdfb86361f300d21e48b303f437c2cde6d7678a4f73b978ecb0b096b"
+    },
+    {
+      "path": "tools/contract/Cargo.lock",
+      "before": "40fc11095521fd50026815303570b85bcf7a3b38fe1f7aa89e9b31f7b915cc24",
+      "after": "f669961b7ae09c57faeb25c9a2b8b80153d72dc89ca38c3fed743307d88a8402"
+    },
+    {
+      "path": "docs/releases/v0.2.0.md",
+      "before": null,
+      "after": "ac0b02e31930c05956a2b71d202eb2e530538944364ce65f6bacc829a9ee78ee"
+    }
+  ]
+}
