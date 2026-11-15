@@ -14,7 +14,7 @@ impl generated::PostResolver<Context, Types, Error> for PostFields {
         _: FieldContext<'a, Context>,
         post: &'a Arc<Article>,
     ) -> Result<Id, Error> {
-        Ok(post.id.into())
+        Ok(post.id.clone().into())
     }
     async fn title<'a>(
         &'a self,
@@ -50,6 +50,20 @@ impl generated::PostResolver<Context, Types, Error> for PostFields {
         post: &'a Arc<Article>,
     ) -> Result<String, Error> {
         Ok(post.created_at.clone())
+    }
+    async fn updated_at<'a>(
+        &'a self,
+        _: FieldContext<'a, Context>,
+        post: &'a Arc<Article>,
+    ) -> Result<String, Error> {
+        Ok(post.updated_at.clone())
+    }
+    async fn source_path<'a>(
+        &'a self,
+        _: FieldContext<'a, Context>,
+        post: &'a Arc<Article>,
+    ) -> Result<String, Error> {
+        Ok(post.source_path.clone())
     }
     async fn blocks<'a>(
         &'a self,

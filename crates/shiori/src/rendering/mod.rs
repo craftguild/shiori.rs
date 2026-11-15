@@ -140,7 +140,7 @@ impl Renderer {
             workers: Arc::new(Semaphore::new(capacity)),
             calls: AtomicUsize::new(0),
             parses: AtomicUsize::new(0),
-            images: ImageService::new(catalog.root.clone()),
+            images: ImageService::new(catalog.assets.clone()),
             #[cfg(test)]
             probe: Mutex::new(None),
         })
@@ -185,7 +185,7 @@ impl Renderer {
         structured: bool,
     ) -> ProjectionResult {
         let parse_key = Key {
-            id: article.id,
+            id: article.id.clone(),
             hash: article.hash,
             profile: self.profile,
         };
@@ -285,7 +285,7 @@ impl Renderer {
             let result = match result {
                 Ok(result) => result,
                 Err(error) => {
-                    tracing::error!(event="render_worker_failed", article_id=key.id, %error);
+                    tracing::error!(event="render_worker_failed", article_id=%key.id, %error);
                     Err(RenderFailure)
                 }
             };

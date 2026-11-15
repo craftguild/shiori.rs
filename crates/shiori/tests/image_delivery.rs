@@ -215,7 +215,7 @@ async fn route_errors_follow_capability_boundaries_and_preserve_unsupported_orig
         .unwrap();
     asset(root.path(), "deep.png", &out.into_inner());
     symlink(
-        root.path().join("contents/1.md"),
+        root.path().join("articles/1.md"),
         root.path().join("assets/link"),
     )
     .unwrap();
@@ -224,7 +224,7 @@ async fn route_errors_follow_capability_boundaries_and_preserve_unsupported_orig
     for (path, status) in [
         ("/images/321/vector.svg", 400),
         ("/images/0320/vector.svg", 400),
-        ("/images/auto/%2e%2e/contents/1.md", 400),
+        ("/images/auto/%2e%2e/articles/1.md", 400),
         ("/images/auto/%5csecret", 400),
         ("/images/auto/%00", 400),
         ("/images/auto/nope", 404),

@@ -44,7 +44,7 @@ pub fn regular(parent: &File, name: &str) -> std::io::Result<File> {
     Ok(file)
 }
 
-fn fingerprint(meta: &std::fs::Metadata) -> (u64, u64, u64, i64, i64, i64, i64) {
+pub(crate) fn fingerprint(meta: &std::fs::Metadata) -> (u64, u64, u64, i64, i64, i64, i64) {
     (
         meta.dev(),
         meta.ino(),
@@ -64,8 +64,29 @@ fn bounded(file: &mut File, limit: usize) -> Result<Vec<u8>> {
 }
 
 pub fn stable_read(parent: &File, name: &str) -> Result<Vec<u8>> {
+    Ok(stable_source(parent, name)?.0)
+}
+
+pub fn source_parent(parent: &File, path: &str) -> Result<(File, String)> {
+    let mut parts = path.split('/').peekable();
+    let mut dir = parent.try_clone()?;
+    while let Some(part) = parts.next() {
+        ensure!(
+            !part.is_empty() && part != "." && part != ".." && !part.contains(['\\', '\0']),
+            "invalid source path"
+        );
+        if parts.peek().is_none() {
+            return Ok((dir, part.to_owned()));
+        }
+        dir = directory(&dir, part)?;
+    }
+    bail!("empty source path")
+}
+
+pub fn stable_source(parent: &File, path: &str) -> Result<(Vec<u8>, std::fs::Metadata)> {
+    let (parent, name) = source_parent(parent, path)?;
     for _ in 0..3 {
-        let mut file = regular(parent, name)?;
+        let mut file = regular(&parent, &name)?;
         let before = fingerprint(&file.metadata()?);
         ensure!(
             before.2 <= MAX_FILE_BYTES as u64,
@@ -74,10 +95,11 @@ pub fn stable_read(parent: &File, name: &str) -> Result<Vec<u8>> {
         let first = bounded(&mut file, MAX_FILE_BYTES)?;
         file.seek(SeekFrom::Start(0))?;
         let second = bounded(&mut file, MAX_FILE_BYTES)?;
-        let after = fingerprint(&file.metadata()?);
-        let current = regular(parent, name)?;
+        let meta = file.metadata()?;
+        let after = fingerprint(&meta);
+        let current = regular(&parent, &name)?;
         if before == after && after == fingerprint(&current.metadata()?) && first == second {
-            return Ok(first);
+            return Ok((first, meta));
         }
     }
     bail!("file changed during three bounded read attempts; retry on next reload")
@@ -85,7 +107,7 @@ pub fn stable_read(parent: &File, name: &str) -> Result<Vec<u8>> {
 
 pub fn read_asset(root: &File, segments: &[&str], limit: usize) -> Result<(Vec<u8>, [u8; 32])> {
     use sha2::{Digest, Sha256};
-    let mut dir = directory(root, "assets")?;
+    let mut dir = root.try_clone()?;
     for segment in &segments[..segments.len() - 1] {
         dir = directory(&dir, segment)?;
     }

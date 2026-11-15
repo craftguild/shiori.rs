@@ -13,7 +13,7 @@ async fn source_asset_tag_article_and_http_bounds_fail_safely() {
     let root = tempfile::tempdir().unwrap();
     article(root.path(), 1, "Valid", &[], "Text");
     let (catalog, _, router) = app(root.path()).await;
-    let file = root.path().join("contents/1.md");
+    let file = root.path().join("articles/1.md");
     std::fs::File::options()
         .write(true)
         .open(&file)
@@ -21,13 +21,13 @@ async fn source_asset_tag_article_and_http_bounds_fail_safely() {
         .set_len(metadata::MAX_FILE_BYTES as u64 + 1)
         .unwrap();
     catalog.reconcile().await.unwrap();
-    assert_eq!(catalog.snapshot().articles[&1].metadata.title, "Valid");
+    assert_eq!(catalog.snapshot().articles["1"].metadata.title, "Valid");
     assert!(
         Catalog::open(storage::root(root.path()).unwrap())
             .await
             .is_err()
     );
-    std::fs::create_dir(root.path().join("assets")).unwrap();
+    std::fs::create_dir_all(root.path().join("assets")).unwrap();
     std::fs::File::create(root.path().join("assets/large.bin"))
         .unwrap()
         .set_len(32 * 1024 * 1024 + 1)
@@ -68,11 +68,11 @@ async fn source_asset_tag_article_and_http_bounds_fail_safely() {
             .await
             .is_err()
     );
-    for entry in std::fs::read_dir(root.path().join("contents")).unwrap() {
+    for entry in std::fs::read_dir(root.path().join("articles")).unwrap() {
         std::fs::remove_file(entry.unwrap().path()).unwrap();
     }
     for id in 1..=10000 {
-        std::fs::write(root.path().join(format!("contents/{id}.md")), "").unwrap();
+        std::fs::write(root.path().join(format!("articles/{id}.md")), "").unwrap();
     }
     let error = match Catalog::open(storage::root(root.path()).unwrap()).await {
         Err(error) => error,
@@ -86,10 +86,10 @@ async fn unreadable_directory_and_article_keep_the_previous_snapshot() {
     let root = tempfile::tempdir().unwrap();
     article(root.path(), 1, "Valid", &[], "Text");
     let (catalog, _, _) = app(root.path()).await;
-    let file = root.path().join("contents/1.md");
+    let file = root.path().join("articles/1.md");
     std::fs::set_permissions(&file, std::fs::Permissions::from_mode(0o000)).unwrap();
     let attempted = storage::stable_read(
-        &storage::directory(&storage::root(root.path()).unwrap(), "contents").unwrap(),
+        &storage::directory(&storage::root(root.path()).unwrap(), "articles").unwrap(),
         "1.md",
     );
     assert!(
@@ -97,10 +97,10 @@ async fn unreadable_directory_and_article_keep_the_previous_snapshot() {
         "this permission test requires an unprivileged test user"
     );
     catalog.reconcile().await.unwrap();
-    assert_eq!(catalog.snapshot().articles[&1].metadata.title, "Valid");
+    assert_eq!(catalog.snapshot().articles["1"].metadata.title, "Valid");
     std::fs::set_permissions(&file, std::fs::Permissions::from_mode(0o644)).unwrap();
     let before = catalog.snapshot();
-    let dir = root.path().join("contents");
+    let dir = root.path().join("articles");
     std::fs::set_permissions(&dir, std::fs::Permissions::from_mode(0o000)).unwrap();
     let result = catalog.reconcile().await;
     std::fs::set_permissions(&dir, std::fs::Permissions::from_mode(0o755)).unwrap();
@@ -108,7 +108,7 @@ async fn unreadable_directory_and_article_keep_the_previous_snapshot() {
     assert!(std::sync::Arc::ptr_eq(&before, &catalog.snapshot()));
     article(root.path(), 1, "Recovered", &[], "Body");
     catalog.reconcile().await.unwrap();
-    assert_eq!(catalog.snapshot().articles[&1].metadata.title, "Recovered");
+    assert_eq!(catalog.snapshot().articles["1"].metadata.title, "Recovered");
 }
 
 #[tokio::test]

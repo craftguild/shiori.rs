@@ -8,8 +8,11 @@ use shiori::{
 fn strict_metadata_unicode_crlf_and_identity() {
     let bytes = "---\r\ntitle: '  Hello λ  '\r\ndescription: '  preserved  '\r\ntags: [' Rust ', '', Rust, rust, '日本語']\r\nextra: {any: [1, true]}\r\n---\r\nBody\r\n";
     let article = metadata::parse(1, bytes.as_bytes()).unwrap();
-    assert_eq!(article.id, 1);
-    assert_eq!(article.created_at, "1970-01-01T00:00:00.001Z");
+    assert_eq!(article.id, "1");
+    assert!(
+        article.created_at.is_empty(),
+        "the parser does not fabricate dates from keys"
+    );
     assert_eq!(article.metadata.title, "Hello λ");
     assert_eq!(article.metadata.description, "  preserved  ");
     assert_eq!(article.metadata.tags, ["Rust", "rust", "日本語"]);
@@ -77,8 +80,8 @@ fn malformed_metadata_and_bounds_fail() {
 #[test]
 fn generated_yaml_is_valid_no_clobber_and_cleanup() {
     let root = tempfile::tempdir().unwrap();
-    let existing = root.path().join("contents/100.md");
-    std::fs::create_dir(root.path().join("contents")).unwrap();
+    let existing = root.path().join("articles/100.md");
+    std::fs::create_dir(root.path().join("articles")).unwrap();
     std::fs::write(&existing, "original").unwrap();
     let mut ticks = ["100", "100", "101"].into_iter();
     let path = generate_with_clock(root.path(), " 'λ':\nNew title ", || {
@@ -96,7 +99,7 @@ fn generated_yaml_is_valid_no_clobber_and_cleanup() {
     let error = generate_with_clock(root.path(), "ok", || anyhow::bail!("clock failed"));
     assert!(error.unwrap_err().to_string().contains("clock failed"));
     assert_eq!(
-        std::fs::read_dir(root.path().join("contents"))
+        std::fs::read_dir(root.path().join("articles"))
             .unwrap()
             .count(),
         2
@@ -108,7 +111,7 @@ fn generated_yaml_is_valid_no_clobber_and_cleanup() {
     let collision = generate_with_clock(root.path(), "Collision", || Ok("100".into()));
     assert!(collision.unwrap_err().to_string().contains("one second"));
     assert_eq!(
-        std::fs::read_dir(root.path().join("contents"))
+        std::fs::read_dir(root.path().join("articles"))
             .unwrap()
             .count(),
         2
@@ -144,17 +147,17 @@ fn concurrent_generation_and_filesystem_errors() {
         }
     });
     assert_eq!(
-        std::fs::read_dir(root.path().join("contents"))
+        std::fs::read_dir(root.path().join("articles"))
             .unwrap()
             .count(),
         8
     );
     let outside = tempfile::tempdir().unwrap();
     let bad = tempfile::tempdir().unwrap();
-    std::os::unix::fs::symlink(outside.path(), bad.path().join("contents")).unwrap();
+    std::os::unix::fs::symlink(outside.path(), bad.path().join("articles")).unwrap();
     assert!(generate(bad.path(), "No escape").is_err());
     let fd = storage::root(bad.path()).unwrap();
-    assert!(storage::directory(&fd, "contents").is_err());
+    assert!(storage::directory(&fd, "articles").is_err());
     assert_eq!(std::fs::read_dir(outside.path()).unwrap().count(), 0);
 }
 
@@ -171,14 +174,14 @@ fn asset_reservations_preserve_existing_files_and_reject_unsafe_or_unwritable_ro
         std::fs::read(root.path().join("assets/100/photo.png")).unwrap(),
         b"preserved"
     );
-    assert!(!root.path().join("contents/100.md").exists());
+    assert!(!root.path().join("articles/100.md").exists());
     let outside = tempfile::tempdir().unwrap();
     let unsafe_root = tempfile::tempdir().unwrap();
     std::os::unix::fs::symlink(outside.path(), unsafe_root.path().join("assets")).unwrap();
     assert!(generate_with_clock(unsafe_root.path(), "Unsafe", || Ok("1".into())).is_err());
     assert_eq!(std::fs::read_dir(outside.path()).unwrap().count(), 0);
     assert_eq!(
-        std::fs::read_dir(unsafe_root.path().join("contents"))
+        std::fs::read_dir(unsafe_root.path().join("articles"))
             .unwrap()
             .count(),
         0
@@ -187,7 +190,7 @@ fn asset_reservations_preserve_existing_files_and_reject_unsafe_or_unwritable_ro
     std::fs::write(occupied.path().join("assets"), b"not a directory").unwrap();
     assert!(generate(occupied.path(), "Unsafe").is_err());
     assert_eq!(
-        std::fs::read_dir(occupied.path().join("contents"))
+        std::fs::read_dir(occupied.path().join("articles"))
             .unwrap()
             .count(),
         0
@@ -198,6 +201,6 @@ fn asset_reservations_preserve_existing_files_and_reject_unsafe_or_unwritable_ro
     let result = generate_with_clock(root.path(), "Denied", || Ok("102".into()));
     std::fs::set_permissions(&assets, std::fs::Permissions::from_mode(0o755)).unwrap();
     assert!(result.is_err());
-    assert!(!root.path().join("contents/102.md").exists());
+    assert!(!root.path().join("articles/102.md").exists());
     assert!(!assets.join("102").exists());
 }

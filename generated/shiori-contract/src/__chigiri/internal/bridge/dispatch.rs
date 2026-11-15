@@ -8,11 +8,11 @@ where
     T: super::SchemaTypes,
 {
     fn schema_fingerprint(&self) -> ::chigiri::__private::ResolverSchemaFingerprint {
-        ::chigiri::__private::ResolverSchemaFingerprint::new(2004, 12877937963341051054_u64)
+        ::chigiri::__private::ResolverSchemaFingerprint::new(2018, 15775264065058764867_u64)
     }
 
     fn resolver_abi_fingerprint(&self) -> ::chigiri::__private::ResolverSchemaFingerprint {
-        ::chigiri::__private::ResolverSchemaFingerprint::new(2004, 12877937963341051054_u64)
+        ::chigiri::__private::ResolverSchemaFingerprint::new(2018, 15775264065058764867_u64)
     }
 
     fn register_custom_scalars(

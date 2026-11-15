@@ -47,7 +47,7 @@ impl Dependency {
 
 fn open(root: &File, path: &AssetPath) -> Result<File, Error> {
     let mut parts = path.0.split('/').peekable();
-    let mut dir = storage::directory(root, "assets").map_err(|_| Error::Missing)?;
+    let mut dir = root.try_clone().map_err(|_| Error::Missing)?;
     while let Some(part) = parts.next() {
         if parts.peek().is_none() {
             return storage::regular(&dir, part).map_err(|_| Error::Missing);
@@ -79,9 +79,13 @@ fn bounded(file: &mut File) -> Result<Vec<u8>, Error> {
     }
     Ok(data)
 }
-pub(super) fn read(root: &File, path: &AssetPath) -> Result<(Vec<u8>, [u8; 32]), Error> {
+pub(super) fn read(
+    source: &crate::asset_root::AssetRoot,
+    path: &AssetPath,
+) -> Result<(Vec<u8>, [u8; 32]), Error> {
+    let root = source.open().map_err(|_| Error::DirectoryChanged)?;
     for _ in 0..3 {
-        let mut file = open(root, path)?;
+        let mut file = open(&root, path)?;
         let before = fingerprint(&file)?;
         if before.2 > MAX_BYTES as u64 {
             return Err(Error::Missing);
@@ -91,14 +95,17 @@ pub(super) fn read(root: &File, path: &AssetPath) -> Result<(Vec<u8>, [u8; 32]),
         let second = bounded(&mut file)?;
         if bytes == second
             && before == fingerprint(&file)?
-            && before == fingerprint(&open(root, path)?)?
+            && before == fingerprint(&open(&root, path)?)?
         {
+            source
+                .validate(&root)
+                .map_err(|_| Error::DirectoryChanged)?;
             return Ok((bytes, Sha256::digest(second).into()));
         }
     }
     Err(Error::Unstable)
 }
-pub(super) fn state(root: &File, path: &AssetPath) -> SourceState {
+pub(super) fn state(root: &crate::asset_root::AssetRoot, path: &AssetPath) -> SourceState {
     match read(root, path) {
         Ok((_, hash)) => SourceState::Hash(hash),
         Err(Error::Missing) => SourceState::Missing,

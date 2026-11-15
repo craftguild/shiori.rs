@@ -46,11 +46,11 @@ pattern = "crates/shiori/src/**/tests.rs"
 role = "test"
 reason = "Standalone product unit tests"
 [[sources]]
-pattern = "crates/shiori/src/{main,lib,storage,catalog,preview,reload,metadata,config,generate,server,graphiql}.rs"
+pattern = "crates/shiori/src/{main,lib,storage,catalog,preview,reload,metadata,config,generate,server,graphiql,layout,timestamps,asset_root}.rs"
 role = "implementation"
 reason = "Filesystem CMS application"
 [[sources]]
-pattern = "crates/shiori/src/{graphql/mod,graphql/objects,graphql/post,graphql/query,graphql/structured/blocks,graphql/structured/document,graphql/structured/inlines,graphql/structured/mod,graphql/subscription,images/accept,images/cache,images/codec,images/http,images/metadata,images/mod,images/service,images/source,preview/assets,rendering/cache,rendering/derivation,rendering/images,rendering/mod,search/mod,structured/flatten,structured/mod,structured/retained}.rs"
+pattern = "crates/shiori/src/{catalog/scan,graphql/cursor,graphql/mod,graphql/objects,graphql/post,graphql/query,graphql/structured/blocks,graphql/structured/document,graphql/structured/inlines,graphql/structured/mod,graphql/subscription,images/accept,images/cache,images/codec,images/http,images/metadata,images/mod,images/service,images/source,preview/assets,rendering/cache,rendering/derivation,rendering/images,rendering/mod,search/mod,structured/flatten,structured/mod,structured/retained}.rs"
 role = "implementation"
 reason = "Image delivery, rendering, typed queries and read model; conditional tests use the Rust adapter"
 [[sources]]

@@ -5,10 +5,15 @@ use time::{Date, Month, OffsetDateTime};
 
 use crate::{
     graphql::{Connection, Context, Error, MonthlyArchive, PageInfo, Tag, Types},
-    metadata::{Article, parse_id},
+    metadata::{Article, valid_key},
 };
 
+use super::cursor::{self, Boundary};
+
 pub struct QueryFields;
+
+#[cfg(test)]
+mod tests;
 
 fn optional<T>(input: Input<T>) -> Option<T> {
     match input {
@@ -19,8 +24,8 @@ fn optional<T>(input: Input<T>) -> Option<T> {
 
 struct Pagination {
     first: usize,
-    after: Option<i64>,
-    before: Option<i64>,
+    after: Option<Boundary>,
+    before: Option<Boundary>,
 }
 
 impl Pagination {
@@ -39,11 +44,11 @@ impl Pagination {
             return Err(Error::Input("after and before cannot be combined"));
         }
         let before = before
-            .map(|id| parse_id(id.as_str()))
+            .map(|id| Boundary::parse(id.as_str()))
             .transpose()
             .map_err(|_| Error::Input("Invalid pagination cursor"))?;
         let after = after
-            .map(|id| parse_id(id.as_str()))
+            .map(|id| Boundary::parse(id.as_str()))
             .transpose()
             .map_err(|_| Error::Input("Invalid pagination cursor"))?;
         Ok(Self {
@@ -61,8 +66,13 @@ impl Pagination {
         // Input is already filtered and descending. For before, retain the
         // nearest newer window, rather than the first/newest window.
         let eligible = articles.clone().filter(|article| {
-            self.after.is_none_or(|boundary| article.id < boundary)
-                && self.before.is_none_or(|boundary| article.id > boundary)
+            self.after
+                .as_ref()
+                .is_none_or(|boundary| cursor::order(article) > boundary.order())
+                && self
+                    .before
+                    .as_ref()
+                    .is_none_or(|boundary| cursor::order(article) < boundary.order())
         });
         let skip = if self.before.is_some() {
             eligible.clone().count().saturating_sub(self.first)
@@ -70,14 +80,18 @@ impl Pagination {
             0
         };
         let nodes: Vec<_> = eligible.skip(skip).take(self.first).cloned().collect();
-        let start = nodes.first().map(|article| article.id.into());
-        let end = nodes.last().map(|article| article.id.into());
-        let has_previous = nodes
-            .first()
-            .is_some_and(|first| articles.clone().any(|article| article.id > first.id));
-        let has_next = nodes
-            .last()
-            .is_some_and(|last| articles.clone().any(|article| article.id < last.id));
+        let start = nodes.first().map(|article| cursor::encode(article));
+        let end = nodes.last().map(|article| cursor::encode(article));
+        let has_previous = nodes.first().is_some_and(|first| {
+            articles
+                .clone()
+                .any(|article| cursor::order(article) < cursor::order(first))
+        });
+        let has_next = nodes.last().is_some_and(|last| {
+            articles
+                .clone()
+                .any(|article| cursor::order(article) > cursor::order(last))
+        });
         Connection {
             nodes,
             total,
@@ -92,8 +106,8 @@ impl Pagination {
 }
 
 fn month_range(year: i32, month: i32) -> Result<std::ops::Range<i64>, Error> {
-    if !(1970..=9999).contains(&year) {
-        return Err(Error::Input("year must be between 1970 and 9999"));
+    if !(1..=9999).contains(&year) {
+        return Err(Error::Input("year must be between 1 and 9999"));
     }
     let month = u8::try_from(month)
         .ok()
@@ -117,8 +131,11 @@ impl generated::QueryResolver<Context, Types, Error> for QueryFields {
         ctx: FieldContext<'a, Context>,
         args: generated::QueryPostArgs,
     ) -> Result<Option<Arc<Article>>, Error> {
-        let id = parse_id(args.id.as_str()).map_err(|_| Error::Input("Invalid article ID"))?;
-        Ok(ctx.context().snapshot.articles.get(&id).cloned())
+        let id = args.id.as_str();
+        if !valid_key(id) {
+            return Err(Error::Input("Invalid article ID"));
+        }
+        Ok(ctx.context().snapshot.articles.get(id).cloned())
     }
     async fn posts<'a>(
         &'a self,
@@ -141,7 +158,7 @@ impl generated::QueryResolver<Context, Types, Error> for QueryFields {
             return Ok(pagination.connection(matches.iter()));
         }
         let snapshot = &ctx.context().snapshot;
-        let filtered = snapshot.articles.values().rev().filter(|article| {
+        let filtered = snapshot.ordered.iter().filter(|article| {
             tag.as_ref()
                 .is_none_or(|tag| article.metadata.tags.contains(tag))
         });
@@ -157,10 +174,9 @@ impl generated::QueryResolver<Context, Types, Error> for QueryFields {
         let articles = ctx
             .context()
             .snapshot
-            .articles
-            .range(range)
-            .rev()
-            .map(|(_, article)| article);
+            .ordered
+            .iter()
+            .filter(|article| range.contains(&article.created_ms));
         Ok(pagination.connection(articles))
     }
     async fn monthly_archives<'a>(
@@ -169,10 +185,11 @@ impl generated::QueryResolver<Context, Types, Error> for QueryFields {
     ) -> Result<Vec<MonthlyArchive>, Error> {
         let mut counts = BTreeMap::new();
         for article in ctx.context().snapshot.articles.values() {
-            // All catalog IDs were validated at ingestion.
-            let date =
-                OffsetDateTime::from_unix_timestamp_nanos(i128::from(article.id) * 1_000_000)
-                    .expect("validated catalog timestamp");
+            // Timestamps were resolved and validated at ingestion.
+            let date = OffsetDateTime::from_unix_timestamp_nanos(
+                i128::from(article.created_ms) * 1_000_000,
+            )
+            .expect("validated catalog timestamp");
             *counts
                 .entry((date.year(), i32::from(u8::from(date.month()))))
                 .or_insert(0) += 1;

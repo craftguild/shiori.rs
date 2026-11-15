@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+pub mod history;
 pub mod images;
 pub mod release_images;
 use axum::{
@@ -13,13 +14,13 @@ use std::{path::Path, sync::Arc};
 use tower::ServiceExt;
 
 pub fn article(root: &Path, id: i64, title: &str, tags: &[&str], body: &str) {
-    std::fs::create_dir_all(root.join("contents")).unwrap();
+    std::fs::create_dir_all(root.join("articles")).unwrap();
     let metadata = json!({"title":title,"description":"Description λ", "tags":tags});
     let text = format!(
         "---\n{}---\n{body}",
         serde_saphyr::to_string(&metadata).unwrap()
     );
-    std::fs::write(root.join(format!("contents/{id}.md")), text).unwrap();
+    std::fs::write(root.join(format!("articles/{id}.md")), text).unwrap();
 }
 
 pub async fn app(root: &Path) -> (Arc<Catalog>, Arc<Renderer>, Router) {

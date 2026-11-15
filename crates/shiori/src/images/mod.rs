@@ -64,6 +64,7 @@ pub enum Error {
     Decode,
     OutputLimit,
     Unstable,
+    DirectoryChanged,
     Busy,
     Internal,
     NotAcceptable,

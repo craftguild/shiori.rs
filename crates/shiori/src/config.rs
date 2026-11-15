@@ -13,10 +13,20 @@ pub struct Config {
     pub public_base: Url,
     pub graphiql: bool,
     pub watch: bool,
+    pub layout: crate::layout::Layout,
 }
 
 impl Config {
     pub fn new(root: &Path, bind: SocketAddr, public_base: &str) -> Result<Self> {
+        Self::with_layout(root, bind, public_base, crate::layout::Layout::from_env()?)
+    }
+
+    pub fn with_layout(
+        root: &Path,
+        bind: SocketAddr,
+        public_base: &str,
+        layout: crate::layout::Layout,
+    ) -> Result<Self> {
         let root = root.canonicalize().context("root must already exist")?;
         ensure!(root.is_dir(), "root must be a directory");
         let mut public_base = Url::parse(public_base).context("invalid public base URL")?;
@@ -38,12 +48,14 @@ impl Config {
         if !public_base.path().ends_with('/') {
             public_base.set_path(&format!("{}/", public_base.path()));
         }
+        layout.create(&crate::storage::root(&root)?)?;
         Ok(Self {
             root,
             bind,
             public_base,
             graphiql: false,
             watch: false,
+            layout,
         })
     }
 

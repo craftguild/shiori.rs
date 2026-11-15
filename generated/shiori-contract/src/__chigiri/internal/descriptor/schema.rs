@@ -62,8 +62,8 @@ pub(super) static GENERATED_SCHEMA_DESCRIPTOR: ::chigiri::SchemaDescriptor =
     ::chigiri::SchemaDescriptor {
         abi_version: ::chigiri::GENERATED_ABI_VERSION,
         schema_digest: ::chigiri::SchemaDigest::from_bytes([
-            206, 73, 50, 27, 211, 113, 161, 161, 201, 239, 23, 210, 72, 209, 104, 190, 3, 114, 228,
-            62, 224, 39, 190, 189, 211, 153, 26, 90, 247, 59, 101, 100,
+            155, 247, 180, 175, 206, 200, 11, 203, 204, 85, 60, 74, 239, 233, 4, 221, 44, 50, 61,
+            114, 252, 39, 211, 46, 120, 191, 18, 248, 61, 221, 155, 234,
         ]),
         description: None,
         schema_directives: ::chigiri::DescriptorList::empty(),

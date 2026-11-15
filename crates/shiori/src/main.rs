@@ -22,7 +22,7 @@ struct Cli {
 enum Command {
     /// Print the embedded CycloneDX SBOM.
     Sbom,
-    /// Create contents/<epoch>.md and its matching assets/<epoch>/ directory.
+    /// Create articles/<epoch>.md and its matching assets/<epoch>/ directory.
     Generate {
         #[arg(long, default_value = "Untitled")]
         title: String,

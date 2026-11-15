@@ -62,7 +62,7 @@ fn generated_template_has_an_editable_empty_author() {
 async fn author_queries_are_lazy_and_reconciliation_updates_names_without_changing_identity() {
     let root = tempfile::tempdir().unwrap();
     article(root.path(), 1, "Legacy", &[], "Legacy body");
-    let path = root.path().join("contents/2.md");
+    let path = root.path().join("articles/2.md");
     let source = |name: &str| {
         format!(
             "---\n{}\n---\n本文",
@@ -71,12 +71,15 @@ async fn author_queries_are_lazy_and_reconciliation_updates_names_without_changi
     };
     std::fs::write(&path, source("  山田 太郎  ")).unwrap();
     let (catalog, renderer, router) = app(root.path()).await;
-    let query = "{ post(id:\"2\") { id author createdAt } posts { nodes { id author } } postsByMonth(year:1970,month:1) { nodes { id author } } }";
+    let query = "{ post(id:\"2\") { id author createdAt } posts { nodes { id author } } }";
     let first = data(&router, query).await;
     assert_eq!(first["post"]["author"], "山田 太郎");
-    assert_eq!(first["posts"]["nodes"][0]["author"], "山田 太郎");
-    assert!(first["posts"]["nodes"][1]["author"].is_null());
-    assert_eq!(first["postsByMonth"]["nodes"][0]["author"], "山田 太郎");
+    let nodes = first["posts"]["nodes"].as_array().unwrap();
+    assert_eq!(
+        nodes.iter().find(|node| node["id"] == "2").unwrap()["author"],
+        "山田 太郎"
+    );
+    assert!(nodes.iter().find(|node| node["id"] == "1").unwrap()["author"].is_null());
     assert_eq!(renderer.calls(), 0);
     let old = catalog.snapshot();
     std::fs::write(&path, source("別の投稿者")).unwrap();
@@ -85,6 +88,6 @@ async fn author_queries_are_lazy_and_reconciliation_updates_names_without_changi
     assert_eq!(changed["post"]["author"], "別の投稿者");
     assert_eq!(changed["post"]["id"], first["post"]["id"]);
     assert_eq!(changed["post"]["createdAt"], first["post"]["createdAt"]);
-    assert_eq!(old.articles[&2].metadata.author, "山田 太郎");
+    assert_eq!(old.articles["2"].metadata.author, "山田 太郎");
     assert_eq!(renderer.calls(), 0);
 }

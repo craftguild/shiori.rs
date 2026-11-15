@@ -58,20 +58,10 @@ pub fn generate_with_clock(
     ensure!(title.len() <= 32 * 1024, "title exceeds 32 KiB");
     let root = root.canonicalize().context("root must already exist")?;
     let root_fd = storage::root(&root)?;
-    if let Err(error) = mkdirat(&root_fd, "contents", Mode::from_raw_mode(0o755))
-        && error != rustix::io::Errno::EXIST
-    {
-        return Err(error).context("cannot create contents directory");
-    }
-    let dir = storage::directory(&root_fd, "contents")
-        .context("contents must be a non-symlink directory")?;
-    if let Err(error) = mkdirat(&root_fd, "assets", Mode::from_raw_mode(0o755))
-        && error != rustix::io::Errno::EXIST
-    {
-        return Err(error).context("cannot create assets directory");
-    }
-    let assets =
-        storage::directory(&root_fd, "assets").context("assets must be a non-symlink directory")?;
+    let layout = crate::layout::Layout::from_env()?;
+    layout.create(&root_fd)?;
+    let dir = layout.open(&root_fd, &layout.articles, false)?;
+    let assets = layout.open(&root_fd, &layout.assets, false)?;
     static SEQUENCE: AtomicU64 = AtomicU64::new(0);
     let name = format!(
         ".shiori-{}-{}.tmp",
@@ -105,6 +95,20 @@ pub fn generate_with_clock(
         let id = clock()?;
         parse_id(&id).context("clock did not produce a supported epoch timestamp")?;
         let destination = format!("{id}.md");
+        if rustix::fs::statat(
+            &dir,
+            format!("{id}.markdown").as_str(),
+            AtFlags::SYMLINK_NOFOLLOW,
+        )
+        .is_ok()
+        {
+            ensure!(
+                Instant::now() < deadline,
+                "timestamp collision persisted for one second"
+            );
+            std::thread::sleep(Duration::from_millis(1));
+            continue;
+        }
         match mkdirat(&assets, id.as_str(), Mode::from_raw_mode(0o755)) {
             Ok(()) => {}
             Err(rustix::io::Errno::EXIST) if Instant::now() < deadline => {
@@ -137,7 +141,7 @@ pub fn generate_with_clock(
                     .context("article published but temporary cleanup failed")?;
                 dir.sync_all()
                     .context("article published but directory flush failed")?;
-                return Ok(root.join("contents").join(destination));
+                return Ok(root.join(&layout.articles).join(destination));
             }
             Err(rustix::io::Errno::EXIST) if Instant::now() < deadline => {
                 std::thread::sleep(Duration::from_millis(1));

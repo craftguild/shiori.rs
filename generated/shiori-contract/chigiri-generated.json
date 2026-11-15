@@ -27,13 +27,13 @@
   "provenance": {
     "manifest_label": "chigiri.toml",
     "manifest_sha256": "fdb02308ef4b89c40da6f8e37a1f7eb411a63990f0a257efa27e1903aee47b99",
-    "schema_sha256": "ce49321bd371a1a1c9ef17d248d168be0372e43ee027bebdd3991a5af73b6564",
+    "schema_sha256": "9bf7b4afcec80bcbcc553c4aefe904dd2c323d72fc27d32e78bf12f83ddd9bea",
     "binding_sha256": "45c8ff0c5974f886e130b97833005691c161e7b50dad410edf3102537a315e18",
     "sources": [
       {
         "path": "schema.graphql",
-        "bytes": 5604,
-        "sha256": "704c9b11f52f07fb12df66e4cc74a39fa469161a758216861453e20d6eab9e26"
+        "bytes": 5647,
+        "sha256": "f5bc91efe82b63e20bf0e8ede67b055824bf57b6b543c05405e9f91b2498f236"
       }
     ]
   },
@@ -56,7 +56,7 @@
     {
       "path": "src/__chigiri/internal/bridge/dispatch.rs",
       "bytes": 4183,
-      "sha256": "db8870f33b37a7bffcbb7ce6220a72b7cb849c7c6f0a9cbb9190bde375a4b456"
+      "sha256": "2e1246b4d6ea1e04a9d08ca1f78db205a43913cadf962d77753012afeea35269"
     },
     {
       "path": "src/__chigiri/internal/bridge/objects/block_blank_line.rs",
@@ -230,8 +230,8 @@
     },
     {
       "path": "src/__chigiri/internal/bridge/objects/post.rs",
-      "bytes": 19245,
-      "sha256": "1f3b02df33a997af3f1d6b0d8aec63c9ec859b662edad4e923f928ca7cd6cf4e"
+      "bytes": 22836,
+      "sha256": "f2aac96ac3f0c778a7878377b339b47ba572ffa6c34489969ce352c483814e8a"
     },
     {
       "path": "src/__chigiri/internal/bridge/objects/post_connection.rs",
@@ -535,8 +535,8 @@
     },
     {
       "path": "src/__chigiri/internal/descriptor/schema.rs",
-      "bytes": 2890,
-      "sha256": "a40997b1ec966af72fc49e5084f41efe749d3f686c46c5975c54eba4dbf7c46b"
+      "bytes": 2889,
+      "sha256": "86a02523b9ae1f3ce5430152398a2ed19df5efba2f633eddd4a5d0f83ac46fe4"
     },
     {
       "path": "src/__chigiri/internal/descriptor/types/block_blank_line.rs",
@@ -710,8 +710,8 @@
     },
     {
       "path": "src/__chigiri/internal/descriptor/types/post.rs",
-      "bytes": 5798,
-      "sha256": "5632157676dd5a03f86a0d7d3fe0db8dbbb548fbb2caf52c4d5704da2a304ac0"
+      "bytes": 6853,
+      "sha256": "07028b53826d874a00071f004dc885c3a765de11d07c08b20068e41943f6c86f"
     },
     {
       "path": "src/__chigiri/internal/descriptor/types/post_connection.rs",
@@ -1021,7 +1021,7 @@
     {
       "path": "src/__chigiri/mod.rs",
       "bytes": 1348,
-      "sha256": "eae09cd299846a6666bcfe0c0b8d9fa18d8d545282628319ed11dca5c21b67fd"
+      "sha256": "46b37a4d4b9d32b246bae00b6cecc6b84f6d0300d60ba248be5ea3a6410923c5"
     },
     {
       "path": "src/__chigiri/modules.rs",
@@ -1200,8 +1200,8 @@
     },
     {
       "path": "src/__chigiri/resolvers/objects/post.rs",
-      "bytes": 2747,
-      "sha256": "b626b014ebdf6d81511590c4d485e1ea8b49edf4ff52c6998ecf54b228d36ef3"
+      "bytes": 3238,
+      "sha256": "088dbd9db9af07c0ccaa09e7aab8541afefd71f436d3bd4c4e1359a22a886346"
     },
     {
       "path": "src/__chigiri/resolvers/objects/post_connection.rs",

@@ -27,7 +27,7 @@ pub(super) fn derive(
     let output = OrihaEngine::default()
         .add_hook(policy)
         .derive_parsed_blocks(parsed, BlockOutputMode::Rendered);
-    let mut result = output_result(output, article.id)?;
+    let mut result = output_result(output, &article.id)?;
     let mut cacheable = valid;
     if valid && !runtime.block_on(images.valid(prepared.dependencies.clone())) {
         // Retain and derive the same parsed document; unstable files get original
@@ -36,7 +36,7 @@ pub(super) fn derive(
             OrihaEngine::default()
                 .add_hook(prepared.fallback())
                 .derive_parsed_blocks(parsed, BlockOutputMode::Rendered),
-            article.id,
+            &article.id,
         )?;
         cacheable = false;
     }
@@ -46,7 +46,7 @@ pub(super) fn derive(
     Ok(result)
 }
 
-fn output_result(output: BlockOutput, id: i64) -> RenderResult {
+fn output_result(output: BlockOutput, id: &str) -> RenderResult {
     let BlockOutput::Rendered(output) = output else {
         return Err(RenderFailure);
     };

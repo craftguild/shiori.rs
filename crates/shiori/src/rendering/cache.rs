@@ -7,7 +7,7 @@ use crate::catalog::Snapshot;
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct Key {
-    pub id: i64,
+    pub id: String,
     pub hash: [u8; 32],
     pub profile: [u8; 32],
 }
@@ -39,7 +39,7 @@ impl RenderCache {
         self.entries.get(key).map(|(value, _)| value.clone())
     }
     pub fn insert(&mut self, key: Key, value: Projection) {
-        let bytes = value.retained_bytes() + std::mem::size_of::<Key>() + 128;
+        let bytes = value.retained_bytes() + key.id.capacity() + std::mem::size_of::<Key>() + 128;
         if bytes > self.budget {
             return;
         }

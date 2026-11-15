@@ -17,7 +17,7 @@ use crate::{catalog::Catalog, config::Config, graphql, rendering::Renderer, stor
 
 #[derive(Clone)]
 struct Assets {
-    root: Arc<std::fs::File>,
+    root: Arc<crate::asset_root::AssetRoot>,
     workers: Arc<Semaphore>,
 }
 
@@ -45,7 +45,7 @@ fn routes(
     let images = renderer.images.clone();
     let endpoint = graphql::endpoint_with_graphiql(catalog.clone(), renderer, graphiql.is_some())?;
     let assets = Assets {
-        root: catalog.root.clone(),
+        root: catalog.assets.clone(),
         workers: Arc::new(Semaphore::new(4)),
     };
     let mut router = Router::new();
@@ -104,14 +104,28 @@ async fn asset(
     let loaded = tokio::task::spawn_blocking(move || {
         let _permit = permit;
         let segments: Vec<&str> = path.split('/').collect();
-        storage::read_asset(&assets.root, &segments, 32 * 1024 * 1024)
+        let root = assets.root.open()?;
+        let result = storage::read_asset(&root, &segments, 32 * 1024 * 1024)?;
+        assets.root.validate(&root)?;
+        Ok::<_, anyhow::Error>(result)
     })
     .await;
     let (bytes, hash) = match loaded {
         Ok(Ok(output)) => output,
         Ok(Err(error)) => {
             tracing::debug!(event="asset_unavailable", error=%format!("{error:#}"));
-            return StatusCode::NOT_FOUND.into_response();
+            let interrupted = error
+                .downcast_ref::<std::io::Error>()
+                .is_some_and(|error| error.kind() == std::io::ErrorKind::Interrupted);
+            return if interrupted {
+                (
+                    StatusCode::SERVICE_UNAVAILABLE,
+                    [(header::CACHE_CONTROL, "no-store")],
+                )
+                    .into_response()
+            } else {
+                StatusCode::NOT_FOUND.into_response()
+            };
         }
         Err(error) => {
             tracing::error!(event="asset_worker_failed", %error);

@@ -19,7 +19,15 @@ pub struct ContentChange(pub String);
 fn revision(catalog: &Catalog, assets: [u8; 32]) -> String {
     let mut digest = Sha256::new();
     for article in catalog.snapshot().articles.values() {
-        digest.update(article.id.to_be_bytes());
+        for field in [
+            &article.id,
+            &article.created_at,
+            &article.updated_at,
+            &article.source_path,
+        ] {
+            digest.update((field.len() as u64).to_be_bytes());
+            digest.update(field.as_bytes());
+        }
         digest.update(article.hash);
     }
     digest.update(assets);
@@ -29,7 +37,7 @@ fn revision(catalog: &Catalog, assets: [u8; 32]) -> String {
 impl Preview {
     pub async fn open(catalog: Arc<Catalog>) -> Result<Arc<Self>> {
         tokio::task::spawn_blocking(move || {
-            let assets = assets::fingerprint(&catalog.root).unwrap_or_else(|error| {
+            let assets = assets::fingerprint(&catalog.assets).unwrap_or_else(|error| {
                 tracing::warn!(event="preview_assets_retry", %error);
                 Sha256::digest([]).into()
             });
@@ -46,7 +54,7 @@ impl Preview {
         let owner = self.clone();
         let result = tokio::task::spawn_blocking(move || {
             let mut assets = owner.assets.lock().expect("preview asset lock poisoned");
-            match assets::fingerprint(&catalog.root) {
+            match assets::fingerprint(&catalog.assets) {
                 Ok(next) => *assets = next,
                 Err(error) => tracing::warn!(event="preview_assets_retry", %error),
             }

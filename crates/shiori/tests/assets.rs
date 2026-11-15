@@ -10,7 +10,7 @@ use tower::ServiceExt;
 async fn real_asset_bytes_mime_revalidation_cors_and_boundaries() {
     let root = tempfile::tempdir().unwrap();
     common::article(root.path(), 1, "Asset", &[], "![a](/assets/image.png)");
-    std::fs::create_dir(root.path().join("assets")).unwrap();
+    std::fs::create_dir_all(root.path().join("assets")).unwrap();
     let bytes = b"\x89PNG\r\n\x1a\nactual bytes";
     std::fs::write(root.path().join("assets/image.png"), bytes).unwrap();
     std::fs::create_dir(root.path().join("assets/folder")).unwrap();
@@ -114,8 +114,8 @@ async fn real_asset_bytes_mime_revalidation_cors_and_boundaries() {
     );
     for path in [
         "/assets/pipe",
-        "/assets/../contents/1.md",
-        "/assets/%2e%2e/contents/1.md",
+        "/assets/../articles/1.md",
+        "/assets/%2e%2e/articles/1.md",
         "/assets/%2e%2e%2fcontents%2f1.md",
         "/assets/%5c..%5csecret.txt",
         "/assets/%00",
@@ -167,7 +167,8 @@ async fn real_asset_bytes_mime_revalidation_cors_and_boundaries() {
         )
         .await
         .unwrap();
-    assert_eq!(response.status(), StatusCode::NOT_FOUND);
+    assert_eq!(response.status(), StatusCode::SERVICE_UNAVAILABLE);
+    assert_eq!(response.headers()["cache-control"], "no-store");
 }
 
 #[test]

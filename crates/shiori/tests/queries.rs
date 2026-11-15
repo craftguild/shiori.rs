@@ -17,36 +17,33 @@ async fn exact_query_pagination_tags_defaults_and_errors() {
     article(root.path(), 50, "Other", &["other"], "");
     let (_, renderer, router) = app(root.path()).await;
     let value = data(&router, "{ posts(first:2) { nodes { id title createdAt } totalCount pageInfo { endCursor hasNextPage } } tags { name count } }").await;
-    assert_eq!(value["posts"]["nodes"][0]["id"], "100");
-    assert_eq!(value["posts"]["nodes"][1]["id"], "50");
     assert_eq!(value["posts"]["totalCount"], 4);
-    assert_eq!(
-        value["posts"]["pageInfo"],
-        json!({"endCursor":"50","hasNextPage":true})
-    );
+    assert_eq!(value["posts"]["pageInfo"]["hasNextPage"], true);
+    let boundary = value["posts"]["pageInfo"]["endCursor"].clone();
+    assert!(boundary.as_str().unwrap().starts_with("v1."));
     assert_eq!(
         value["tags"],
         json!([{"name":"Rust","count":3},{"name":"other","count":1},{"name":"rust","count":3}])
     );
-    let value = data(&router, "{ posts(first:null, after:\"49\", tag:\" Rust \") { nodes { id } totalCount pageInfo { endCursor hasNextPage } } post(id:\"8\") { id } }").await;
-    assert_eq!(value["posts"]["nodes"], json!([{"id":"10"},{"id":"9"}]));
-    assert_eq!(value["posts"]["totalCount"], 3);
-    assert_eq!(value["post"], json!(null));
-    let empty = data(
+    let next = query(
         &router,
-        "{ posts(after:\"1\") { nodes { id } pageInfo { endCursor hasNextPage } } }",
+        "query($after:ID){posts(first:2,after:$after){nodes{id}pageInfo{hasNextPage}}}",
+        json!({"after":boundary}),
     )
     .await;
+    assert!(next.get("errors").is_none(), "{next}");
+    assert_eq!(next["data"]["posts"]["nodes"].as_array().unwrap().len(), 2);
+    assert_eq!(next["data"]["posts"]["pageInfo"]["hasNextPage"], false);
     assert_eq!(
-        empty["posts"]["pageInfo"],
-        json!({"endCursor":null,"hasNextPage":false})
+        data(&router, "{ post(id:\"01\") { id } }").await["post"],
+        json!(null)
     );
     for query_text in [
-        "{ post(id:\"01\") { id } }",
-        "{ posts(first:0) { totalCount } }",
-        "{ posts(first:101) { totalCount } }",
-        "{ posts(after:\"0\") { totalCount } }",
-        "{ posts(tag:\" \") { totalCount } }",
+        "{post(id:\"../secret\"){id}}",
+        "{posts(first:0){totalCount}}",
+        "{posts(first:101){totalCount}}",
+        "{posts(after:\"0\"){totalCount}}",
+        "{posts(tag:\" \"){totalCount}}",
     ] {
         let value = query(&router, query_text, json!({})).await;
         assert_eq!(

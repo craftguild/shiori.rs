@@ -3,17 +3,14 @@ use super::{
     cache::{Cache, Key, Lookup},
     codec, source,
 };
-use std::{
-    fs::File,
-    sync::{
-        Arc, Mutex,
-        atomic::{AtomicUsize, Ordering},
-    },
+use std::sync::{
+    Arc, Mutex,
+    atomic::{AtomicUsize, Ordering},
 };
 use tokio::sync::{OwnedSemaphorePermit, Semaphore};
 
 pub struct ImageService {
-    root: Arc<File>,
+    root: Arc<crate::asset_root::AssetRoot>,
     workers: Arc<Semaphore>,
     waiting: Arc<Semaphore>,
     cache: Arc<Mutex<Cache>>,
@@ -26,13 +23,28 @@ pub struct ImageService {
 }
 
 impl ImageService {
-    pub(crate) fn new(root: Arc<File>) -> Arc<Self> {
+    pub(crate) fn new(root: Arc<crate::asset_root::AssetRoot>) -> Arc<Self> {
         let count = std::thread::available_parallelism()
             .map_or(1, usize::from)
             .clamp(1, 2);
-        Self::configured(root, count, 64 * 1024 * 1024)
+        Self::with_source(root, count, 64 * 1024 * 1024)
     }
-    pub(super) fn configured(root: Arc<File>, workers: usize, budget: usize) -> Arc<Self> {
+    #[cfg(test)]
+    pub(super) fn configured(root: Arc<std::fs::File>, workers: usize, budget: usize) -> Arc<Self> {
+        Self::with_source(
+            Arc::new(
+                crate::asset_root::AssetRoot::new(root, Default::default())
+                    .expect("test asset root"),
+            ),
+            workers,
+            budget,
+        )
+    }
+    fn with_source(
+        root: Arc<crate::asset_root::AssetRoot>,
+        workers: usize,
+        budget: usize,
+    ) -> Arc<Self> {
         Arc::new(Self {
             root,
             workers: Arc::new(Semaphore::new(workers)),

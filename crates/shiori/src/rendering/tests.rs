@@ -54,7 +54,7 @@ impl Drop for Release {
 
 async fn fixture() -> (tempfile::TempDir, Arc<Catalog>, Arc<Renderer>) {
     let root = tempfile::tempdir().unwrap();
-    std::fs::create_dir(root.path().join("contents")).unwrap();
+    std::fs::create_dir(root.path().join("articles")).unwrap();
     write(&root, 1, "Old");
     write(&root, 2, "Second");
     let catalog = Catalog::open(storage::root(root.path()).unwrap())
@@ -73,7 +73,7 @@ async fn fixture() -> (tempfile::TempDir, Arc<Catalog>, Arc<Renderer>) {
 }
 fn write(root: &tempfile::TempDir, id: i64, body: &str) {
     std::fs::write(
-        root.path().join(format!("contents/{id}.md")),
+        root.path().join(format!("articles/{id}.md")),
         format!("---\ntitle: {body}\n---\n{body}"),
     )
     .unwrap();
@@ -180,13 +180,13 @@ fn adapter_preserves_all_typed_kinds_empty_html_order_and_resource_encoding() {
 
 #[test]
 fn cache_accounts_capacity_evicts_lru_and_invalidates_changed_deleted_entries() {
-    let key = |id| Key {
-        id,
+    let key = |id: i64| Key {
+        id: id.to_string(),
         hash: [id as u8; 32],
         profile: [0; 32],
     };
     let value = Arc::new(Rendered::default());
-    let charge = value.retained_bytes() + std::mem::size_of::<Key>() + 128;
+    let charge = value.retained_bytes() + std::mem::size_of::<Key>() + 128 + key(1).id.capacity();
     let mut cache = cache::RenderCache::new(charge * 2);
     cache.insert(key(1), Projection::Html(value.clone()));
     cache.insert(key(2), Projection::Html(value.clone()));
@@ -211,7 +211,7 @@ fn cache_accounts_capacity_evicts_lru_and_invalidates_changed_deleted_entries() 
     assert_eq!(cache.bytes(), charge * 2);
     let changed = Arc::new(metadata::parse(1, b"---\ntitle: New\n---\n").unwrap());
     let snapshot = Snapshot {
-        articles: [(1, changed)].into_iter().collect(),
+        articles: [("1".to_owned(), changed)].into_iter().collect(),
         ..Default::default()
     };
     cache.retain_current(&snapshot);
@@ -225,7 +225,7 @@ async fn single_flight_cancellation_stale_completion_and_snapshot_consistency() 
     let gate = Gate::new();
     let _release = Release(gate.clone());
     *renderer.probe.lock().unwrap() = Some(gate.clone());
-    let old = catalog.snapshot().articles[&1].clone();
+    let old = catalog.snapshot().articles["1"].clone();
     let first = request(renderer.clone(), old.clone());
     gate.entered().await;
     let second = request(renderer.clone(), old.clone());
@@ -244,7 +244,7 @@ async fn single_flight_cancellation_stale_completion_and_snapshot_consistency() 
     first.abort();
     write(&root, 1, "New");
     catalog.reconcile().await.unwrap();
-    assert_eq!(catalog.snapshot().articles[&1].metadata.title, "New");
+    assert_eq!(catalog.snapshot().articles["1"].metadata.title, "New");
     gate.release();
     let old_result = second.await.unwrap().unwrap();
     assert!(old_result.blocks[0].html.contains("Old"));
@@ -252,13 +252,13 @@ async fn single_flight_cancellation_stale_completion_and_snapshot_consistency() 
     assert_eq!(renderer.calls(), 1);
     assert_eq!(renderer.active_keys(), 0);
     *renderer.probe.lock().unwrap() = None;
-    let new = request(renderer.clone(), catalog.snapshot().articles[&1].clone())
+    let new = request(renderer.clone(), catalog.snapshot().articles["1"].clone())
         .await
         .unwrap()
         .unwrap();
     assert!(new.blocks[0].html.contains("New"));
     assert_eq!(renderer.calls(), 2);
-    std::fs::remove_file(root.path().join("contents/1.md")).unwrap();
+    std::fs::remove_file(root.path().join("articles/1.md")).unwrap();
     catalog.reconcile().await.unwrap();
     assert!(catalog.state.lock().unwrap().cache.is_empty());
 }
@@ -272,9 +272,9 @@ async fn queued_cancellation_and_worker_panic_release_capacity_and_key() {
     let _release = Release(gate.clone());
     gate.panic.store(true, Ordering::Relaxed);
     *renderer.probe.lock().unwrap() = Some(gate.clone());
-    let first = request(renderer.clone(), catalog.snapshot().articles[&1].clone());
+    let first = request(renderer.clone(), catalog.snapshot().articles["1"].clone());
     gate.entered().await;
-    let queued = request(renderer.clone(), catalog.snapshot().articles[&2].clone());
+    let queued = request(renderer.clone(), catalog.snapshot().articles["2"].clone());
     tokio::task::yield_now().await;
     assert_eq!(renderer.calls(), 1);
     assert_eq!(renderer.available_workers(), 0);
@@ -284,7 +284,7 @@ async fn queued_cancellation_and_worker_panic_release_capacity_and_key() {
     assert_eq!(renderer.active_keys(), 0);
     assert_eq!(renderer.available_workers(), 1);
     *renderer.probe.lock().unwrap() = None;
-    let result = request(renderer.clone(), catalog.snapshot().articles[&2].clone())
+    let result = request(renderer.clone(), catalog.snapshot().articles["2"].clone())
         .await
         .unwrap()
         .unwrap();
@@ -331,7 +331,13 @@ async fn an_http_request_keeps_one_snapshot_during_overlapping_reload() {
     assert!(value.get("errors").is_none(), "{value}");
     assert_eq!(value["data"]["a"]["title"], "Old");
     assert_eq!(value["data"]["c"]["title"], "Old");
-    assert_eq!(value["data"]["b"]["nodes"][1]["title"], "Old");
+    assert!(
+        value["data"]["b"]["nodes"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|node| node["title"] == "Old")
+    );
     assert!(
         value["data"]["a"]["blocks"][0]["html"]
             .as_str()
@@ -346,7 +352,7 @@ async fn cancelling_every_waiter_still_cleans_up_and_failure_memo_is_request_loc
     let gate = Gate::new();
     let _release = Release(gate.clone());
     *renderer.probe.lock().unwrap() = Some(gate.clone());
-    let first = request(renderer.clone(), catalog.snapshot().articles[&1].clone());
+    let first = request(renderer.clone(), catalog.snapshot().articles["1"].clone());
     gate.entered().await;
     first.abort();
     gate.release();
@@ -398,7 +404,7 @@ async fn structured_cancellation_keeps_shared_worker_supervision_and_cache_publi
     let _release = Release(gate.clone());
     *renderer.probe.lock().unwrap() = Some(gate.clone());
     let worker = renderer.clone();
-    let article = catalog.snapshot().articles[&1].clone();
+    let article = catalog.snapshot().articles["1"].clone();
     let waiter =
         tokio::spawn(async move { worker.structure(article, &RequestMemo::default()).await });
     gate.entered().await;
@@ -411,7 +417,7 @@ async fn structured_cancellation_keeps_shared_worker_supervision_and_cache_publi
     *renderer.probe.lock().unwrap() = None;
     let cached = renderer
         .structure(
-            catalog.snapshot().articles[&1].clone(),
+            catalog.snapshot().articles["1"].clone(),
             &RequestMemo::default(),
         )
         .await
@@ -453,11 +459,13 @@ fn html_and_structured_share_one_retained_capacity_budget() {
         )
         .unwrap(),
     );
-    let charge = |value: &Projection| value.retained_bytes() + std::mem::size_of::<Key>() + 128;
+    let charge = |value: &Projection| {
+        value.retained_bytes() + std::mem::size_of::<Key>() + 128 + "1".to_owned().capacity()
+    };
     let budget = charge(&html) + charge(&structured);
     let mut cache = cache::RenderCache::new(budget);
     let key = |mode| Key {
-        id: 1,
+        id: "1".to_owned(),
         hash: [1; 32],
         profile: [mode; 32],
     };

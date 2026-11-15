@@ -81,6 +81,32 @@ pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0005: ::chigiri::FieldDescriptor =
 
 pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0006: ::chigiri::FieldDescriptor =
     ::chigiri::FieldDescriptor {
+        name: "updatedAt",
+        description: None,
+        type_ref: "String!",
+        type_descriptor: ::chigiri::TypeRefDescriptor::NonNull(
+            &::chigiri::TypeRefDescriptor::Named("String"),
+        ),
+        arguments: ::chigiri::DescriptorList::empty(),
+        directives: ::chigiri::DescriptorList::empty(),
+        deprecation_reason: None,
+    };
+
+pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0007: ::chigiri::FieldDescriptor =
+    ::chigiri::FieldDescriptor {
+        name: "sourcePath",
+        description: None,
+        type_ref: "String!",
+        type_descriptor: ::chigiri::TypeRefDescriptor::NonNull(
+            &::chigiri::TypeRefDescriptor::Named("String"),
+        ),
+        arguments: ::chigiri::DescriptorList::empty(),
+        directives: ::chigiri::DescriptorList::empty(),
+        deprecation_reason: None,
+    };
+
+pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0008: ::chigiri::FieldDescriptor =
+    ::chigiri::FieldDescriptor {
         name: "blocks",
         description: None,
         type_ref: "[HtmlBlock!]",
@@ -94,7 +120,7 @@ pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0006: ::chigiri::FieldDescriptor =
         deprecation_reason: None,
     };
 
-pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0007: ::chigiri::FieldDescriptor =
+pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0009: ::chigiri::FieldDescriptor =
     ::chigiri::FieldDescriptor {
         name: "assets",
         description: None,
@@ -109,7 +135,7 @@ pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0007: ::chigiri::FieldDescriptor =
         deprecation_reason: None,
     };
 
-pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0008: ::chigiri::FieldDescriptor =
+pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0010: ::chigiri::FieldDescriptor =
     ::chigiri::FieldDescriptor {
         name: "structured",
         description: None,
@@ -130,6 +156,8 @@ pub(super) const TYPE_DESCRIPTOR_0003_FIELD_CHUNK_0000: &[::chigiri::FieldDescri
     super::TYPE_DESCRIPTOR_0003_FIELD_0006,
     super::TYPE_DESCRIPTOR_0003_FIELD_0007,
     super::TYPE_DESCRIPTOR_0003_FIELD_0008,
+    super::TYPE_DESCRIPTOR_0003_FIELD_0009,
+    super::TYPE_DESCRIPTOR_0003_FIELD_0010,
 ];
 
 pub(super) const TYPE_DESCRIPTOR_0003_FIELD_LIST_0000: ::chigiri::DescriptorList<

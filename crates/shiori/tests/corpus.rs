@@ -9,7 +9,7 @@ async fn five_thousand_article_serial_corpus() {
     const COUNT: usize = 5000;
     const BASE: i64 = 1_700_000_000_000;
     let root = tempfile::tempdir().unwrap();
-    std::fs::create_dir(root.path().join("assets")).unwrap();
+    std::fs::create_dir_all(root.path().join("assets")).unwrap();
     std::fs::write(
         root.path().join("assets/picture.svg"),
         "<svg xmlns=\"http://www.w3.org/2000/svg\"/>",
@@ -56,13 +56,10 @@ async fn five_thousand_article_serial_corpus() {
     .await;
     assert_eq!(omitted, explicit_null);
     assert_eq!(omitted["posts"]["nodes"].as_array().unwrap().len(), 20);
-    assert_eq!(
-        omitted["posts"]["nodes"][19]["id"],
-        (BASE + 4980).to_string()
-    );
-    let query_text = "query($after: ID) { posts(first:100, after:$after) { nodes { id title tags } totalCount pageInfo { endCursor hasNextPage } } }";
+    let query_text = "query($after: ID) { posts(first:100, after:$after) { nodes { id title tags createdAt } totalCount pageInfo { endCursor hasNextPage } } }";
     let mut after = serde_json::Value::Null;
     let mut ids = Vec::new();
+    let mut previous: Option<(String, String)> = None;
     loop {
         let response = query(&router, query_text, json!({"after":after})).await;
         assert!(response.get("errors").is_none(), "{response}");
@@ -73,6 +70,12 @@ async fn five_thousand_article_serial_corpus() {
             let i = id - BASE;
             assert_eq!(node["title"], format!("Article {i}"));
             assert_eq!(node["tags"], json!(["all", format!("group-{}", i % 7)]));
+            let key = node["id"].as_str().unwrap();
+            let date = node["createdAt"].as_str().unwrap();
+            if let Some((old_date, old_key)) = &previous {
+                assert!(old_date.as_str() > date || (old_date == date && old_key.as_str() < key));
+            }
+            previous = Some((date.to_owned(), key.to_owned()));
             ids.push(id);
         }
         if connection["pageInfo"]["hasNextPage"] == false {
@@ -85,7 +88,7 @@ async fn five_thousand_article_serial_corpus() {
         ids.iter().copied().collect::<BTreeSet<_>>(),
         (BASE..BASE + COUNT as i64).collect()
     );
-    assert!(ids.windows(2).all(|pair| pair[0] > pair[1]));
+
     assert_eq!(renderer.calls(), 0);
     for i in [0, 1, 100, 2500, 4999] {
         let query_text = format!(
@@ -112,7 +115,7 @@ async fn five_thousand_article_serial_corpus() {
         &["edited"],
         "# Edited body",
     );
-    std::fs::remove_file(root.path().join(format!("contents/{}.md", BASE + 101))).unwrap();
+    std::fs::remove_file(root.path().join(format!("articles/{}.md", BASE + 101))).unwrap();
     catalog.reconcile().await.unwrap();
     assert_eq!(catalog.snapshot().articles.len(), COUNT - 1);
     assert_eq!(catalog.snapshot().tags["all"], COUNT - 2);

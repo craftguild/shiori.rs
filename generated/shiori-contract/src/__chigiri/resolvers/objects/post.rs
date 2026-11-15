@@ -52,6 +52,20 @@ where
     ) -> impl ::std::future::Future<Output = ::std::result::Result<::std::string::String, E>>
     + ::std::marker::Send
     + 'a;
+    fn updated_at<'a>(
+        &'a self,
+        ctx: ::chigiri::FieldContext<'a, C>,
+        parent: &'a T::Post,
+    ) -> impl ::std::future::Future<Output = ::std::result::Result<::std::string::String, E>>
+    + ::std::marker::Send
+    + 'a;
+    fn source_path<'a>(
+        &'a self,
+        ctx: ::chigiri::FieldContext<'a, C>,
+        parent: &'a T::Post,
+    ) -> impl ::std::future::Future<Output = ::std::result::Result<::std::string::String, E>>
+    + ::std::marker::Send
+    + 'a;
     fn blocks<'a>(
         &'a self,
         ctx: ::chigiri::FieldContext<'a, C>,

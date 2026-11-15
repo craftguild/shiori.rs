@@ -4,7 +4,7 @@ use anyhow::{Context, Result};
 use notify::{RecommendedWatcher, RecursiveMode, Watcher};
 use tokio::{sync::watch, task::JoinHandle};
 
-use crate::{catalog::Catalog, config::Config, storage};
+use crate::{catalog::Catalog, config::Config};
 
 pub struct Reload {
     watcher: RecommendedWatcher,
@@ -16,6 +16,7 @@ impl Reload {
     pub async fn start(config: &Config) -> Result<(Arc<Catalog>, Self)> {
         let (events, mut changed) = watch::channel(());
         let root = config.root.clone();
+        let layout = config.layout.clone();
         let mut watcher =
             notify::recommended_watcher(move |event: notify::Result<notify::Event>| {
                 match event {
@@ -24,7 +25,9 @@ impl Reload {
                         if !event.paths.iter().any(|path| {
                             path == &root
                                 || path.strip_prefix(&root).ok().is_some_and(|path| {
-                                    path.starts_with("contents") || path.starts_with("assets")
+                                    path.starts_with(&layout.articles)
+                                        || path.starts_with(&layout.assets)
+                                        || path.starts_with(".git")
                                 })
                         }) =>
                     {
@@ -39,7 +42,7 @@ impl Reload {
         watcher
             .watch(&config.root, RecursiveMode::Recursive)
             .context("cannot watch root")?;
-        let catalog = Catalog::open(storage::root(&config.root)?).await?;
+        let catalog = Catalog::open_config(config).await?;
         for attempt in 0..3 {
             changed.borrow_and_update();
             catalog

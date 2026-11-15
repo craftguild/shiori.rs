@@ -4,7 +4,7 @@
 // The schema is one immutable descriptor shared by generated types and coercion.
 // generated ABI version: 8
 // The ordered input source list is recorded in sources.rs.
-// schema content SHA-256: ce49321bd371a1a1c9ef17d248d168be0372e43ee027bebdd3991a5af73b6564
+// schema content SHA-256: 9bf7b4afcec80bcbcc553c4aefe904dd2c323d72fc27d32e78bf12f83ddd9bea
 // enum binding config: chigiri.toml
 // enum binding config SHA-256: fdb02308ef4b89c40da6f8e37a1f7eb411a63990f0a257efa27e1903aee47b99
 
@@ -19,7 +19,7 @@ include!("modules.rs");
 pub static SCHEMA_DESCRIPTOR: ::chigiri::SchemaDescriptor = GENERATED_SCHEMA_DESCRIPTOR;
 
 const GENERATED_RESOLVER_ABI_FINGERPRINT: ::chigiri::__private::ResolverSchemaFingerprint =
-    ::chigiri::__private::ResolverSchemaFingerprint::new(2004, 12877937963341051054_u64);
+    ::chigiri::__private::ResolverSchemaFingerprint::new(2018, 15775264065058764867_u64);
 
 impl<C, T> ::chigiri::IntoEndpointInput<C> for Resolvers<C, T>
 where

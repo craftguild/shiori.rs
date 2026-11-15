@@ -32,6 +32,8 @@ type Post {
   description: String!
   tags: [String!]!
   createdAt: String!
+  updatedAt: String!
+  sourcePath: String!
   blocks: [HtmlBlock!]
   assets: [RenderAsset!]
   structured: StructuredDocument

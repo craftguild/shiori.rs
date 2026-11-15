@@ -19,7 +19,7 @@ fn generation_http_reload_recovery_and_process_failures() {
     let path = std::path::PathBuf::from(String::from_utf8(created.stdout).unwrap().trim());
     assert_eq!(
         path.parent().unwrap(),
-        root.path().canonicalize().unwrap().join("contents")
+        root.path().canonicalize().unwrap().join("articles")
     );
     let id = path.file_stem().unwrap().to_str().unwrap();
     assert_eq!(id.parse::<i64>().unwrap().to_string(), id);
@@ -31,7 +31,7 @@ fn generation_http_reload_recovery_and_process_failures() {
     fs::write(&path, format!("{initial}# Release\n\n![Photo](/assets/photo.png)\n\n$$\nx^2\n$$\n\n```mermaid\nflowchart LR\n A --> B\n```\n")).unwrap();
     let mut server = Server::start(root.path(), "127.0.0.1", None, false);
     let query = format!(
-        "{{ post(id:\"{id}\") {{ id title blocks {{ id kind html }} assets {{ id kind mimeType content }} }} }}"
+        "{{ post(id:\"{id}\") {{ id title createdAt updatedAt sourcePath blocks {{ id kind html }} assets {{ id kind mimeType content }} }} }}"
     );
     let result = server.query(&query, false);
     assert!(result.get("errors").is_none(), "{result}");
@@ -76,16 +76,24 @@ fn generation_http_reload_recovery_and_process_failures() {
         server.query("{ posts { nodes { id } totalCount } }", true)["data"]["posts"],
         json!({"nodes":[{"id":id}],"totalCount":1})
     );
-    let created_at =
-        OffsetDateTime::from_unix_timestamp(id.parse::<i64>().unwrap() / 1000).unwrap();
+    let created_at = OffsetDateTime::parse(
+        result["data"]["post"]["createdAt"].as_str().unwrap(),
+        &time::format_description::well_known::Rfc3339,
+    )
+    .unwrap();
     let monthly = format!(
         "postsByMonth(year:{}, month:{}",
         created_at.year(),
         u8::from(created_at.month())
     );
-    assert_eq!(server.query(&format!("{{ {monthly}) {{ nodes {{ id title }} totalCount pageInfo {{ endCursor hasNextPage }} }} }}"), true)["data"]["postsByMonth"],
-        json!({"nodes":[{"id":id,"title":"Release λ"}],"totalCount":1,"pageInfo":{"endCursor":id,"hasNextPage":false}}));
-    assert_eq!(server.query(&format!("{{ {monthly}, after:\"{id}\") {{ nodes {{ id }} totalCount pageInfo {{ endCursor hasNextPage }} }} }}"), false)["data"]["postsByMonth"],
+    let month_result = server.query(&format!("{{ {monthly}) {{ nodes {{ id title }} totalCount pageInfo {{ endCursor hasNextPage }} }} }}"), true);
+    let page = &month_result["data"]["postsByMonth"];
+    assert_eq!(page["nodes"], json!([{"id":id,"title":"Release λ"}]));
+    assert_eq!(page["totalCount"], 1);
+    assert_eq!(page["pageInfo"]["hasNextPage"], false);
+    let cursor = page["pageInfo"]["endCursor"].as_str().unwrap();
+    assert!(cursor.starts_with("v1."));
+    assert_eq!(server.query(&format!("{{ {monthly}, after:\"{cursor}\") {{ nodes {{ id }} totalCount pageInfo {{ endCursor hasNextPage }} }} }}"), false)["data"]["postsByMonth"],
         json!({"nodes":[],"totalCount":1,"pageInfo":{"endCursor":null,"hasNextPage":false}}));
     assert_eq!(
         server.query(
@@ -94,7 +102,7 @@ fn generation_http_reload_recovery_and_process_failures() {
         )["errors"][0]["extensions"]["code"],
         "BAD_USER_INPUT"
     );
-    let replacement = root.path().join("contents/.editor-save");
+    let replacement = root.path().join("articles/.editor-save");
     fs::write(
         &replacement,
         initial.replace("Release λ", "Updated release") + "# Updated body\n",
@@ -136,10 +144,10 @@ fn generation_http_reload_recovery_and_process_failures() {
         .collect();
     assert_eq!(
         entries,
-        ["contents", "assets"].map(std::ffi::OsString::from).into()
+        ["articles", "assets"].map(std::ffi::OsString::from).into()
     );
     assert!(
-        !fs::read_dir(root.path().join("contents"))
+        !fs::read_dir(root.path().join("articles"))
             .unwrap()
             .any(|p| p.unwrap().path().extension().is_some_and(|e| e == "tmp"))
     );

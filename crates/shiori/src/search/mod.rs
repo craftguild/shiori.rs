@@ -89,7 +89,7 @@ impl SearchExecutor {
     ) -> Result<Vec<Arc<Article>>, Error> {
         self.worker(move |canceled| {
             let mut found = Vec::new();
-            for article in snapshot.articles.values().rev() {
+            for article in snapshot.ordered.iter() {
                 if canceled.load(Ordering::Relaxed) {
                     break;
                 }

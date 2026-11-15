@@ -4,7 +4,7 @@ use anyhow::{Context, Result, bail, ensure};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use sha2::{Digest, Sha256};
-use time::{OffsetDateTime, macros::format_description};
+use time::OffsetDateTime;
 
 pub const MAX_FILE_BYTES: usize = 1_000_000;
 pub const MAX_FRONT_MATTER: usize = 64 * 1024;
@@ -37,8 +37,13 @@ fn empty_tags() -> Value {
 
 #[derive(Clone, Debug)]
 pub struct Article {
-    pub id: i64,
+    pub id: String,
     pub created_at: String,
+    pub updated_at: String,
+    pub created_ms: i64,
+    pub source_path: String,
+    pub git_tracked: bool,
+    pub git_revision: Option<String>,
     pub metadata: Metadata,
     pub body: String,
     pub hash: [u8; 32],
@@ -59,7 +64,20 @@ pub fn parse_id(id: &str) -> Result<i64> {
     Ok(id)
 }
 
-pub fn parse(id: i64, bytes: &[u8]) -> Result<Article> {
+pub fn valid_key(id: &str) -> bool {
+    !id.is_empty()
+        && id.len() <= 8192
+        && id.split('/').all(|part| {
+            !part.is_empty()
+                && part != "."
+                && part != ".."
+                && !part.chars().any(|c| c == '\\' || c.is_control())
+        })
+}
+
+pub fn parse(id: impl ToString, bytes: &[u8]) -> Result<Article> {
+    let id = id.to_string();
+    ensure!(valid_key(&id), "invalid article key");
     ensure!(
         bytes.len() <= MAX_FILE_BYTES,
         "source exceeds {MAX_FILE_BYTES} bytes"
@@ -138,13 +156,14 @@ pub fn parse(id: i64, bytes: &[u8]) -> Result<Article> {
             }
         }
     }
-    let created_at = OffsetDateTime::from_unix_timestamp_nanos(i128::from(id) * 1_000_000)?
-        .format(format_description!(
-            "[year]-[month]-[day]T[hour]:[minute]:[second].[subsecond digits:3]Z"
-        ))?;
     Ok(Article {
         id,
-        created_at,
+        created_at: String::new(),
+        updated_at: String::new(),
+        created_ms: 0,
+        source_path: String::new(),
+        git_tracked: false,
+        git_revision: None,
         metadata: Metadata {
             title: title.to_owned(),
             author: author.to_owned(),

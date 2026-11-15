@@ -23,12 +23,12 @@ shiori --root my-blog generate --title 'Hello world'
 shiori --root my-blog serve --graphiql
 ```
 
-The installer defaults to `~/.local/bin` and leaves shell configuration unchanged. Edit the printed `contents/<epoch-milliseconds>.md` file, then open [GraphiQL](http://127.0.0.1:4000/graphiql) and run `{ posts { nodes { id title } } }`. The server reloads saved articles automatically. Place public images under the content root's `assets/` directory and reference them as `/assets/<path>`.
+The installer defaults to `~/.local/bin` and leaves shell configuration unchanged. Edit the article file printed by `generate`, then open [GraphiQL](http://127.0.0.1:4000/graphiql) and run `{ posts { nodes { id title } } }`. The server reloads saved articles automatically. Place public images under the content root's `assets/` directory and reference them as `/assets/<path>`.
 
 ## System requirements
 
 - macOS on arm64 or Linux on x86_64 with a GNU userspace; release CI qualifies these native targets.
-- An existing readable local content root and `contents/` directory for serving; `generate` creates `contents/` and `assets/` with write permission.
+- An existing readable document root. Missing article and asset directories are created with the execution user’s permissions; existing directories need read access for serving.
 - A Unix filesystem with directory handles and atomic hard links for generation.
 - POSIX sh, curl and a SHA-256 tool for the download installer.
 
@@ -49,6 +49,8 @@ make install BINDIR="$HOME/.local/bin"
 
 ## Usage
 
+Article storage defaults to `./articles` and asset storage to `./assets`, relative to `--root`. Override them with `SHIORI_ARTICLES_DIR` and `SHIORI_ASSETS_DIR`. Dates come from Git history in a worktree and filesystem metadata otherwise; see the [storage and timestamp decision](docs/adr/0001-article-storage-and-timestamps.md).
+
 ```sh
 shiori --root /srv/blog generate --title 'A new article'
 shiori --root /srv/blog serve \
@@ -63,7 +65,7 @@ shiori sbom
 ```graphql
 query Articles($after: ID) {
   posts(first: 5, after: $after) {
-    nodes { id title author createdAt tags }
+    nodes { id title author createdAt updatedAt sourcePath tags }
     totalCount
     pageInfo { startCursor endCursor hasPreviousPage hasNextPage }
   }
@@ -74,8 +76,8 @@ Select `post(id: ID!) { blocks { id kind html } assets { id kind mimeType conten
 
 ## Known limitations
 
-- Every valid indexed file is public, including future-dated IDs; there are no drafts, authentication, mutations or scheduled publication.
-- Article IDs are canonical positive epoch-millisecond filenames; renaming an ID changes its route without redirects.
+- Every valid indexed file is public, including future-dated articles; there are no drafts, authentication, mutations or scheduled publication.
+- Article keys are relative `.md` or `.markdown` paths without the extension, including nested and natural-language filenames. Renaming a key changes its route without redirects.
 - Search uses literal Unicode-lowercase substrings across titles, Markdown and tags; it has no relevance ranking.
 - Serving uses HTTP; TLS and public-prefix forwarding belong to the reverse proxy.
 - Image processing supports bounded static JPEG, PNG and WebP; unsupported or uninspectable images retain original URLs.

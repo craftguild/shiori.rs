@@ -81,7 +81,7 @@ pub(crate) async fn image(
                 Error::Decode | Error::OutputLimit | Error::Unstable => {
                     StatusCode::UNPROCESSABLE_ENTITY
                 }
-                Error::Busy => StatusCode::SERVICE_UNAVAILABLE,
+                Error::Busy | Error::DirectoryChanged => StatusCode::SERVICE_UNAVAILABLE,
                 Error::Internal => StatusCode::INTERNAL_SERVER_ERROR,
                 Error::NotAcceptable => StatusCode::NOT_ACCEPTABLE,
             }
@@ -90,7 +90,13 @@ pub(crate) async fn image(
     };
     let headers = response.headers_mut();
     headers.insert(header::VARY, HeaderValue::from_static("Accept"));
-    headers.insert(header::CACHE_CONTROL, HeaderValue::from_static("no-cache"));
+    let cache = if response.status() == StatusCode::SERVICE_UNAVAILABLE {
+        "no-store"
+    } else {
+        "no-cache"
+    };
+    let headers = response.headers_mut();
+    headers.insert(header::CACHE_CONTROL, HeaderValue::from_static(cache));
     headers.insert(
         header::X_CONTENT_TYPE_OPTIONS,
         HeaderValue::from_static("nosniff"),

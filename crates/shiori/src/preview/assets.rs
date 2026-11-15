@@ -88,12 +88,10 @@ fn directory(parent: &File, digest: &mut Sha256, depth: usize) -> Result<()> {
     Ok(())
 }
 
-pub(super) fn fingerprint(root: &File) -> Result<[u8; 32]> {
+pub(super) fn fingerprint(root: &crate::asset_root::AssetRoot) -> Result<[u8; 32]> {
     let mut digest = Sha256::new();
-    match storage::directory(root, "assets") {
-        Ok(assets) => directory(&assets, &mut digest, 0)?,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
-        Err(error) => return Err(error.into()),
-    }
+    let selected = root.open()?;
+    directory(&selected, &mut digest, 0)?;
+    root.validate(&selected)?;
     Ok(digest.finalize().into())
 }

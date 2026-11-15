@@ -54,7 +54,7 @@ fn image(width: u32, height: u32, value: u8) -> Vec<u8> {
 }
 fn service(workers: usize, budget: usize) -> (tempfile::TempDir, Arc<ImageService>) {
     let root = tempfile::tempdir().unwrap();
-    std::fs::create_dir(root.path().join("assets")).unwrap();
+    std::fs::create_dir_all(root.path().join("assets")).unwrap();
     for value in 1..=3 {
         std::fs::write(
             root.path().join(format!("assets/{value}.png")),
@@ -63,7 +63,7 @@ fn service(workers: usize, budget: usize) -> (tempfile::TempDir, Arc<ImageServic
         .unwrap();
     }
     let service = ImageService::configured(
-        Arc::new(crate::storage::root(root.path()).unwrap()),
+        Arc::new(crate::storage::root(&root.path().join("assets")).unwrap()),
         workers,
         budget,
     );
@@ -178,7 +178,7 @@ async fn byte_lru_reuses_shared_buffers_evicts_and_never_caches_a_failure() {
         );
     }
     let service = ImageService::configured(
-        Arc::new(crate::storage::root(root.path()).unwrap()),
+        Arc::new(crate::storage::root(&root.path().join("assets")).unwrap()),
         1,
         max_charge * 2,
     );
@@ -215,10 +215,10 @@ async fn image_change_during_html_preparation_returns_originals_and_does_not_cac
         storage,
     };
     let root = tempfile::tempdir().unwrap();
-    std::fs::create_dir(root.path().join("contents")).unwrap();
-    std::fs::create_dir(root.path().join("assets")).unwrap();
+    std::fs::create_dir(root.path().join("articles")).unwrap();
+    std::fs::create_dir_all(root.path().join("assets")).unwrap();
     std::fs::write(
-        root.path().join("contents/1.md"),
+        root.path().join("articles/1.md"),
         "---\ntitle: Live image\n---\n![A](/assets/p.png)",
     )
     .unwrap();
@@ -235,7 +235,7 @@ async fn image_change_during_html_preparation_returns_originals_and_does_not_cac
         .await
         .unwrap();
     let renderer = Renderer::new(config, &catalog);
-    let article = catalog.snapshot().articles[&1].clone();
+    let article = catalog.snapshot().articles["1"].clone();
     let gate = Probe::new("prepared", false);
     *renderer.images.probe.lock().unwrap() = Some(gate.clone());
     let first = renderer.clone();

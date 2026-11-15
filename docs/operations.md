@@ -2,7 +2,9 @@
 
 ## Files and generation
 
-The selected root must exist. `generate` creates `contents/` and `assets/` if absent; `serve` requires `contents/`. Articles are UTF-8 regular, non-symlink `contents/<id>.md` files, where the ID is a canonical positive epoch-millisecond integer. Creation time comes from the ID, never filesystem birth time or mtime. Each article starts with YAML front matter:
+The selected root must exist. `SHIORI_ARTICLES_DIR=./articles` and `SHIORI_ASSETS_DIR=./assets` select directories relative to it. Both `generate` and `serve` create missing directories and parents as the execution user, without privilege escalation. Absolute paths, parent traversal, symlinks and overlapping storage directories are rejected. Existing directories need no write permission for serving. Set `SHIORI_ARTICLES_DIR=./contents` explicitly to retain old storage; no files are migrated automatically.
+
+Articles are UTF-8 ordinary `.md` or `.markdown` files, discovered recursively. The key is the relative path without its final extension: `articles/記事1.md` is `記事1`, and `articles/foo/記事2.markdown` is `foo/記事2`. Two files with the same key are an error. `generate` retains its epoch-millisecond filename convention, independently of publication dates. Each article starts with YAML front matter:
 
 ```yaml
 ---
@@ -16,7 +18,7 @@ Article body.
 
 Titles are required and nonblank; optional description/author values are trimmed strings, with blank authors represented as null. Tags are trimmed, deduplicated in authored order and matched case-sensitively. All valid articles are public, including future-dated IDs. There is no draft lifecycle or authenticated writing API.
 
-Use an unprivileged service account with read/search access to the root and its files. Authors need write access; the server has no database, persistent index or disk-cache write requirement. Prefer same-directory temporary files followed by rename when saving. Non-Markdown editor temporaries and content subdirectories are ignored; invalid regular Markdown candidates fail initial startup.
+Use an unprivileged service account with read/search access to the root and its files. Authors need write access; the server has no database, persistent index or disk-cache write requirement. Prefer same-directory temporary files followed by rename when saving. Non-Markdown editor temporaries are ignored, and article subdirectories are scanned recursively; invalid regular Markdown candidates fail initial startup.
 
 Generation reserves an unused asset directory and publishes the article with an atomic hard link, retrying clock collisions without overwriting existing content. An unpublished empty reservation is removed on failure; published articles retain their assets even if a later flush/cleanup fails. The article and asset directory are not a multi-file transaction: after a crash, inspect any empty orphan reservation before manually removing it.
 
@@ -35,9 +37,13 @@ Enable `--graphiql` to expose `/graphiql`, its embedded scripts/CSS/workers/font
 
 ## Querying articles
 
-The complete [schema](../graphql/schema.graphql) is checked into source. `posts` defaults to 20 entries and accepts `first`, `after`, `before`, an exact `tag` and literal `query` search. Results are ordered by numeric ID descending; cursors remain boundaries even if the referenced article is deleted. Pass only one non-null direction and reset cursors when changing filters. `totalCount` counts the filtered catalog before pagination; empty pages have null cursors and false page flags.
+`createdAt` and `updatedAt` are UTC ISO 8601 strings with millisecond precision. Inside a Git worktree, committer dates come from current-path history without following renames: addition creates the path and the latest path change updates it. Moving or re-adding a file resets creation. Dirty tracked files retain committed dates. Files absent from HEAD use filesystem birth time and modification time, as do files outside Git; birth-time failure falls back to modification time, never Unix ctime. The executable uses a Rust Git library and does not require the Git command. Shallow or corrupt history is an explicit error. `sourcePath` is worktree-relative in Git and document-root-relative otherwise, never absolute.
 
-`postsByMonth(year, month)` uses UTC creation time, including the month's start and excluding the next month's start. Years range from 1970 to 9999 and months from 1 to 12; this query has no tag argument. `monthlyArchives` lists populated UTC months globally, newest first, without rendering. Malformed cursors, invalid page arguments and invalid month values return `BAD_USER_INPUT`.
+Startup resolves the complete article metadata cache before serving. Changes and periodic HEAD reconciliation refresh it; requests do not traverse Git history. Date-only changes invalidate preview revisions as well. See [ADR 0001](adr/0001-article-storage-and-timestamps.md).
+
+The complete [schema](../graphql/schema.graphql) is checked into source. `posts` defaults to 20 entries and accepts `first`, `after`, `before`, an exact `tag` and literal `query` search. Results are ordered by creation date descending, then UTF-8 article-key bytes ascending. Opaque versioned date/key cursors remain boundaries even if the referenced article is deleted; old numeric cursors are invalid. Pass only one non-null direction and reset cursors when changing filters. `totalCount` counts the filtered catalog before pagination; empty pages have null cursors and false page flags.
+
+`postsByMonth(year, month)` uses UTC creation time, including the month's start and excluding the next month's start. Years range from 1 to 9999 and months from 1 to 12; this query has no tag argument. `monthlyArchives` lists populated UTC months globally, newest first, without rendering. Malformed cursors, invalid page arguments and invalid month values return `BAD_USER_INPUT`.
 
 Search covers titles, raw Markdown bodies and tags through Unicode-lowercase substring matching. Every Unicode-whitespace-separated term must match, possibly in different fields. Code blocks and link destinations are searchable; authors and descriptions are excluded. The input is bounded to 256 Unicode scalar values and 16 terms. Search uses one immutable request snapshot and bounded blocking workers.
 
@@ -48,6 +54,8 @@ Select `post(id)` metadata without rendering. `blocks` and `assets` share one me
 ## Assets and responsive images
 
 `/assets/<path>` serves live public regular files, rejecting symlink components, traversal, directories and oversized reads. Responses have content-hash ETags, MIME by extension, `Cache-Control: no-cache`, nosniff and public CORS; HEAD and 304 are supported. Missing, unsafe and oversized assets return 404; invalid decoded paths return 400. Content files and arbitrary root files are never asset routes.
+
+A detected asset-directory replacement cancels the current operation with 503 and `no-store`. The next operation reopens and validates the configured directory. A symlink or unavailable storage directory stays unavailable until a valid directory is restored; the old directory is not served indefinitely. Raw assets, responsive-image reads and preview fingerprints use the same boundary. Preview retains its last valid revision when a scan is cancelled and retries on the next refresh.
 
 Parsed local `/assets/` image destinations are rebased to the configured public URL, including images nested in tables, quotations and footnotes. External URLs are preserved; other relative forms have no rebasing guarantee. Eligible static JPEG/PNG/WebP images receive orientation-corrected intrinsic dimensions and `/images/1280/<path>` fallback URLs. Candidates use widths `320`, `640`, `960`, `1280`, `1920`, `2560`, capped by source dimensions, followed by `auto` for the smaller of source width and 2560. Aspect ratio is preserved without crop or upscale; authored display bounds, alt text and captions remain. Query/fragment data and URL encoding are retained and do not select quality or variants.
 
