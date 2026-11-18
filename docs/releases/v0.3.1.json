@@ -1,0 +1,42 @@
+{
+  "schema_version": 2,
+  "group": "shiori",
+  "config_hash": "f62a41bfe92278f23798fdb062f9b4a18b69f11583161f6af85f7c389b923945",
+  "head": "611a7c169a45de3e1678115a40b4416858015509",
+  "base": "v0.3.0",
+  "current": "0.3.0",
+  "next": "0.3.1",
+  "tag": "v0.3.1",
+  "bump": "patch",
+  "mode": "normal",
+  "prepared": false,
+  "receipt_path": "docs/releases/v0.3.1.json",
+  "notes": "# v0.3.1\n\nGroup: `shiori`\n\nCompare: `v0.3.0` → `611a7c169a45de3e1678115a40b4416858015509`\n\n## Changes\n\n- fix(deps): include released Chigiri introspection correction (611a7c169a45de3e1678115a40b4416858015509)\n",
+  "changes": [
+    {
+      "path": "crates/shiori/Cargo.toml",
+      "before": "ac2f4c111ef2aadfb0fbca23485da8e30436eca10cc355f6919e96325beff540",
+      "after": "9715416d828759fbbb11c2a8a5e716618cbce1f3b7f1f9a1774ca2ea4fdd8878"
+    },
+    {
+      "path": "Cargo.lock",
+      "before": "5d94f91c169b15f73520b7fa8783aa3de84e0b052d4d50b4c12b9d76f29df9ec",
+      "after": "4784c6bf1e471973f56f7a9d2e5d46fbaa4363963e0a63aecd4580729fcfc055"
+    },
+    {
+      "path": "tools/contract/Cargo.toml",
+      "before": "e5b0a11f9dcf4563996d5a6e6ef554b52d5e6567deaeb27c27ad25db42a4e54e",
+      "after": "eecb03a53e6b20aee93b3996bdd3ed6607484ed6b8dfee92317b605e2ce5d0d2"
+    },
+    {
+      "path": "tools/contract/Cargo.lock",
+      "before": "58fff9b57ffbe6941807385b688c079c4504c96e33fc6b44e3a5150cb7806f1c",
+      "after": "9b17610a60c3c96ff25ddc9b8f08052b56674afa423f84f14c2bf8ab271151cf"
+    },
+    {
+      "path": "docs/releases/v0.3.1.md",
+      "before": null,
+      "after": "9fa978e82def6ed84987c4caed8a4850c5ca2f9f9c3c635fca7bc8d05914393d"
+    }
+  ]
+}

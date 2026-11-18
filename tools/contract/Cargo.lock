@@ -307,7 +307,7 @@ dependencies = [
 
 [[package]]
 name = "shiori-contract-tools"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "chigiri_codegen",
  "serde_json",
