@@ -9,6 +9,13 @@ use serde_json::{Value, json};
 use std::{collections::BTreeSet, fs, net::TcpListener, process::Command};
 use time::OffsetDateTime;
 
+fn image_query(id: &str) -> String {
+    format!(
+        "{{post(id:{}){{id title createdAt updatedAt sourcePath document{{nodes{{__typename ... on TextNode{{id text}} ... on ImageNode{{id altIds presentation{{url originalUrl width height sizes candidates{{url width}}}}}}}}fonts{{id mimeType content}}}}}}}}",
+        json!(id)
+    )
+}
+
 #[test]
 #[ignore = "requires the verified release executable"]
 fn generation_http_reload_recovery_and_process_failures() {
@@ -30,37 +37,24 @@ fn generation_http_reload_recovery_and_process_failures() {
     fs::write(root.path().join("assets/photo.png"), &pixel).unwrap();
     fs::write(&path, format!("{initial}# Release\n\n![Photo](/assets/photo.png)\n\n$$\nx^2\n$$\n\n```mermaid\nflowchart LR\n A --> B\n```\n")).unwrap();
     let mut server = Server::start(root.path(), "127.0.0.1", None, false);
-    let query = format!(
-        "{{ post(id:\"{id}\") {{ id title createdAt updatedAt sourcePath blocks {{ id kind html }} assets {{ id kind mimeType content }} }} }}"
-    );
+    let query = image_query(id);
     let result = server.query(&query, false);
     assert!(result.get("errors").is_none(), "{result}");
     assert_eq!(result["data"]["post"]["title"], "Release λ");
-    let html = result["data"]["post"]["blocks"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .map(|b| b["html"].as_str().unwrap())
-        .collect::<String>();
-    let document = Html::parse_fragment(&html);
-    let image = document
-        .select(&Selector::parse("img").unwrap())
-        .next()
-        .unwrap();
-    assert_eq!(
-        image.value().attr("src").unwrap(),
-        format!("{}/images/1280/photo.png", server.origin)
-    );
+    let document = &result["data"]["post"]["document"];
+    let images = common::images::image_nodes(document);
+    let source = images[0]["presentation"]["url"].as_str().unwrap();
+    assert_eq!(source, format!("{}/images/1280/photo.png", server.origin));
     let response = server
         .client
-        .get(image.value().attr("src").unwrap())
+        .get(source)
         .header("origin", "https://reader.example")
         .send()
         .unwrap();
     assert_eq!(response.headers()["content-type"], "image/png");
     assert_eq!(response.headers()["access-control-allow-origin"], "*");
     assert_eq!(response.bytes().unwrap().as_ref(), pixel);
-    let font = result["data"]["post"]["assets"]
+    let font = result["data"]["post"]["document"]["fonts"]
         .as_array()
         .unwrap()
         .iter()
@@ -272,19 +266,13 @@ fn graphiql_and_encoded_ipv4_ipv6_image_urls() {
         );
         let server = Server::start(root.path(), host, None, false);
         assert_eq!(server.request(path).bytes().unwrap().as_ref(), pixel);
-        let result = server.query("{ post(id:\"1\") { blocks { html } } }", false);
+        let result = server.query(&image_query("1"), false);
         assert!(result.get("errors").is_none(), "{result}");
-        let html = result["data"]["post"]["blocks"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .map(|b| b["html"].as_str().unwrap())
-            .collect::<String>();
-        let document = Html::parse_fragment(&html);
-        let images: Vec<_> = document.select(&Selector::parse("img").unwrap()).collect();
+        let document = &result["data"]["post"]["document"];
+        let images = common::images::image_nodes(document);
         assert_eq!(images.len(), 2);
         for (image, suffix) in images.iter().zip(["", "?size=1&mode=raw#pixel"]) {
-            let source = image.value().attr("src").unwrap();
+            let source = image["presentation"]["url"].as_str().unwrap();
             assert_eq!(
                 source,
                 format!(
@@ -326,38 +314,32 @@ fn responsive_release_bytes() {
             .post(format!("{base}/graphql"))
             .header("origin", "https://reader.example")
             .header("x-chigiri-preflight", "1")
-            .json(&json!({"query":"{ post(id:\"1\") { blocks { html } } }"}))
+            .json(&json!({"query":image_query("1")}))
             .send()
             .unwrap()
             .json()
             .unwrap();
         assert!(result.get("errors").is_none(), "{result}");
-        let html = result["data"]["post"]["blocks"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .map(|b| b["html"].as_str().unwrap())
-            .collect::<String>();
-        let document = Html::parse_fragment(&html);
-        let images: Vec<_> = document.select(&Selector::parse("img").unwrap()).collect();
+        let document = &result["data"]["post"]["document"];
+        let images = common::images::image_nodes(document);
         assert_eq!(images.len(), 15);
         let mut unique = BTreeSet::new();
         for image in images {
-            let element = image.value();
-            let Some(srcset) = element.attr("srcset") else {
-                let name = match element.attr("alt").unwrap() {
+            let alternative = common::images::alternative(document, image);
+            let presentation = &image["presentation"];
+            let source = presentation["url"].as_str().unwrap();
+            let candidate_data = presentation["candidates"].as_array().unwrap();
+            if candidate_data.is_empty() {
+                let name = match alternative.as_str() {
                     "Vector" => "vector.svg",
                     "Gif" => "tiny.gif",
                     alt => panic!("unexpected fallback: {alt}"),
                 };
-                assert_eq!(
-                    element.attr("src").unwrap(),
-                    format!("{base}/assets/{name}")
-                );
+                assert_eq!(source, format!("{base}/assets/{name}"));
                 assert_eq!(
                     server
                         .client
-                        .get(element.attr("src").unwrap())
+                        .get(source)
                         .send()
                         .unwrap()
                         .bytes()
@@ -366,8 +348,8 @@ fn responsive_release_bytes() {
                     fs::read(root.path().join("assets").join(name)).unwrap()
                 );
                 continue;
-            };
-            let kind = match element.attr("alt").unwrap() {
+            }
+            let kind = match alternative.as_str() {
                 "Alpha" => "alpha",
                 "Tiny" => "tiny",
                 "Portrait" => "portrait",
@@ -375,21 +357,18 @@ fn responsive_release_bytes() {
                 "Height bound" => "bounded",
                 _ => "wide",
             };
-            let width: u32 = element.attr("width").unwrap().parse().unwrap();
-            let height: u32 = element.attr("height").unwrap().parse().unwrap();
-            assert_eq!(element.attr("sizes"), Some("100vw"));
-            // URLs may contain commas; parse the whitespace-separated descriptor boundary.
-            let mut candidates = Vec::new();
-            let mut tokens = srcset.split_ascii_whitespace();
-            while let Some(url) = tokens.next() {
-                let descriptor = tokens
-                    .next()
-                    .unwrap()
-                    .trim_end_matches(',')
-                    .strip_suffix('w')
-                    .unwrap();
-                candidates.push((url, descriptor.parse::<u32>().unwrap()));
-            }
+            let width = u32::try_from(presentation["width"].as_u64().unwrap()).unwrap();
+            let height = u32::try_from(presentation["height"].as_u64().unwrap()).unwrap();
+            assert_eq!(presentation["sizes"], "100vw");
+            let mut candidates: Vec<_> = candidate_data
+                .iter()
+                .map(|candidate| {
+                    (
+                        candidate["url"].as_str().unwrap(),
+                        u32::try_from(candidate["width"].as_u64().unwrap()).unwrap(),
+                    )
+                })
+                .collect();
             let mut expected: Vec<_> = [320, 640, 960, 1280, 1920, 2560]
                 .into_iter()
                 .filter(|w| *w < width.min(2560))
@@ -399,7 +378,7 @@ fn responsive_release_bytes() {
                 candidates.iter().map(|(_, w)| *w).collect::<Vec<_>>(),
                 expected
             );
-            candidates.push((element.attr("src").unwrap(), width.min(1280)));
+            candidates.push((source, width.min(1280)));
             for (url, pixels) in candidates {
                 assert!(url.starts_with(&format!("{base}/images/")), "{url}");
                 let parsed = url::Url::parse(url).unwrap();

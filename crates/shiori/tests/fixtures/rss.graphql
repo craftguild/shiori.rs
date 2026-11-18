@@ -4,33 +4,47 @@ query RssIndex {
 query RssItem($id: ID!) {
   post(id: $id) {
     id title createdAt
-    structured {
-      schemaVersion rootIds anchors
-      references { label destination title }
-      footnotes { label richTextIds }
-      blocks {
-        __typename id text childIds
-        ... on BlockParagraph { richTextIds tight }
-        ... on BlockHeading { level richTextIds }
-        ... on BlockFencedCode { language info closed indent }
-        ... on BlockIndentedCode { language info closed indent }
-        ... on BlockMathBlock { display closed }
-        ... on BlockLinkReferenceDefinition { source }
-        ... on BlockList { ordered loose marker start }
-        ... on BlockListItem { marker checked }
-        ... on BlockGfmTable { alignments header { text richTextIds } rows { cells { text richTextIds } } }
-        ... on BlockCallout { calloutKind title }
-        ... on BlockForeignHtml { origin trustLevel }
-      }
-      inlines {
-        __typename id text childIds
-        ... on InlineAnnotation { annotationKind annotationId classes data { key value } }
-        ... on InlineEmoji { shortcode }
-        ... on InlineHtml { tagfilter }
-        ... on InlineLink { url normalizedUrl title }
-        ... on InlineImage { url normalizedUrl title }
-        ... on InlineFootnoteReference { label }
-      }
-    }
+    document { ...Structure }
   }
+}
+fragment Structure on Document {
+  schemaVersion rootIds referenceIds footnoteIds
+  nodes {
+    __typename
+    ... on DocumentRootNode { id childIds }
+    ... on ParagraphNode { id childIds tight }
+    ... on HeadingNode { id childIds level anchor }
+    ... on FencedCodeNode { id source language info closed indent }
+    ... on IndentedCodeNode { id source language info closed indent }
+    ... on MathBlockNode { id source display closed }
+    ... on ThematicBreakNode { id }
+    ... on HtmlBlockNode { id source }
+    ... on LinkReferenceDefinitionNode { id source }
+    ... on BlockQuoteNode { id childIds }
+    ... on ListNode { id childIds ordered loose marker start }
+    ... on ListItemNode { id childIds marker checked }
+    ... on GfmTableNode { id alignments rowIds }
+    ... on TableRowNode { id header cellIds }
+    ... on TableCellNode { id childIds }
+    ... on BlankLineNode { id }
+    ... on CalloutNode { id childIds calloutKind title }
+    ... on ForeignHtmlNode { id source origin trustLevel }
+    ... on TextNode { id text }
+    ... on EmojiNode { id text shortcode }
+    ... on CodeNode { id source }
+    ... on MathNode { id source }
+    ... on HtmlNode { id source tagfilter }
+    ... on SoftBreakNode { id }
+    ... on HardBreakNode { id }
+    ... on AnnotationNode { id childIds annotationKind annotationId classes data { key value } }
+    ... on EmphasisNode { id childIds }
+    ... on StrongNode { id childIds }
+    ... on StrikethroughNode { id childIds }
+    ... on LinkNode { id childIds destination normalizedDestination title }
+    ... on ImageNode { id altIds destination normalizedDestination title }
+    ... on FootnoteReferenceNode { id label definitionId ordinal referenceAnchor definitionAnchor }
+    ... on ReferenceDefinitionNode { id label destination normalizedDestination title }
+    ... on FootnoteDefinitionNode { id label childIds visible anchor ordinal backlinkIds }
+  }
+  diagnostics { severity code message nodeId }
 }

@@ -135,11 +135,9 @@ async fn real_animations_are_never_flattened_and_originals_are_exact() {
             std::fs::read(root.path().join("assets").join(name)).unwrap()
         );
     }
-    let result = common::data(&router, "{ post(id:\"1\") { blocks { html } } }")
-        .await
-        .to_string();
-    assert!(!result.contains("srcset"));
-    assert!(result.contains("/assets/anim.png"));
+    let result = document(&router).await;
+    assert!(candidate_widths(&result).is_empty());
+    assert!(result.to_string().contains("/assets/anim.png"));
 }
 
 #[tokio::test]
@@ -272,8 +270,5 @@ async fn maximum_valid_portrait_uses_conventional_format_when_webp_geometry_is_u
         .0,
         StatusCode::NOT_ACCEPTABLE
     );
-    let html = common::data(&router, "{ post(id:\"1\") { blocks { html } } }")
-        .await
-        .to_string();
-    assert!(html.contains(" 1w"));
+    assert_eq!(candidate_widths(&document(&router).await), [1]);
 }

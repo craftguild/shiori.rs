@@ -50,7 +50,7 @@ where
             + 'static,
     {
         ResolverStage {
-            groups: ::std::vec::Vec::with_capacity(46),
+            groups: ::std::vec::Vec::with_capacity(53),
             subscription: ::std::option::Option::None,
             marker: ::std::marker::PhantomData,
             mapper: ::std::sync::Arc::new(mapper),
@@ -58,7 +58,7 @@ where
     }
 }
 
-impl<C, T, E> ResolverStage<C, T, E, 46>
+impl<C, T, E> ResolverStage<C, T, E, 53>
 where
     C: ::std::marker::Send + ::std::marker::Sync + 'static,
     T: super::SchemaTypes,
@@ -184,60 +184,8 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `HtmlBlock` object resolver in source order.
-    pub fn with_html_block<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 5>
-    where
-        R: super::HtmlBlockResolver<C, T, E>,
-    {
-        self.groups.push(::std::sync::Arc::new(
-            super::HtmlBlockAdapter::<C, T, R, E>::new(
-                resolver,
-                ::std::sync::Arc::clone(&self.mapper),
-            ),
-        ));
-        super::ResolverStage {
-            groups: self.groups,
-            subscription: self.subscription,
-            mapper: self.mapper,
-            marker: ::std::marker::PhantomData,
-        }
-    }
-}
-
-impl<C, T, E> super::ResolverStage<C, T, E, 5>
-where
-    C: ::std::marker::Send + ::std::marker::Sync + 'static,
-    T: super::SchemaTypes,
-    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
-{
-    /// Add the `RenderAsset` object resolver in source order.
-    pub fn with_render_asset<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 6>
-    where
-        R: super::RenderAssetResolver<C, T, E>,
-    {
-        self.groups.push(::std::sync::Arc::new(
-            super::RenderAssetAdapter::<C, T, R, E>::new(
-                resolver,
-                ::std::sync::Arc::clone(&self.mapper),
-            ),
-        ));
-        super::ResolverStage {
-            groups: self.groups,
-            subscription: self.subscription,
-            mapper: self.mapper,
-            marker: ::std::marker::PhantomData,
-        }
-    }
-}
-
-impl<C, T, E> super::ResolverStage<C, T, E, 6>
-where
-    C: ::std::marker::Send + ::std::marker::Sync + 'static,
-    T: super::SchemaTypes,
-    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
-{
     /// Add the `PostConnection` object resolver in source order.
-    pub fn with_post_connection<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 7>
+    pub fn with_post_connection<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 5>
     where
         R: super::PostConnectionResolver<C, T, E>,
     {
@@ -260,14 +208,14 @@ where
     }
 }
 
-impl<C, T, E> super::ResolverStage<C, T, E, 7>
+impl<C, T, E> super::ResolverStage<C, T, E, 5>
 where
     C: ::std::marker::Send + ::std::marker::Sync + 'static,
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
     /// Add the `PageInfo` object resolver in source order.
-    pub fn with_page_info<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 8>
+    pub fn with_page_info<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 6>
     where
         R: super::PageInfoResolver<C, T, E>,
     {
@@ -286,14 +234,14 @@ where
     }
 }
 
-impl<C, T, E> super::ResolverStage<C, T, E, 8>
+impl<C, T, E> super::ResolverStage<C, T, E, 6>
 where
     C: ::std::marker::Send + ::std::marker::Sync + 'static,
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
     /// Add the `Tag` object resolver in source order.
-    pub fn with_tag<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 9>
+    pub fn with_tag<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 7>
     where
         R: super::TagResolver<C, T, E>,
     {
@@ -311,19 +259,75 @@ where
     }
 }
 
-impl<C, T, E> super::ResolverStage<C, T, E, 9>
+impl<C, T, E> super::ResolverStage<C, T, E, 7>
 where
     C: ::std::marker::Send + ::std::marker::Sync + 'static,
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
     /// Add the `MonthlyArchive` object resolver in source order.
-    pub fn with_monthly_archive<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 10>
+    pub fn with_monthly_archive<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 8>
     where
         R: super::MonthlyArchiveResolver<C, T, E>,
     {
         self.groups
             .push(::std::sync::Arc::new(super::MonthlyArchiveAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
+                resolver,
+                ::std::sync::Arc::clone(&self.mapper),
+            )));
+        super::ResolverStage {
+            groups: self.groups,
+            subscription: self.subscription,
+            mapper: self.mapper,
+            marker: ::std::marker::PhantomData,
+        }
+    }
+}
+
+impl<C, T, E> super::ResolverStage<C, T, E, 8>
+where
+    C: ::std::marker::Send + ::std::marker::Sync + 'static,
+    T: super::SchemaTypes,
+    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
+{
+    /// Add the `Document` object resolver in source order.
+    pub fn with_document<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 9>
+    where
+        R: super::DocumentResolver<C, T, E>,
+    {
+        self.groups.push(::std::sync::Arc::new(
+            super::DocumentAdapter::<C, T, R, E>::new(
+                resolver,
+                ::std::sync::Arc::clone(&self.mapper),
+            ),
+        ));
+        super::ResolverStage {
+            groups: self.groups,
+            subscription: self.subscription,
+            mapper: self.mapper,
+            marker: ::std::marker::PhantomData,
+        }
+    }
+}
+
+impl<C, T, E> super::ResolverStage<C, T, E, 9>
+where
+    C: ::std::marker::Send + ::std::marker::Sync + 'static,
+    T: super::SchemaTypes,
+    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
+{
+    /// Add the `DocumentRootNode` object resolver in source order.
+    pub fn with_document_root_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 10>
+    where
+        R: super::DocumentRootNodeResolver<C, T, E>,
+    {
+        self.groups
+            .push(::std::sync::Arc::new(super::DocumentRootNodeAdapter::<
                 C,
                 T,
                 R,
@@ -347,13 +351,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `StructuredDocument` object resolver in source order.
-    pub fn with_structured_document<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 11>
+    /// Add the `ParagraphNode` object resolver in source order.
+    pub fn with_paragraph_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 11>
     where
-        R: super::StructuredDocumentResolver<C, T, E>,
+        R: super::ParagraphNodeResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::StructuredDocumentAdapter::<
+            .push(::std::sync::Arc::new(super::ParagraphNodeAdapter::<
                 C,
                 T,
                 R,
@@ -377,21 +381,17 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `StructuredTableCell` object resolver in source order.
-    pub fn with_structured_table_cell<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 12>
+    /// Add the `HeadingNode` object resolver in source order.
+    pub fn with_heading_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 12>
     where
-        R: super::StructuredTableCellResolver<C, T, E>,
+        R: super::HeadingNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::StructuredTableCellAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::HeadingNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -407,13 +407,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `StructuredTableRow` object resolver in source order.
-    pub fn with_structured_table_row<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 13>
+    /// Add the `FencedCodeNode` object resolver in source order.
+    pub fn with_fenced_code_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 13>
     where
-        R: super::StructuredTableRowResolver<C, T, E>,
+        R: super::FencedCodeNodeResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::StructuredTableRowAdapter::<
+            .push(::std::sync::Arc::new(super::FencedCodeNodeAdapter::<
                 C,
                 T,
                 R,
@@ -437,13 +437,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `StructuredEntry` object resolver in source order.
-    pub fn with_structured_entry<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 14>
+    /// Add the `IndentedCodeNode` object resolver in source order.
+    pub fn with_indented_code_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 14>
     where
-        R: super::StructuredEntryResolver<C, T, E>,
+        R: super::IndentedCodeNodeResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::StructuredEntryAdapter::<
+            .push(::std::sync::Arc::new(super::IndentedCodeNodeAdapter::<
                 C,
                 T,
                 R,
@@ -467,13 +467,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `StructuredReference` object resolver in source order.
-    pub fn with_structured_reference<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 15>
+    /// Add the `MathBlockNode` object resolver in source order.
+    pub fn with_math_block_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 15>
     where
-        R: super::StructuredReferenceResolver<C, T, E>,
+        R: super::MathBlockNodeResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::StructuredReferenceAdapter::<
+            .push(::std::sync::Arc::new(super::MathBlockNodeAdapter::<
                 C,
                 T,
                 R,
@@ -497,13 +497,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `StructuredFootnote` object resolver in source order.
-    pub fn with_structured_footnote<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 16>
+    /// Add the `ThematicBreakNode` object resolver in source order.
+    pub fn with_thematic_break_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 16>
     where
-        R: super::StructuredFootnoteResolver<C, T, E>,
+        R: super::ThematicBreakNodeResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::StructuredFootnoteAdapter::<
+            .push(::std::sync::Arc::new(super::ThematicBreakNodeAdapter::<
                 C,
                 T,
                 R,
@@ -527,13 +527,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockDocument` object resolver in source order.
-    pub fn with_block_document<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 17>
+    /// Add the `HtmlBlockNode` object resolver in source order.
+    pub fn with_html_block_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 17>
     where
-        R: super::BlockDocumentResolver<C, T, E>,
+        R: super::HtmlBlockNodeResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::BlockDocumentAdapter::<
+            .push(::std::sync::Arc::new(super::HtmlBlockNodeAdapter::<
                 C,
                 T,
                 R,
@@ -557,21 +557,20 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockParagraph` object resolver in source order.
-    pub fn with_block_paragraph<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 18>
+    /// Add the `LinkReferenceDefinitionNode` object resolver in source order.
+    pub fn with_link_reference_definition_node<R>(
+        mut self,
+        resolver: R,
+    ) -> super::ResolverStage<C, T, E, 18>
     where
-        R: super::BlockParagraphResolver<C, T, E>,
+        R: super::LinkReferenceDefinitionNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::BlockParagraphAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::LinkReferenceDefinitionNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -587,13 +586,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockHeading` object resolver in source order.
-    pub fn with_block_heading<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 19>
+    /// Add the `BlockQuoteNode` object resolver in source order.
+    pub fn with_block_quote_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 19>
     where
-        R: super::BlockHeadingResolver<C, T, E>,
+        R: super::BlockQuoteNodeResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::BlockHeadingAdapter::<
+            .push(::std::sync::Arc::new(super::BlockQuoteNodeAdapter::<
                 C,
                 T,
                 R,
@@ -617,21 +616,17 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockFencedCode` object resolver in source order.
-    pub fn with_block_fenced_code<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 20>
+    /// Add the `ListNode` object resolver in source order.
+    pub fn with_list_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 20>
     where
-        R: super::BlockFencedCodeResolver<C, T, E>,
+        R: super::ListNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::BlockFencedCodeAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::ListNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -647,13 +642,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockIndentedCode` object resolver in source order.
-    pub fn with_block_indented_code<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 21>
+    /// Add the `ListItemNode` object resolver in source order.
+    pub fn with_list_item_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 21>
     where
-        R: super::BlockIndentedCodeResolver<C, T, E>,
+        R: super::ListItemNodeResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::BlockIndentedCodeAdapter::<
+            .push(::std::sync::Arc::new(super::ListItemNodeAdapter::<
                 C,
                 T,
                 R,
@@ -677,13 +672,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockMathBlock` object resolver in source order.
-    pub fn with_block_math_block<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 22>
+    /// Add the `GfmTableNode` object resolver in source order.
+    pub fn with_gfm_table_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 22>
     where
-        R: super::BlockMathBlockResolver<C, T, E>,
+        R: super::GfmTableNodeResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::BlockMathBlockAdapter::<
+            .push(::std::sync::Arc::new(super::GfmTableNodeAdapter::<
                 C,
                 T,
                 R,
@@ -707,13 +702,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockThematicBreak` object resolver in source order.
-    pub fn with_block_thematic_break<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 23>
+    /// Add the `TableRowNode` object resolver in source order.
+    pub fn with_table_row_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 23>
     where
-        R: super::BlockThematicBreakResolver<C, T, E>,
+        R: super::TableRowNodeResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::BlockThematicBreakAdapter::<
+            .push(::std::sync::Arc::new(super::TableRowNodeAdapter::<
                 C,
                 T,
                 R,
@@ -737,13 +732,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockHtmlBlock` object resolver in source order.
-    pub fn with_block_html_block<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 24>
+    /// Add the `TableCellNode` object resolver in source order.
+    pub fn with_table_cell_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 24>
     where
-        R: super::BlockHtmlBlockResolver<C, T, E>,
+        R: super::TableCellNodeResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::BlockHtmlBlockAdapter::<
+            .push(::std::sync::Arc::new(super::TableCellNodeAdapter::<
                 C,
                 T,
                 R,
@@ -767,20 +762,21 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockLinkReferenceDefinition` object resolver in source order.
-    pub fn with_block_link_reference_definition<R>(
-        mut self,
-        resolver: R,
-    ) -> super::ResolverStage<C, T, E, 25>
+    /// Add the `BlankLineNode` object resolver in source order.
+    pub fn with_blank_line_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 25>
     where
-        R: super::BlockLinkReferenceDefinitionResolver<C, T, E>,
+        R: super::BlankLineNodeResolver<C, T, E>,
     {
-        self.groups.push(::std::sync::Arc::new(
-            super::BlockLinkReferenceDefinitionAdapter::<C, T, R, E>::new(
+        self.groups
+            .push(::std::sync::Arc::new(super::BlankLineNodeAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            ),
-        ));
+            )));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -796,21 +792,17 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockBlockQuote` object resolver in source order.
-    pub fn with_block_block_quote<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 26>
+    /// Add the `CalloutNode` object resolver in source order.
+    pub fn with_callout_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 26>
     where
-        R: super::BlockBlockQuoteResolver<C, T, E>,
+        R: super::CalloutNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::BlockBlockQuoteAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::CalloutNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -826,17 +818,21 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockList` object resolver in source order.
-    pub fn with_block_list<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 27>
+    /// Add the `ForeignHtmlNode` object resolver in source order.
+    pub fn with_foreign_html_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 27>
     where
-        R: super::BlockListResolver<C, T, E>,
+        R: super::ForeignHtmlNodeResolver<C, T, E>,
     {
-        self.groups.push(::std::sync::Arc::new(
-            super::BlockListAdapter::<C, T, R, E>::new(
+        self.groups
+            .push(::std::sync::Arc::new(super::ForeignHtmlNodeAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            ),
-        ));
+            )));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -852,21 +848,17 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockListItem` object resolver in source order.
-    pub fn with_block_list_item<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 28>
+    /// Add the `TextNode` object resolver in source order.
+    pub fn with_text_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 28>
     where
-        R: super::BlockListItemResolver<C, T, E>,
+        R: super::TextNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::BlockListItemAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::TextNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -882,21 +874,17 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockGfmTable` object resolver in source order.
-    pub fn with_block_gfm_table<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 29>
+    /// Add the `EmojiNode` object resolver in source order.
+    pub fn with_emoji_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 29>
     where
-        R: super::BlockGfmTableResolver<C, T, E>,
+        R: super::EmojiNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::BlockGfmTableAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::EmojiNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -912,21 +900,17 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockBlankLine` object resolver in source order.
-    pub fn with_block_blank_line<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 30>
+    /// Add the `CodeNode` object resolver in source order.
+    pub fn with_code_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 30>
     where
-        R: super::BlockBlankLineResolver<C, T, E>,
+        R: super::CodeNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::BlockBlankLineAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::CodeNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -942,21 +926,17 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockCallout` object resolver in source order.
-    pub fn with_block_callout<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 31>
+    /// Add the `MathNode` object resolver in source order.
+    pub fn with_math_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 31>
     where
-        R: super::BlockCalloutResolver<C, T, E>,
+        R: super::MathNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::BlockCalloutAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::MathNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -972,21 +952,17 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `BlockForeignHtml` object resolver in source order.
-    pub fn with_block_foreign_html<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 32>
+    /// Add the `HtmlNode` object resolver in source order.
+    pub fn with_html_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 32>
     where
-        R: super::BlockForeignHtmlResolver<C, T, E>,
+        R: super::HtmlNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::BlockForeignHtmlAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::HtmlNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -1002,13 +978,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineAnnotation` object resolver in source order.
-    pub fn with_inline_annotation<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 33>
+    /// Add the `SoftBreakNode` object resolver in source order.
+    pub fn with_soft_break_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 33>
     where
-        R: super::InlineAnnotationResolver<C, T, E>,
+        R: super::SoftBreakNodeResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::InlineAnnotationAdapter::<
+            .push(::std::sync::Arc::new(super::SoftBreakNodeAdapter::<
                 C,
                 T,
                 R,
@@ -1032,17 +1008,21 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineText` object resolver in source order.
-    pub fn with_inline_text<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 34>
+    /// Add the `HardBreakNode` object resolver in source order.
+    pub fn with_hard_break_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 34>
     where
-        R: super::InlineTextResolver<C, T, E>,
+        R: super::HardBreakNodeResolver<C, T, E>,
     {
-        self.groups.push(::std::sync::Arc::new(
-            super::InlineTextAdapter::<C, T, R, E>::new(
+        self.groups
+            .push(::std::sync::Arc::new(super::HardBreakNodeAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            ),
-        ));
+            )));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -1058,17 +1038,21 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineEmoji` object resolver in source order.
-    pub fn with_inline_emoji<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 35>
+    /// Add the `AnnotationNode` object resolver in source order.
+    pub fn with_annotation_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 35>
     where
-        R: super::InlineEmojiResolver<C, T, E>,
+        R: super::AnnotationNodeResolver<C, T, E>,
     {
-        self.groups.push(::std::sync::Arc::new(
-            super::InlineEmojiAdapter::<C, T, R, E>::new(
+        self.groups
+            .push(::std::sync::Arc::new(super::AnnotationNodeAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            ),
-        ));
+            )));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -1084,17 +1068,21 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineCode` object resolver in source order.
-    pub fn with_inline_code<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 36>
+    /// Add the `EmphasisNode` object resolver in source order.
+    pub fn with_emphasis_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 36>
     where
-        R: super::InlineCodeResolver<C, T, E>,
+        R: super::EmphasisNodeResolver<C, T, E>,
     {
-        self.groups.push(::std::sync::Arc::new(
-            super::InlineCodeAdapter::<C, T, R, E>::new(
+        self.groups
+            .push(::std::sync::Arc::new(super::EmphasisNodeAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            ),
-        ));
+            )));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -1110,13 +1098,13 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineMath` object resolver in source order.
-    pub fn with_inline_math<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 37>
+    /// Add the `StrongNode` object resolver in source order.
+    pub fn with_strong_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 37>
     where
-        R: super::InlineMathResolver<C, T, E>,
+        R: super::StrongNodeResolver<C, T, E>,
     {
         self.groups.push(::std::sync::Arc::new(
-            super::InlineMathAdapter::<C, T, R, E>::new(
+            super::StrongNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
             ),
@@ -1136,17 +1124,21 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineHtml` object resolver in source order.
-    pub fn with_inline_html<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 38>
+    /// Add the `StrikethroughNode` object resolver in source order.
+    pub fn with_strikethrough_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 38>
     where
-        R: super::InlineHtmlResolver<C, T, E>,
+        R: super::StrikethroughNodeResolver<C, T, E>,
     {
-        self.groups.push(::std::sync::Arc::new(
-            super::InlineHtmlAdapter::<C, T, R, E>::new(
+        self.groups
+            .push(::std::sync::Arc::new(super::StrikethroughNodeAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            ),
-        ));
+            )));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -1162,21 +1154,17 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineSoftBreak` object resolver in source order.
-    pub fn with_inline_soft_break<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 39>
+    /// Add the `LinkNode` object resolver in source order.
+    pub fn with_link_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 39>
     where
-        R: super::InlineSoftBreakResolver<C, T, E>,
+        R: super::LinkNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::InlineSoftBreakAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::LinkNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -1192,21 +1180,17 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineHardBreak` object resolver in source order.
-    pub fn with_inline_hard_break<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 40>
+    /// Add the `ImageNode` object resolver in source order.
+    pub fn with_image_node<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 40>
     where
-        R: super::InlineHardBreakResolver<C, T, E>,
+        R: super::ImageNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::InlineHardBreakAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::ImageNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -1222,21 +1206,20 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineEmphasis` object resolver in source order.
-    pub fn with_inline_emphasis<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 41>
+    /// Add the `FootnoteReferenceNode` object resolver in source order.
+    pub fn with_footnote_reference_node<R>(
+        mut self,
+        resolver: R,
+    ) -> super::ResolverStage<C, T, E, 41>
     where
-        R: super::InlineEmphasisResolver<C, T, E>,
+        R: super::FootnoteReferenceNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::InlineEmphasisAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::FootnoteReferenceNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -1252,21 +1235,20 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineStrong` object resolver in source order.
-    pub fn with_inline_strong<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 42>
+    /// Add the `ReferenceDefinitionNode` object resolver in source order.
+    pub fn with_reference_definition_node<R>(
+        mut self,
+        resolver: R,
+    ) -> super::ResolverStage<C, T, E, 42>
     where
-        R: super::InlineStrongResolver<C, T, E>,
+        R: super::ReferenceDefinitionNodeResolver<C, T, E>,
     {
-        self.groups
-            .push(::std::sync::Arc::new(super::InlineStrongAdapter::<
-                C,
-                T,
-                R,
-                E,
-            >::new(
+        self.groups.push(::std::sync::Arc::new(
+            super::ReferenceDefinitionNodeAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
-            )));
+            ),
+        ));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,
@@ -1282,13 +1264,42 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineStrikethrough` object resolver in source order.
-    pub fn with_inline_strikethrough<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 43>
+    /// Add the `FootnoteDefinitionNode` object resolver in source order.
+    pub fn with_footnote_definition_node<R>(
+        mut self,
+        resolver: R,
+    ) -> super::ResolverStage<C, T, E, 43>
     where
-        R: super::InlineStrikethroughResolver<C, T, E>,
+        R: super::FootnoteDefinitionNodeResolver<C, T, E>,
+    {
+        self.groups.push(::std::sync::Arc::new(
+            super::FootnoteDefinitionNodeAdapter::<C, T, R, E>::new(
+                resolver,
+                ::std::sync::Arc::clone(&self.mapper),
+            ),
+        ));
+        super::ResolverStage {
+            groups: self.groups,
+            subscription: self.subscription,
+            mapper: self.mapper,
+            marker: ::std::marker::PhantomData,
+        }
+    }
+}
+
+impl<C, T, E> super::ResolverStage<C, T, E, 43>
+where
+    C: ::std::marker::Send + ::std::marker::Sync + 'static,
+    T: super::SchemaTypes,
+    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
+{
+    /// Add the `CodeHighlighting` object resolver in source order.
+    pub fn with_code_highlighting<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 44>
+    where
+        R: super::CodeHighlightingResolver<C, T, E>,
     {
         self.groups
-            .push(::std::sync::Arc::new(super::InlineStrikethroughAdapter::<
+            .push(::std::sync::Arc::new(super::CodeHighlightingAdapter::<
                 C,
                 T,
                 R,
@@ -1306,45 +1317,19 @@ where
     }
 }
 
-impl<C, T, E> super::ResolverStage<C, T, E, 43>
-where
-    C: ::std::marker::Send + ::std::marker::Sync + 'static,
-    T: super::SchemaTypes,
-    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
-{
-    /// Add the `InlineLink` object resolver in source order.
-    pub fn with_inline_link<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 44>
-    where
-        R: super::InlineLinkResolver<C, T, E>,
-    {
-        self.groups.push(::std::sync::Arc::new(
-            super::InlineLinkAdapter::<C, T, R, E>::new(
-                resolver,
-                ::std::sync::Arc::clone(&self.mapper),
-            ),
-        ));
-        super::ResolverStage {
-            groups: self.groups,
-            subscription: self.subscription,
-            mapper: self.mapper,
-            marker: ::std::marker::PhantomData,
-        }
-    }
-}
-
 impl<C, T, E> super::ResolverStage<C, T, E, 44>
 where
     C: ::std::marker::Send + ::std::marker::Sync + 'static,
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineImage` object resolver in source order.
-    pub fn with_inline_image<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 45>
+    /// Add the `CodeLine` object resolver in source order.
+    pub fn with_code_line<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 45>
     where
-        R: super::InlineImageResolver<C, T, E>,
+        R: super::CodeLineResolver<C, T, E>,
     {
         self.groups.push(::std::sync::Arc::new(
-            super::InlineImageAdapter::<C, T, R, E>::new(
+            super::CodeLineAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
             ),
@@ -1364,20 +1349,223 @@ where
     T: super::SchemaTypes,
     E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
 {
-    /// Add the `InlineFootnoteReference` object resolver in source order.
-    pub fn with_inline_footnote_reference<R>(
-        mut self,
-        resolver: R,
-    ) -> super::ResolverStage<C, T, E, 46>
+    /// Add the `SyntaxToken` object resolver in source order.
+    pub fn with_syntax_token<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 46>
     where
-        R: super::InlineFootnoteReferenceResolver<C, T, E>,
+        R: super::SyntaxTokenResolver<C, T, E>,
     {
         self.groups.push(::std::sync::Arc::new(
-            super::InlineFootnoteReferenceAdapter::<C, T, R, E>::new(
+            super::SyntaxTokenAdapter::<C, T, R, E>::new(
                 resolver,
                 ::std::sync::Arc::clone(&self.mapper),
             ),
         ));
+        super::ResolverStage {
+            groups: self.groups,
+            subscription: self.subscription,
+            mapper: self.mapper,
+            marker: ::std::marker::PhantomData,
+        }
+    }
+}
+
+impl<C, T, E> super::ResolverStage<C, T, E, 46>
+where
+    C: ::std::marker::Send + ::std::marker::Sync + 'static,
+    T: super::SchemaTypes,
+    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
+{
+    /// Add the `SvgContent` object resolver in source order.
+    pub fn with_svg_content<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 47>
+    where
+        R: super::SvgContentResolver<C, T, E>,
+    {
+        self.groups.push(::std::sync::Arc::new(
+            super::SvgContentAdapter::<C, T, R, E>::new(
+                resolver,
+                ::std::sync::Arc::clone(&self.mapper),
+            ),
+        ));
+        super::ResolverStage {
+            groups: self.groups,
+            subscription: self.subscription,
+            mapper: self.mapper,
+            marker: ::std::marker::PhantomData,
+        }
+    }
+}
+
+impl<C, T, E> super::ResolverStage<C, T, E, 47>
+where
+    C: ::std::marker::Send + ::std::marker::Sync + 'static,
+    T: super::SchemaTypes,
+    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
+{
+    /// Add the `DocumentFont` object resolver in source order.
+    pub fn with_document_font<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 48>
+    where
+        R: super::DocumentFontResolver<C, T, E>,
+    {
+        self.groups
+            .push(::std::sync::Arc::new(super::DocumentFontAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
+                resolver,
+                ::std::sync::Arc::clone(&self.mapper),
+            )));
+        super::ResolverStage {
+            groups: self.groups,
+            subscription: self.subscription,
+            mapper: self.mapper,
+            marker: ::std::marker::PhantomData,
+        }
+    }
+}
+
+impl<C, T, E> super::ResolverStage<C, T, E, 48>
+where
+    C: ::std::marker::Send + ::std::marker::Sync + 'static,
+    T: super::SchemaTypes,
+    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
+{
+    /// Add the `DocumentDiagnostic` object resolver in source order.
+    pub fn with_document_diagnostic<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 49>
+    where
+        R: super::DocumentDiagnosticResolver<C, T, E>,
+    {
+        self.groups
+            .push(::std::sync::Arc::new(super::DocumentDiagnosticAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
+                resolver,
+                ::std::sync::Arc::clone(&self.mapper),
+            )));
+        super::ResolverStage {
+            groups: self.groups,
+            subscription: self.subscription,
+            mapper: self.mapper,
+            marker: ::std::marker::PhantomData,
+        }
+    }
+}
+
+impl<C, T, E> super::ResolverStage<C, T, E, 49>
+where
+    C: ::std::marker::Send + ::std::marker::Sync + 'static,
+    T: super::SchemaTypes,
+    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
+{
+    /// Add the `DocumentSourceRange` object resolver in source order.
+    pub fn with_document_source_range<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 50>
+    where
+        R: super::DocumentSourceRangeResolver<C, T, E>,
+    {
+        self.groups
+            .push(::std::sync::Arc::new(super::DocumentSourceRangeAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
+                resolver,
+                ::std::sync::Arc::clone(&self.mapper),
+            )));
+        super::ResolverStage {
+            groups: self.groups,
+            subscription: self.subscription,
+            mapper: self.mapper,
+            marker: ::std::marker::PhantomData,
+        }
+    }
+}
+
+impl<C, T, E> super::ResolverStage<C, T, E, 50>
+where
+    C: ::std::marker::Send + ::std::marker::Sync + 'static,
+    T: super::SchemaTypes,
+    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
+{
+    /// Add the `AnnotationEntry` object resolver in source order.
+    pub fn with_annotation_entry<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 51>
+    where
+        R: super::AnnotationEntryResolver<C, T, E>,
+    {
+        self.groups
+            .push(::std::sync::Arc::new(super::AnnotationEntryAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
+                resolver,
+                ::std::sync::Arc::clone(&self.mapper),
+            )));
+        super::ResolverStage {
+            groups: self.groups,
+            subscription: self.subscription,
+            mapper: self.mapper,
+            marker: ::std::marker::PhantomData,
+        }
+    }
+}
+
+impl<C, T, E> super::ResolverStage<C, T, E, 51>
+where
+    C: ::std::marker::Send + ::std::marker::Sync + 'static,
+    T: super::SchemaTypes,
+    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
+{
+    /// Add the `ImagePresentation` object resolver in source order.
+    pub fn with_image_presentation<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 52>
+    where
+        R: super::ImagePresentationResolver<C, T, E>,
+    {
+        self.groups
+            .push(::std::sync::Arc::new(super::ImagePresentationAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
+                resolver,
+                ::std::sync::Arc::clone(&self.mapper),
+            )));
+        super::ResolverStage {
+            groups: self.groups,
+            subscription: self.subscription,
+            mapper: self.mapper,
+            marker: ::std::marker::PhantomData,
+        }
+    }
+}
+
+impl<C, T, E> super::ResolverStage<C, T, E, 52>
+where
+    C: ::std::marker::Send + ::std::marker::Sync + 'static,
+    T: super::SchemaTypes,
+    E: ::std::error::Error + ::std::marker::Send + ::std::marker::Sync + 'static,
+{
+    /// Add the `ImageCandidate` object resolver in source order.
+    pub fn with_image_candidate<R>(mut self, resolver: R) -> super::ResolverStage<C, T, E, 53>
+    where
+        R: super::ImageCandidateResolver<C, T, E>,
+    {
+        self.groups
+            .push(::std::sync::Arc::new(super::ImageCandidateAdapter::<
+                C,
+                T,
+                R,
+                E,
+            >::new(
+                resolver,
+                ::std::sync::Arc::clone(&self.mapper),
+            )));
         super::ResolverStage {
             groups: self.groups,
             subscription: self.subscription,

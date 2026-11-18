@@ -73,77 +73,73 @@ async fn real_rendering_resources_images_and_failure_isolation() {
         &format!("{}x{}", "![".repeat(300), "](x)".repeat(300)),
     );
     let (_, renderer, router) = app(root.path()).await;
-    let query_text =
-        "{ post(id:\"1\") { title blocks { id kind html } assets { id kind mimeType content } } }";
+    let query_text = "{post(id:\"1\"){title document{schemaVersion nodes{__typename ... on HeadingNode{anchor} ... on TextNode{text} ... on LinkNode{destination normalizedDestination} ... on ImageNode{presentation{url}} ... on FootnoteReferenceNode{definitionAnchor} ... on HtmlBlockNode{source} ... on HtmlNode{source} ... on MathBlockNode{svg{markup}} ... on FencedCodeNode{svg{markup}}}fonts{mimeType content}}}}";
     let value = data(&router, query_text).await;
-    let blocks = value["post"]["blocks"].as_array().unwrap();
+    let nodes = value["post"]["document"]["nodes"].as_array().unwrap();
+    assert!(nodes.iter().any(|n| n["__typename"] == "StrongNode"));
+    assert!(nodes.iter().any(|n| n["anchor"] == "same-2"));
+    assert!(nodes.iter().any(|n| n["definitionAnchor"] == "fn-n"));
     assert!(
-        blocks
+        nodes
             .iter()
-            .all(|b| b["html"].is_string() && b.as_object().unwrap().len() == 3)
-    );
-    assert!(
-        blocks
-            .iter()
-            .all(|b| b["kind"] != "blankLine" && b["kind"] != "linkReferenceDefinition")
-    );
-    let html: String = blocks.iter().map(|b| b["html"].as_str().unwrap()).collect();
-    assert!(
-        blocks
-            .iter()
-            .any(|b| b["id"] == "oriha-generated-footnotes" && b["kind"] == "footnotes")
+            .any(|n| n["normalizedDestination"] == "https://example.com")
     );
     for expected in [
-        "<strong>bold</strong>",
-        "https://example.com",
-        "id=\"same-2\"",
-        "#fn-n",
         "https://cms.example/blog/assets/photo.png?q=1#x",
         "https://cms.example/blog/assets/nested.png",
         "https://cms.example/blog/assets/cell.png",
         "https://cms.example/blog/assets/foot.png",
         "https://images.example/a.png",
-        "&lt;script&gt;",
-        "&lt;b&gt;",
-        "<svg",
     ] {
-        assert!(html.contains(expected), "missing {expected} in {html}");
+        assert!(
+            nodes
+                .iter()
+                .any(|node| node["presentation"]["url"] == expected),
+            "missing {expected}: {value}"
+        );
     }
-    assert!(!html.contains("<script>"));
-    assert!(!html.contains("<b>unsafe"));
-    let assets = value["post"]["assets"].as_array().unwrap();
     assert!(
-        assets
+        nodes
             .iter()
-            .any(|a| a["mimeType"] == "font/otf" && a["content"].as_str().unwrap().len() > 100)
+            .any(|node| node["__typename"] == "HtmlBlockNode"
+                && node["source"].as_str().unwrap().contains("<script>"))
     );
+    assert!(
+        nodes
+            .iter()
+            .any(|node| node["__typename"] == "HtmlNode" && node["source"] == "<b>")
+    );
+    assert_eq!(
+        nodes.iter().filter(|node| node["svg"].is_object()).count(),
+        3
+    );
+    let fonts = value["post"]["document"]["fonts"].as_array().unwrap();
+    assert!(fonts.iter().any(
+        |font| font["mimeType"] == "font/otf" && font["content"].as_str().unwrap().len() > 100
+    ));
     assert_eq!(renderer.calls(), 1);
     assert_eq!(data(&router, query_text).await, value);
     assert_eq!(renderer.calls(), 1);
     assert_eq!(
         data(
             &router,
-            "{ post(id:\"2\") { blocks { html } assets { id } } }"
+            "{post(id:\"2\"){document{rootIds nodes{__typename} fonts{id}}}}"
         )
         .await["post"],
-        json!({"blocks":[],"assets":[]})
+        json!({"document":{"rootIds":[],"nodes":[],"fonts":[]}})
     );
     let failed = query(
         &router,
-        "{ post(id:\"3\") { id title blocks { html } assets { id } } }",
+        "{post(id:\"3\"){id title document{schemaVersion}}}",
         json!({}),
     )
     .await;
     assert_eq!(failed["data"]["post"]["title"], "Failed");
-    assert_eq!(failed["data"]["post"]["blocks"], json!(null));
-    assert_eq!(failed["data"]["post"]["assets"], json!(null));
-    assert_eq!(failed["errors"].as_array().unwrap().len(), 2);
-    assert!(
-        failed["errors"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .all(|e| e["extensions"]["code"] == "RENDER_FAILED")
+    assert!(failed["data"]["post"]["document"].is_null());
+    assert_eq!(failed["errors"].as_array().unwrap().len(), 1);
+    assert_eq!(
+        failed["errors"][0]["extensions"]["code"],
+        "STRUCTURE_FAILED"
     );
     assert!(!failed.to_string().contains(root.path().to_str().unwrap()));
     assert_eq!(renderer.calls(), 3);

@@ -10,4 +10,4 @@ publish = false
 [workspace]
 
 [dependencies]
-chigiri = { package = "chigiri", git = "https://github.com/craftguild/chigiri.rs", rev = "5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6", version = "=0.1.1" }
+chigiri = { package = "chigiri", git = "https://github.com/craftguild/chigiri.rs", rev = "a21f2fce58a60ef1830f836da94c9a1a2ed95965", version = "=0.2.0" }

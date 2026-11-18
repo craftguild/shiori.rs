@@ -2,7 +2,7 @@ mod common;
 use common::*;
 
 #[tokio::test]
-async fn blog_keeps_language_and_line_numbers_without_producing_copy_ui() {
+async fn code_source_and_tokens_are_literal_and_presentation_remains_consumer_owned() {
     let root = tempfile::tempdir().unwrap();
     article(
         root.path(),
@@ -12,24 +12,30 @@ async fn blog_keeps_language_and_line_numbers_without_producing_copy_ui() {
         "```rust\nlet text = \"<script>&\";\n```\n\n    echo '<script>&'\n",
     );
     let (_, renderer, router) = app(root.path()).await;
-    let query = "{post(id:\"1\"){blocks{id kind html}}}";
+    let query = "{post(id:\"1\"){document{nodes{__typename ... on FencedCodeNode{source language highlighting{lines{tokens{kind text}}}} ... on IndentedCodeNode{source language highlighting{lines{tokens{kind text}}}}}}}}";
     let first = data(&router, query).await;
-    let blocks = first["post"]["blocks"].as_array().unwrap();
-    let code: Vec<_> = blocks
+    let nodes = first["post"]["document"]["nodes"].as_array().unwrap();
+    let code: Vec<_> = nodes
         .iter()
-        .filter_map(|block| {
-            let html = block["html"].as_str().unwrap();
-            html.contains("oriha-code-block-wrapper").then_some(html)
-        })
+        .filter(|node| node["source"].is_string())
         .collect();
     assert_eq!(code.len(), 2);
-    for html in code {
-        assert!(html.contains("oriha-code-block-language"));
-        assert!(html.contains("oriha-code-line-number"));
-        assert!(!html.contains("oriha-code-copy"));
-        assert!(!html.contains("<button"));
-        assert!(html.contains("&lt;script&gt;&amp;"));
-        assert!(!html.contains("<script>"));
+    for node in code {
+        let text: Vec<String> = node["highlighting"]["lines"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|line| {
+                line["tokens"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .map(|token| token["text"].as_str().unwrap())
+                    .collect()
+            })
+            .collect();
+        assert_eq!(text.join("\n"), node["source"].as_str().unwrap());
+        assert!(text.join("\n").contains("<script>&"));
     }
     assert_eq!(renderer.calls(), 1);
     assert_eq!(first, data(&router, query).await);

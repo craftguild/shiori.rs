@@ -1,68 +1,79 @@
-use super::{RenderFailure, RenderResult, images, project};
-use crate::{config::Config, images::ImageService, metadata::Article};
+use super::{Profile, RenderFailure, RenderResult, images};
+use crate::{
+    config::Config,
+    document::{Document, Image},
+    images::ImageService,
+    metadata::Article,
+};
 use oriha_core::{
-    BlockOutput, BlockOutputMode, BlockOutputStatus, CodeBlockOptions, FeatureFlags, OrihaEngine,
-    RenderInput, RenderOptions,
+    BlockOutput, BlockOutputMode, DocumentNodeKind, FeatureFlags, OrihaEngine, RenderInput,
 };
 use std::sync::Arc;
 
-// Called on a bounded render worker. Await image admission on the runtime while
-// its dedicated blocking workers perform reads/codecs; the hook is lookup only.
 pub(super) fn derive(
     config: &Config,
     article: &Article,
-    images: &Arc<ImageService>,
+    service: &Arc<ImageService>,
     parsed: &oriha_core::ParsedDocument,
+    profile: Profile,
 ) -> RenderResult {
-    let runtime = tokio::runtime::Handle::current();
-    let prepared = runtime.block_on(images::prepare(config, parsed.document(), images))?;
-    #[cfg(test)]
-    images.checkpoint("prepared");
-    let valid = prepared.cacheable && runtime.block_on(images.valid(prepared.dependencies.clone()));
-    let policy = if valid {
-        prepared.policy.clone()
-    } else {
-        prepared.fallback()
-    };
-    let output = OrihaEngine::default()
-        .add_hook(policy)
-        .derive_parsed_blocks(parsed, BlockOutputMode::Rendered);
-    let mut result = output_result(output, &article.id)?;
-    let mut cacheable = valid;
-    if valid && !runtime.block_on(images.valid(prepared.dependencies.clone())) {
-        // Retain and derive the same parsed document; unstable files get original
-        // URLs without stale candidate descriptors and are never cached as valid.
-        result = output_result(
-            OrihaEngine::default()
-                .add_hook(prepared.fallback())
-                .derive_parsed_blocks(parsed, BlockOutputMode::Rendered),
-            &article.id,
-        )?;
-        cacheable = false;
-    }
-    let rendered = Arc::get_mut(&mut result).expect("new projection");
-    rendered.dependencies = prepared.dependencies;
-    rendered.cacheable = cacheable;
-    Ok(result)
-}
-
-fn output_result(output: BlockOutput, id: &str) -> RenderResult {
-    let BlockOutput::Rendered(output) = output else {
+    let BlockOutput::Structured(output) = OrihaEngine::default().derive_parsed_blocks_with_options(
+        parsed,
+        BlockOutputMode::Structured,
+        profile.structured,
+    ) else {
         return Err(RenderFailure);
     };
     for diagnostic in &output.diagnostics {
-        tracing::warn!(event="render_diagnostic",article_id=id,diagnostic=?diagnostic);
+        tracing::warn!(event="document_diagnostic",article_id=%article.id,code=%diagnostic.code,node_id=?diagnostic.block_id);
     }
-    if output.status != BlockOutputStatus::Complete {
-        tracing::error!(event="render_failed",article_id=id,status=?output.status);
+    let mut document = Document::new(output)?;
+    if profile.images {
+        let runtime = tokio::runtime::Handle::current();
+        let prepared = runtime.block_on(images::prepare(config, parsed.document(), service))?;
+        #[cfg(test)]
+        service.checkpoint("prepared");
+        let valid =
+            prepared.cacheable && runtime.block_on(service.valid(prepared.dependencies.clone()));
+        document.images = prepared.project(!valid);
+        document.cacheable = valid;
+        if valid && !runtime.block_on(service.valid(prepared.dependencies.clone())) {
+            document.images = prepared.project(true);
+            document.cacheable = false;
+        }
+        document.dependencies = prepared.dependencies;
+        for node in &document.data.nodes {
+            if let DocumentNodeKind::Image {
+                destination,
+                normalized_destination,
+                ..
+            } = &node.content
+            {
+                document
+                    .images
+                    .entry(destination.clone())
+                    .or_insert_with(|| {
+                        Arc::new(Image {
+                            url: normalized_destination.clone(),
+                            original_url: normalized_destination.clone(),
+                            candidates: Vec::new(),
+                            sizes: None,
+                            width: None,
+                            height: None,
+                        })
+                    });
+            }
+        }
+    }
+    if !document.within_output_budget() {
+        tracing::warn!(event="document_output_limit",article_id=%article.id);
         return Err(RenderFailure);
     }
-    project(output)
+    Ok(Arc::new(document))
 }
 
 pub(super) fn parse(article: &Article) -> oriha_core::ParsedDocument {
-    let engine = OrihaEngine::default();
-    engine.parse(RenderInput {
+    OrihaEngine::default().parse(RenderInput {
         markdown: article.body.clone(),
         features: FeatureFlags {
             math: true,
@@ -72,30 +83,6 @@ pub(super) fn parse(article: &Article) -> oriha_core::ParsedDocument {
             ..FeatureFlags::default()
         },
         locale: Some("en".into()),
-        render_options: RenderOptions {
-            code_block: CodeBlockOptions {
-                show_language: true,
-                show_copy_button: false,
-                show_line_numbers: true,
-            },
-            ..Default::default()
-        },
         ..Default::default()
     })
-}
-
-pub(super) fn structure(
-    parsed: &oriha_core::ParsedDocument,
-) -> Result<Arc<crate::structured::Document>, RenderFailure> {
-    let BlockOutput::Structured(output) =
-        OrihaEngine::default().derive_parsed_blocks(parsed, BlockOutputMode::Structured)
-    else {
-        return Err(RenderFailure);
-    };
-    if output.status != BlockOutputStatus::Complete {
-        tracing::warn!(event="structure_failed", status=?output.status);
-        return Err(RenderFailure);
-    }
-    let anchors = oriha_core::render::builtin_html_anchors(parsed);
-    crate::structured::project(output, anchors)
 }

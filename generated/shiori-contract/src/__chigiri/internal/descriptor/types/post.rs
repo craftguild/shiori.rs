@@ -107,40 +107,10 @@ pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0007: ::chigiri::FieldDescriptor =
 
 pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0008: ::chigiri::FieldDescriptor =
     ::chigiri::FieldDescriptor {
-        name: "blocks",
+        name: "document",
         description: None,
-        type_ref: "[HtmlBlock!]",
-        type_descriptor: ::chigiri::TypeRefDescriptor::List(
-            &::chigiri::TypeRefDescriptor::NonNull(&::chigiri::TypeRefDescriptor::Named(
-                "HtmlBlock",
-            )),
-        ),
-        arguments: ::chigiri::DescriptorList::empty(),
-        directives: ::chigiri::DescriptorList::empty(),
-        deprecation_reason: None,
-    };
-
-pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0009: ::chigiri::FieldDescriptor =
-    ::chigiri::FieldDescriptor {
-        name: "assets",
-        description: None,
-        type_ref: "[RenderAsset!]",
-        type_descriptor: ::chigiri::TypeRefDescriptor::List(
-            &::chigiri::TypeRefDescriptor::NonNull(&::chigiri::TypeRefDescriptor::Named(
-                "RenderAsset",
-            )),
-        ),
-        arguments: ::chigiri::DescriptorList::empty(),
-        directives: ::chigiri::DescriptorList::empty(),
-        deprecation_reason: None,
-    };
-
-pub(super) const TYPE_DESCRIPTOR_0003_FIELD_0010: ::chigiri::FieldDescriptor =
-    ::chigiri::FieldDescriptor {
-        name: "structured",
-        description: None,
-        type_ref: "StructuredDocument",
-        type_descriptor: ::chigiri::TypeRefDescriptor::Named("StructuredDocument"),
+        type_ref: "Document",
+        type_descriptor: ::chigiri::TypeRefDescriptor::Named("Document"),
         arguments: ::chigiri::DescriptorList::empty(),
         directives: ::chigiri::DescriptorList::empty(),
         deprecation_reason: None,
@@ -156,8 +126,6 @@ pub(super) const TYPE_DESCRIPTOR_0003_FIELD_CHUNK_0000: &[::chigiri::FieldDescri
     super::TYPE_DESCRIPTOR_0003_FIELD_0006,
     super::TYPE_DESCRIPTOR_0003_FIELD_0007,
     super::TYPE_DESCRIPTOR_0003_FIELD_0008,
-    super::TYPE_DESCRIPTOR_0003_FIELD_0009,
-    super::TYPE_DESCRIPTOR_0003_FIELD_0010,
 ];
 
 pub(super) const TYPE_DESCRIPTOR_0003_FIELD_LIST_0000: ::chigiri::DescriptorList<

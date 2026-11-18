@@ -104,26 +104,22 @@ async fn monthly_nodes_themselves_resolve_bodies_and_required_render_resources()
     let (_, renderer, router) = history::app(root.path()).await;
     let result = data(
         &router,
-        "{postsByMonth(year:2024,month:2){nodes{id blocks{html}assets{kind mimeType}}totalCount}}",
+        "{postsByMonth(year:2024,month:2){nodes{id document{nodes{__typename ... on TextNode{text} ... on MathNode{svg{markup}}}fonts{mimeType}}}totalCount}}",
     )
     .await;
     let posts = result["postsByMonth"]["nodes"].as_array().unwrap();
     assert_eq!(posts.len(), 2);
     for post in posts {
-        let html = post["blocks"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .map(|block| block["html"].as_str().unwrap())
-            .collect::<String>();
-        assert!(html.contains("<strong>body</strong>"));
-        assert!(html.contains("<h1"));
+        let document = &post["document"];
+        let nodes = document["nodes"].as_array().unwrap();
+        assert!(nodes.iter().any(|node| node["__typename"] == "StrongNode"));
+        assert!(nodes.iter().any(|node| node["__typename"] == "HeadingNode"));
         assert!(
-            post["assets"]
+            document["fonts"]
                 .as_array()
                 .unwrap()
                 .iter()
-                .any(|asset| asset["mimeType"] == "font/otf")
+                .any(|font| font["mimeType"] == "font/otf")
         );
     }
     assert_eq!(renderer.calls(), 2);

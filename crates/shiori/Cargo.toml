@@ -13,8 +13,8 @@ futures-util = "0.3.31"
 gix = { version = "=0.90.0", default-features = false, features = ["sha1", "sha256"] }
 base64 = "0.22"
 axum = "0.8.8"
-chigiri = { git = "https://github.com/craftguild/chigiri.rs", rev = "5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6", version = "=0.1.1", features = ["graphiql"] }
-chigiri_axum = { git = "https://github.com/craftguild/chigiri.rs", rev = "5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6", version = "=0.1.1" }
+chigiri = { git = "https://github.com/craftguild/chigiri.rs", rev = "a21f2fce58a60ef1830f836da94c9a1a2ed95965", version = "=0.2.0", features = ["graphiql"] }
+chigiri_axum = { git = "https://github.com/craftguild/chigiri.rs", rev = "a21f2fce58a60ef1830f836da94c9a1a2ed95965", version = "=0.2.0" }
 generated = { package = "shiori-contract", path = "../../generated/shiori-contract" }
 clap = { version = "4.5.53", features = ["derive"] }
 lru = "0.18.5"
@@ -22,7 +22,7 @@ image = { version = "=0.25.10", default-features = false, features = ["jpeg", "p
 fast_image_resize = { version = "=6.1.0", default-features = false, features = ["std"] }
 webp = { version = "=0.3.1", default-features = false }
 img-parts = "=0.4.1"
-oriha-core = { version = "=0.1.1", git = "https://github.com/craftguild/oriha.rs", rev = "d46fa615fcd0e5d5ad730342436188ddb5a0e917" }
+oriha-core = { version = "=0.2.0", git = "https://github.com/craftguild/oriha.rs", rev = "deb0617d41d231a2d4f2ee1493aa081f9c3bfddd" }
 mime_guess = "2.0.5"
 notify = "8.2.0"
 percent-encoding = "2.3.2"

@@ -23,22 +23,7 @@ type Post {
   createdAt: String!
   updatedAt: String!
   sourcePath: String!
-  blocks: [HtmlBlock!]
-  assets: [RenderAsset!]
-  structured: StructuredDocument
-}
-
-type HtmlBlock {
-  id: ID!
-  kind: String!
-  html: String!
-}
-
-type RenderAsset {
-  id: ID!
-  kind: String!
-  mimeType: String!
-  content: String!
+  document: Document
 }
 
 type PostConnection {
@@ -65,251 +50,68 @@ type MonthlyArchive {
   count: Int!
 }
 
-# CMS projection of renderer Structured schema v1. IDs are document-local.
-type StructuredDocument {
+# The producer's flat typed structured schema version 2.
+type Document {
   schemaVersion: Int!
-  rootIds: [ID]!
-  blocks: [StructuredBlock!]!
-  inlines: [StructuredInline!]!
-  references: [StructuredReference!]!
-  footnotes: [StructuredFootnote!]!
-  anchors: [String!]!
+  rootIds: [ID!]!
+  nodes: [DocumentNode!]!
+  referenceIds: [ID!]!
+  footnoteIds: [ID!]!
+  fonts: [DocumentFont!]!
+  diagnostics: [DocumentDiagnostic!]!
 }
-interface StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-interface StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
+
+union DocumentNode = DocumentRootNode | ParagraphNode | HeadingNode | FencedCodeNode | IndentedCodeNode | MathBlockNode | ThematicBreakNode | HtmlBlockNode | LinkReferenceDefinitionNode | BlockQuoteNode | ListNode | ListItemNode | GfmTableNode | TableRowNode | TableCellNode | BlankLineNode | CalloutNode | ForeignHtmlNode | TextNode | EmojiNode | CodeNode | MathNode | HtmlNode | SoftBreakNode | HardBreakNode | AnnotationNode | EmphasisNode | StrongNode | StrikethroughNode | LinkNode | ImageNode | FootnoteReferenceNode | ReferenceDefinitionNode | FootnoteDefinitionNode
+
+type DocumentRootNode { id: ID! childIds: [ID!]! }
+type ParagraphNode { id: ID! childIds: [ID!]! tight: Boolean! }
+type HeadingNode { id: ID! childIds: [ID!]! level: Int! anchor: String! }
+type FencedCodeNode { id: ID! source: String! language: String info: String! closed: Boolean! indent: Int! highlighting: CodeHighlighting svg: SvgContent }
+type IndentedCodeNode { id: ID! source: String! language: String info: String! closed: Boolean! indent: Int! highlighting: CodeHighlighting }
+type MathBlockNode { id: ID! source: String! display: Boolean! closed: Boolean! svg: SvgContent }
+type ThematicBreakNode { id: ID! }
+type HtmlBlockNode { id: ID! source: String! }
+type LinkReferenceDefinitionNode { id: ID! source: String! }
+type BlockQuoteNode { id: ID! childIds: [ID!]! }
+type ListNode { id: ID! childIds: [ID!]! ordered: Boolean! loose: Boolean! marker: String! start: String }
+type ListItemNode { id: ID! childIds: [ID!]! marker: String! checked: Boolean }
+type GfmTableNode { id: ID! alignments: [TableAlignment!]! rowIds: [ID!]! }
+type TableRowNode { id: ID! header: Boolean! cellIds: [ID!]! }
+type TableCellNode { id: ID! childIds: [ID!]! }
+type BlankLineNode { id: ID! }
+type CalloutNode { id: ID! childIds: [ID!]! calloutKind: String! title: String }
+type ForeignHtmlNode { id: ID! source: String! origin: String! trustLevel: DocumentTrustLevel! }
+type TextNode { id: ID! text: String! }
+type EmojiNode { id: ID! text: String! shortcode: String! }
+type CodeNode { id: ID! source: String! }
+type MathNode { id: ID! source: String! svg: SvgContent }
+type HtmlNode { id: ID! source: String! tagfilter: Boolean! }
+type SoftBreakNode { id: ID! }
+type HardBreakNode { id: ID! }
+type AnnotationNode { id: ID! childIds: [ID!]! annotationKind: String! annotationId: String! classes: [String!]! data: [AnnotationEntry!]! }
+type EmphasisNode { id: ID! childIds: [ID!]! }
+type StrongNode { id: ID! childIds: [ID!]! }
+type StrikethroughNode { id: ID! childIds: [ID!]! }
+type LinkNode { id: ID! childIds: [ID!]! destination: String! normalizedDestination: String! title: String }
+type ImageNode { id: ID! altIds: [ID!]! destination: String! normalizedDestination: String! title: String presentation: ImagePresentation }
+type FootnoteReferenceNode { id: ID! label: String! definitionId: ID ordinal: Int referenceAnchor: String definitionAnchor: String }
+type ReferenceDefinitionNode { id: ID! label: String! destination: String! normalizedDestination: String! title: String }
+type FootnoteDefinitionNode { id: ID! label: String! childIds: [ID!]! visible: Boolean! anchor: String! ordinal: Int backlinkIds: [String!]! }
+
 enum TableAlignment { NONE LEFT CENTER RIGHT }
-enum StructuredTrustLevel { UNTRUSTED SANITIZED TRUSTED }
-type StructuredTableCell { text: String! richTextIds: [ID]! }
-type StructuredTableRow { cells: [StructuredTableCell!]! }
-type StructuredEntry { key: String! value: String! }
-type StructuredReference { label: String! destination: String! title: String }
-type StructuredFootnote { label: String! richTextIds: [ID]! }
+enum DocumentTrustLevel { UNTRUSTED SANITIZED TRUSTED }
+enum SyntaxTokenKind { PLAIN ATTR_NAME BUILTIN CLASS_NAME COMMENT CONSTANT DELETED DOCTYPE FUNCTION INSERTED KEYWORD NUMBER OPERATOR PROPERTY PUNCTUATION SECTION STRING SYMBOL TAG URL VARIABLE }
+enum FontEncoding { BASE64 }
+enum DiagnosticSeverity { INFO WARNING ERROR }
+enum DocumentDiagnosticEngine { CORE }
 
-type BlockDocument implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type BlockParagraph implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  richTextIds: [ID]!
-  tight: Boolean!
-}
-
-type BlockHeading implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  level: Int!
-  richTextIds: [ID]!
-}
-
-type BlockFencedCode implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  language: String
-  info: String!
-  closed: Boolean!
-  indent: Int!
-}
-
-type BlockIndentedCode implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  language: String
-  info: String!
-  closed: Boolean!
-  indent: Int!
-}
-
-type BlockMathBlock implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  display: Boolean!
-  closed: Boolean!
-}
-
-type BlockThematicBreak implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type BlockHtmlBlock implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type BlockLinkReferenceDefinition implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  source: String!
-}
-
-type BlockBlockQuote implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type BlockList implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  ordered: Boolean!
-  loose: Boolean!
-  marker: String!
-  start: String
-}
-
-type BlockListItem implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  marker: String!
-  checked: Boolean
-}
-
-type BlockGfmTable implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  alignments: [TableAlignment!]!
-  header: [StructuredTableCell!]!
-  rows: [StructuredTableRow!]!
-}
-
-type BlockBlankLine implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type BlockCallout implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  calloutKind: String!
-  title: String
-}
-
-type BlockForeignHtml implements StructuredBlock {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  origin: String!
-  trustLevel: StructuredTrustLevel!
-}
-
-type InlineAnnotation implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  annotationKind: String!
-  annotationId: String!
-  classes: [String!]!
-  data: [StructuredEntry!]!
-}
-
-type InlineText implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type InlineEmoji implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  shortcode: String!
-}
-
-type InlineCode implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type InlineMath implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type InlineHtml implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  tagfilter: Boolean!
-}
-
-type InlineSoftBreak implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type InlineHardBreak implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type InlineEmphasis implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type InlineStrong implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type InlineStrikethrough implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-}
-
-type InlineLink implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  url: String!
-  normalizedUrl: String!
-  title: String
-}
-
-type InlineImage implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  url: String!
-  normalizedUrl: String!
-  title: String
-}
-
-type InlineFootnoteReference implements StructuredInline {
-  id: ID!
-  text: String
-  childIds: [ID]!
-  label: String!
-}
+type CodeHighlighting { lines: [CodeLine!]! }
+type CodeLine { tokens: [SyntaxToken!]! }
+type SyntaxToken { kind: SyntaxTokenKind! text: String! }
+type SvgContent { markup: String! width: Float height: Float baseline: Float fontIds: [ID!]! }
+type DocumentFont { id: ID! family: String! mimeType: String! encoding: FontEncoding! content: String! }
+type DocumentDiagnostic { severity: DiagnosticSeverity! code: String! message: String! nodeId: ID sourceRange: DocumentSourceRange engine: DocumentDiagnosticEngine! }
+type DocumentSourceRange { startLine: Int! startColumn: Int! endLine: Int! endColumn: Int! }
+type AnnotationEntry { key: String! value: String! }
+type ImagePresentation { url: String! originalUrl: String! candidates: [ImageCandidate!]! sizes: String width: Int height: Int }
+type ImageCandidate { url: String! width: Int! }

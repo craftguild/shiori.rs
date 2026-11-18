@@ -206,12 +206,12 @@ async fn byte_lru_reuses_shared_buffers_evicts_and_never_caches_a_failure() {
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
-async fn image_change_during_html_preparation_returns_originals_and_does_not_cache_stale_candidates()
+async fn image_change_during_document_preparation_returns_originals_and_does_not_cache_stale_candidates()
  {
     use crate::{
         catalog::Catalog,
         config::Config,
-        rendering::{Renderer, RequestMemo},
+        rendering::{Profile, Renderer, RequestMemo},
         storage,
     };
     let root = tempfile::tempdir().unwrap();
@@ -240,24 +240,32 @@ async fn image_change_during_html_preparation_returns_originals_and_does_not_cac
     *renderer.images.probe.lock().unwrap() = Some(gate.clone());
     let first = renderer.clone();
     let initial = article.clone();
-    let job = tokio::spawn(async move { first.render(initial, &RequestMemo::default()).await });
+    let profile = Profile {
+        images: true,
+        ..Default::default()
+    };
+    let job = tokio::spawn(async move {
+        first
+            .document(initial, &RequestMemo::default(), profile)
+            .await
+    });
     gate.entered.notified().await;
     std::fs::write(root.path().join("assets/p.png"), image(30, 40, 2)).unwrap();
     gate.release();
     let stale = job.await.unwrap().unwrap();
-    let html = &stale.blocks[0].html;
-    assert!(html.contains("/assets/p.png"));
-    assert!(!html.contains("srcset"));
+    let image = &stale.images["/assets/p.png"];
+    assert!(image.url.contains("/assets/p.png"));
+    assert!(image.candidates.is_empty());
     assert!(!stale.cacheable);
     let current = renderer
-        .render(article.clone(), &RequestMemo::default())
+        .document(article.clone(), &RequestMemo::default(), profile)
         .await
         .unwrap();
-    assert!(current.blocks[0].html.contains(" 30w"));
+    assert_eq!(current.images["/assets/p.png"].candidates[0].width, 30);
     assert!(current.cacheable);
     assert_eq!(renderer.calls(), 2);
     renderer
-        .render(article, &RequestMemo::default())
+        .document(article, &RequestMemo::default(), profile)
         .await
         .unwrap();
     assert_eq!(renderer.calls(), 2);

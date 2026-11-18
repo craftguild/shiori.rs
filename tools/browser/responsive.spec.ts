@@ -27,18 +27,43 @@ for (const [width, override] of [[400, false], [1100, false], [1100, true]] as c
     const result = await page.evaluate(async ({ cms, override }) => {
       const response = await fetch(cms + '/graphql', {
         method: 'POST', headers: { 'content-type': 'application/json', 'x-chigiri-preflight': '1' },
-        body: JSON.stringify({ query: '{ post(id:"1") { blocks { html } } }' }),
+        body: JSON.stringify({ query: '{post(id:"1"){document{nodes{__typename ... on TextNode{id text} ... on ImageNode{altIds destination title presentation{url candidates{url width} sizes width height}}}}}}' }),
       });
       const result = await response.json();
       if (result.errors) throw new Error(JSON.stringify(result.errors));
-      const template = document.createElement('template');
-      template.innerHTML = result.data.post.blocks.map((block: { html: string }) => block.html).join('');
       const main = document.querySelector('main')!;
-      if (override) {
-        main.style.maxWidth = '300px';
-        for (const image of template.content.querySelectorAll<HTMLImageElement>('img[srcset]')) image.sizes = '300px';
+      if (override) main.style.maxWidth = '300px';
+      // This fixture is a consumer of typed delivery data; article markup belongs to the client.
+      const nodes = result.data.post.document.nodes;
+      for (const node of nodes) {
+        if (node.__typename !== 'ImageNode') continue;
+        const value = node.presentation;
+        const figure = document.createElement('figure');
+        const image = document.createElement('img');
+        image.alt = node.altIds.map((id: string) => nodes.find((item: { id?: string }) => item.id === id).text).join('');
+        image.style.cssText = 'width:auto;height:auto;max-width:100%';
+        if (value.width && value.height) {
+          image.width = value.width;
+          image.height = value.height;
+          const authored = new URL(node.destination, cms);
+          const boundWidth = Number(authored.searchParams.get('width')) || value.width;
+          const boundHeight = Number(authored.searchParams.get('height')) || value.height;
+          const displayWidth = Math.min(value.width, boundWidth, boundHeight * value.width / value.height);
+          image.style.maxWidth = `min(100%, ${displayWidth}px)`;
+        }
+        if (value.candidates.length) {
+          image.srcset = value.candidates.map((candidate: { url: string; width: number }) => `${candidate.url.replaceAll(',', '%2C')} ${candidate.width}w`).join(', ');
+          image.sizes = override ? '300px' : value.sizes;
+        }
+        image.src = value.url;
+        figure.append(image);
+        if (node.title) {
+          const caption = document.createElement('figcaption');
+          caption.textContent = node.title;
+          figure.append(caption);
+        }
+        main.append(figure);
       }
-      main.append(template.content);
       const rows = [];
       for (const image of document.querySelectorAll('img')) {
         await image.decode();

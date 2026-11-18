@@ -52,6 +52,16 @@ pub(super) const TYPE_DESCRIPTOR_CHUNK_0000: &[::chigiri::TypeDescriptor] = &[
     super::TYPE_DESCRIPTOR_0047,
     super::TYPE_DESCRIPTOR_0048,
     super::TYPE_DESCRIPTOR_0049,
+    super::TYPE_DESCRIPTOR_0050,
+    super::TYPE_DESCRIPTOR_0051,
+    super::TYPE_DESCRIPTOR_0052,
+    super::TYPE_DESCRIPTOR_0053,
+    super::TYPE_DESCRIPTOR_0054,
+    super::TYPE_DESCRIPTOR_0055,
+    super::TYPE_DESCRIPTOR_0056,
+    super::TYPE_DESCRIPTOR_0057,
+    super::TYPE_DESCRIPTOR_0058,
+    super::TYPE_DESCRIPTOR_0059,
 ];
 
 pub(super) const TYPE_DESCRIPTOR_LIST_0000: ::chigiri::DescriptorList<::chigiri::TypeDescriptor> =
@@ -62,8 +72,8 @@ pub(super) static GENERATED_SCHEMA_DESCRIPTOR: ::chigiri::SchemaDescriptor =
     ::chigiri::SchemaDescriptor {
         abi_version: ::chigiri::GENERATED_ABI_VERSION,
         schema_digest: ::chigiri::SchemaDigest::from_bytes([
-            155, 247, 180, 175, 206, 200, 11, 203, 204, 85, 60, 74, 239, 233, 4, 221, 44, 50, 61,
-            114, 252, 39, 211, 46, 120, 191, 18, 248, 61, 221, 155, 234,
+            12, 201, 151, 173, 111, 3, 157, 250, 220, 7, 165, 74, 195, 47, 85, 207, 61, 240, 159,
+            196, 105, 188, 255, 152, 32, 234, 145, 224, 165, 70, 50, 152,
         ]),
         description: None,
         schema_directives: ::chigiri::DescriptorList::empty(),

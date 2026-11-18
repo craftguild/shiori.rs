@@ -40,8 +40,8 @@ checksum = "f079e83a288787bcd14a6aea84cee5c87a67c5a3e660c30f557a3d24761b3527"
 
 [[package]]
 name = "chigiri_codegen"
-version = "0.1.1"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6#5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6"
+version = "0.2.0"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
 dependencies = [
  "chigiri_core",
  "chigiri_host",
@@ -54,13 +54,13 @@ dependencies = [
 
 [[package]]
 name = "chigiri_core"
-version = "0.1.1"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6#5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6"
+version = "0.2.0"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
 
 [[package]]
 name = "chigiri_host"
-version = "0.1.1"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6#5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6"
+version = "0.2.0"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
 dependencies = [
  "ctrlc",
  "rustix",

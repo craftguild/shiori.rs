@@ -21,6 +21,26 @@ def copy(source, relative):
     return destination.relative_to(ROOT).as_posix()
 
 
+def dependency_root(packages, direct_name, child_name, revision):
+    """Accept the pinned Git source or an explicitly declared Cargo path source."""
+    direct = packages[direct_name]
+    child = packages[child_name]
+    declared = next(dependency for dependency in packages['shiori']['dependencies']
+                    if dependency['name'] == direct_name)
+    direct_path = Path(direct['manifest_path']).parent.resolve()
+    if direct['source'] is None:
+        # Local source integration is explicit in Cargo, never a sibling fallback.
+        assert declared['source'] is None and declared.get('path')
+        assert Path(declared['path']).resolve() == direct_path
+        assert child['source'] is None
+    else:
+        assert direct['source'].endswith('#' + revision)
+        assert child['source'] == direct['source']
+    upstream = direct_path.parent.parent
+    assert Path(child['manifest_path']).resolve().parent.parent.parent == upstream
+    return upstream
+
+
 def main():
     metadata = json.loads(subprocess.check_output(
         ['cargo', 'metadata', '--locked', '--offline', '--format-version', '1'], cwd=ROOT))
@@ -28,9 +48,9 @@ def main():
     OUTPUT.mkdir(parents=True, exist_ok=True)
     records = []
     graphiql_package = packages['chigiri_graphiql']
-    assert graphiql_package['source'].endswith('#5f90235ddb705a1a394b9a5cfda23a9ea62dc4b6')
+    upstream = dependency_root(packages, 'chigiri', 'chigiri_graphiql',
+                               'a21f2fce58a60ef1830f836da94c9a1a2ed95965')
     graphiql = Path(graphiql_package['manifest_path']).parent
-    upstream = graphiql.parent.parent
     inventory = json.loads((graphiql / 'asset-inventory.json').read_text())
     for relative, expected in inventory['sources'].items():
         assert digest(upstream / relative) == expected, relative
@@ -53,8 +73,8 @@ def main():
                 'license': package['license'], 'files': [license_path, *assets],
                 'evidence': 'The pinned Chigiri esbuild-derived inclusion record marks this package bundled. Shared GraphiQL output ownership is intentional; all asset bytes and upstream inventory/license hashes are verified.'})
     latex_package = packages['oriha-latex']
-    assert latex_package['source'].endswith('#d46fa615fcd0e5d5ad730342436188ddb5a0e917')
-    oriha = Path(latex_package['manifest_path']).parent.parent.parent
+    oriha = dependency_root(packages, 'oriha-core', 'oriha-latex',
+                            'deb0617d41d231a2d4f2ee1493aa081f9c3bfddd')
     for record in json.loads((oriha / 'assets/cli-supplemental.json').read_text()):
         record['reference'] = record['reference'].replace('urn:oriha:', 'urn:shiori:oriha:')
         record['files'] = [copy(oriha / name, 'oriha/' + name) for name in record['files']]

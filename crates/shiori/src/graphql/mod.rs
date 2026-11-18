@@ -1,8 +1,8 @@
 mod cursor;
+mod document;
 mod objects;
 mod post;
 mod query;
-mod structured;
 mod subscription;
 
 use std::sync::Arc;
@@ -15,7 +15,7 @@ use chigiri::{
 use crate::{
     catalog::{Catalog, Snapshot},
     metadata::Article,
-    rendering::{Asset, HtmlBlock, Renderer, RequestMemo},
+    rendering::{Renderer, RequestMemo},
 };
 
 pub struct Context {
@@ -47,45 +47,52 @@ impl ContextFactory<Context, ()> for Factory {
 
 pub struct Types;
 impl generated::SchemaTypes for Types {
-    type StructuredDocument = Arc<crate::structured::Document>;
-    type BlockDocument = Arc<crate::structured::Block>;
-    type BlockParagraph = Arc<crate::structured::Block>;
-    type BlockHeading = Arc<crate::structured::Block>;
-    type BlockFencedCode = Arc<crate::structured::Block>;
-    type BlockIndentedCode = Arc<crate::structured::Block>;
-    type BlockMathBlock = Arc<crate::structured::Block>;
-    type BlockThematicBreak = Arc<crate::structured::Block>;
-    type BlockHtmlBlock = Arc<crate::structured::Block>;
-    type BlockLinkReferenceDefinition = Arc<crate::structured::Block>;
-    type BlockBlockQuote = Arc<crate::structured::Block>;
-    type BlockList = Arc<crate::structured::Block>;
-    type BlockListItem = Arc<crate::structured::Block>;
-    type BlockGfmTable = Arc<crate::structured::Block>;
-    type BlockBlankLine = Arc<crate::structured::Block>;
-    type BlockCallout = Arc<crate::structured::Block>;
-    type BlockForeignHtml = Arc<crate::structured::Block>;
-    type InlineAnnotation = Arc<crate::structured::Inline>;
-    type InlineText = Arc<crate::structured::Inline>;
-    type InlineEmoji = Arc<crate::structured::Inline>;
-    type InlineCode = Arc<crate::structured::Inline>;
-    type InlineMath = Arc<crate::structured::Inline>;
-    type InlineHtml = Arc<crate::structured::Inline>;
-    type InlineSoftBreak = Arc<crate::structured::Inline>;
-    type InlineHardBreak = Arc<crate::structured::Inline>;
-    type InlineEmphasis = Arc<crate::structured::Inline>;
-    type InlineStrong = Arc<crate::structured::Inline>;
-    type InlineStrikethrough = Arc<crate::structured::Inline>;
-    type InlineLink = Arc<crate::structured::Inline>;
-    type InlineImage = Arc<crate::structured::Inline>;
-    type InlineFootnoteReference = Arc<crate::structured::Inline>;
-    type StructuredTableCell = crate::structured::Cell;
-    type StructuredTableRow = crate::structured::Row;
-    type StructuredEntry = crate::structured::Entry;
-    type StructuredReference = crate::structured::Reference;
-    type StructuredFootnote = crate::structured::Footnote;
+    type Document = Arc<crate::document::Document>;
+    type DocumentRootNode = crate::document::Node;
+    type ParagraphNode = crate::document::Node;
+    type HeadingNode = crate::document::Node;
+    type FencedCodeNode = crate::document::Node;
+    type IndentedCodeNode = crate::document::Node;
+    type MathBlockNode = crate::document::Node;
+    type ThematicBreakNode = crate::document::Node;
+    type HtmlBlockNode = crate::document::Node;
+    type LinkReferenceDefinitionNode = crate::document::Node;
+    type BlockQuoteNode = crate::document::Node;
+    type ListNode = crate::document::Node;
+    type ListItemNode = crate::document::Node;
+    type GfmTableNode = crate::document::Node;
+    type TableRowNode = crate::document::Node;
+    type TableCellNode = crate::document::Node;
+    type BlankLineNode = crate::document::Node;
+    type CalloutNode = crate::document::Node;
+    type ForeignHtmlNode = crate::document::Node;
+    type TextNode = crate::document::Node;
+    type EmojiNode = crate::document::Node;
+    type CodeNode = crate::document::Node;
+    type MathNode = crate::document::Node;
+    type HtmlNode = crate::document::Node;
+    type SoftBreakNode = crate::document::Node;
+    type HardBreakNode = crate::document::Node;
+    type AnnotationNode = crate::document::Node;
+    type EmphasisNode = crate::document::Node;
+    type StrongNode = crate::document::Node;
+    type StrikethroughNode = crate::document::Node;
+    type LinkNode = crate::document::Node;
+    type ImageNode = crate::document::Node;
+    type FootnoteReferenceNode = crate::document::Node;
+    type ReferenceDefinitionNode = crate::document::Node;
+    type FootnoteDefinitionNode = crate::document::Node;
+    type CodeHighlighting = crate::document::Node;
+    type CodeLine = document::Line;
+    type SyntaxToken = document::Token;
+    type SvgContent = crate::document::Node;
+    type DocumentFont = document::Font;
+    type DocumentDiagnostic = document::Diagnostic;
+    type DocumentSourceRange = oriha_core::SourceRange;
+    type AnnotationEntry = crate::document::AnnotationEntry;
+    type ImagePresentation = Arc<crate::document::Image>;
+    type ImageCandidate = crate::document::Candidate;
     type Post = Arc<Article>;
-    type HtmlBlock = HtmlBlock;
-    type RenderAsset = Asset;
     type PostConnection = Connection;
     type PageInfo = PageInfo;
     type Tag = Tag;
@@ -166,48 +173,55 @@ pub(crate) fn endpoint_with_graphiql(
         .with_subscription(subscription::SubscriptionFields)
         .with_content_change(subscription::ChangeFields)
         .with_post(post::PostFields)
-        .with_html_block(objects::BlockFields)
-        .with_render_asset(objects::AssetFields)
         .with_post_connection(objects::ConnectionFields)
         .with_page_info(objects::PageFields)
         .with_tag(objects::TagFields)
         .with_monthly_archive(objects::ArchiveFields)
-        .with_structured_document(structured::Fields)
-        .with_structured_table_cell(structured::Fields)
-        .with_structured_table_row(structured::Fields)
-        .with_structured_entry(structured::Fields)
-        .with_structured_reference(structured::Fields)
-        .with_structured_footnote(structured::Fields)
-        .with_block_document(structured::Fields)
-        .with_block_paragraph(structured::Fields)
-        .with_block_heading(structured::Fields)
-        .with_block_fenced_code(structured::Fields)
-        .with_block_indented_code(structured::Fields)
-        .with_block_math_block(structured::Fields)
-        .with_block_thematic_break(structured::Fields)
-        .with_block_html_block(structured::Fields)
-        .with_block_link_reference_definition(structured::Fields)
-        .with_block_block_quote(structured::Fields)
-        .with_block_list(structured::Fields)
-        .with_block_list_item(structured::Fields)
-        .with_block_gfm_table(structured::Fields)
-        .with_block_blank_line(structured::Fields)
-        .with_block_callout(structured::Fields)
-        .with_block_foreign_html(structured::Fields)
-        .with_inline_annotation(structured::Fields)
-        .with_inline_text(structured::Fields)
-        .with_inline_emoji(structured::Fields)
-        .with_inline_code(structured::Fields)
-        .with_inline_math(structured::Fields)
-        .with_inline_html(structured::Fields)
-        .with_inline_soft_break(structured::Fields)
-        .with_inline_hard_break(structured::Fields)
-        .with_inline_emphasis(structured::Fields)
-        .with_inline_strong(structured::Fields)
-        .with_inline_strikethrough(structured::Fields)
-        .with_inline_link(structured::Fields)
-        .with_inline_image(structured::Fields)
-        .with_inline_footnote_reference(structured::Fields)
+        .with_document(document::Fields)
+        .with_document_root_node(document::Fields)
+        .with_paragraph_node(document::Fields)
+        .with_heading_node(document::Fields)
+        .with_fenced_code_node(document::Fields)
+        .with_indented_code_node(document::Fields)
+        .with_math_block_node(document::Fields)
+        .with_thematic_break_node(document::Fields)
+        .with_html_block_node(document::Fields)
+        .with_link_reference_definition_node(document::Fields)
+        .with_block_quote_node(document::Fields)
+        .with_list_node(document::Fields)
+        .with_list_item_node(document::Fields)
+        .with_gfm_table_node(document::Fields)
+        .with_table_row_node(document::Fields)
+        .with_table_cell_node(document::Fields)
+        .with_blank_line_node(document::Fields)
+        .with_callout_node(document::Fields)
+        .with_foreign_html_node(document::Fields)
+        .with_text_node(document::Fields)
+        .with_emoji_node(document::Fields)
+        .with_code_node(document::Fields)
+        .with_math_node(document::Fields)
+        .with_html_node(document::Fields)
+        .with_soft_break_node(document::Fields)
+        .with_hard_break_node(document::Fields)
+        .with_annotation_node(document::Fields)
+        .with_emphasis_node(document::Fields)
+        .with_strong_node(document::Fields)
+        .with_strikethrough_node(document::Fields)
+        .with_link_node(document::Fields)
+        .with_image_node(document::Fields)
+        .with_footnote_reference_node(document::Fields)
+        .with_reference_definition_node(document::Fields)
+        .with_footnote_definition_node(document::Fields)
+        .with_code_highlighting(document::Fields)
+        .with_code_line(document::Fields)
+        .with_syntax_token(document::Fields)
+        .with_svg_content(document::Fields)
+        .with_document_font(document::Fields)
+        .with_document_diagnostic(document::Fields)
+        .with_document_source_range(document::Fields)
+        .with_annotation_entry(document::Fields)
+        .with_image_presentation(document::Fields)
+        .with_image_candidate(document::Fields)
         .build();
     let limits = chigiri::ExecutionLimits {
         max_list_items_per_field: 100_000,

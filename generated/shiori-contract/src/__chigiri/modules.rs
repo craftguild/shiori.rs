@@ -6,108 +6,120 @@ mod __chigiri_assembly;
 pub use __chigiri_assembly::*;
 #[path = "internal/bridge/dispatch.rs"]
 mod __chigiri_internal_pbridge_pdispatch;
-#[path = "internal/bridge/objects/block_blank_line.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_ublank_uline;
-use __chigiri_internal_pbridge_pobjects_pblock_ublank_uline::*;
-#[path = "internal/bridge/objects/block_block_quote.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_ublock_uquote;
-use __chigiri_internal_pbridge_pobjects_pblock_ublock_uquote::*;
-#[path = "internal/bridge/objects/block_callout.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_ucallout;
-use __chigiri_internal_pbridge_pobjects_pblock_ucallout::*;
-#[path = "internal/bridge/objects/block_document.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_udocument;
-use __chigiri_internal_pbridge_pobjects_pblock_udocument::*;
-#[path = "internal/bridge/objects/block_fenced_code.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_ufenced_ucode;
-use __chigiri_internal_pbridge_pobjects_pblock_ufenced_ucode::*;
-#[path = "internal/bridge/objects/block_foreign_html.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_uforeign_uhtml;
-use __chigiri_internal_pbridge_pobjects_pblock_uforeign_uhtml::*;
-#[path = "internal/bridge/objects/block_gfm_table.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_ugfm_utable;
-use __chigiri_internal_pbridge_pobjects_pblock_ugfm_utable::*;
-#[path = "internal/bridge/objects/block_heading.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_uheading;
-use __chigiri_internal_pbridge_pobjects_pblock_uheading::*;
-#[path = "internal/bridge/objects/block_html_block.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_uhtml_ublock;
-use __chigiri_internal_pbridge_pobjects_pblock_uhtml_ublock::*;
-#[path = "internal/bridge/objects/block_indented_code.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_uindented_ucode;
-use __chigiri_internal_pbridge_pobjects_pblock_uindented_ucode::*;
-#[path = "internal/bridge/objects/block_link_reference_definition.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_ulink_ureference_udefinition;
-use __chigiri_internal_pbridge_pobjects_pblock_ulink_ureference_udefinition::*;
-#[path = "internal/bridge/objects/block_list.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_ulist;
-use __chigiri_internal_pbridge_pobjects_pblock_ulist::*;
-#[path = "internal/bridge/objects/block_list_item.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_ulist_uitem;
-use __chigiri_internal_pbridge_pobjects_pblock_ulist_uitem::*;
-#[path = "internal/bridge/objects/block_math_block.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_umath_ublock;
-use __chigiri_internal_pbridge_pobjects_pblock_umath_ublock::*;
-#[path = "internal/bridge/objects/block_paragraph.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_uparagraph;
-use __chigiri_internal_pbridge_pobjects_pblock_uparagraph::*;
-#[path = "internal/bridge/objects/block_thematic_break.rs"]
-mod __chigiri_internal_pbridge_pobjects_pblock_uthematic_ubreak;
-use __chigiri_internal_pbridge_pobjects_pblock_uthematic_ubreak::*;
+#[path = "internal/bridge/objects/annotation_entry.rs"]
+mod __chigiri_internal_pbridge_pobjects_pannotation_uentry;
+use __chigiri_internal_pbridge_pobjects_pannotation_uentry::*;
+#[path = "internal/bridge/objects/annotation_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pannotation_unode;
+use __chigiri_internal_pbridge_pobjects_pannotation_unode::*;
+#[path = "internal/bridge/objects/blank_line_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pblank_uline_unode;
+use __chigiri_internal_pbridge_pobjects_pblank_uline_unode::*;
+#[path = "internal/bridge/objects/block_quote_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pblock_uquote_unode;
+use __chigiri_internal_pbridge_pobjects_pblock_uquote_unode::*;
+#[path = "internal/bridge/objects/callout_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pcallout_unode;
+use __chigiri_internal_pbridge_pobjects_pcallout_unode::*;
+#[path = "internal/bridge/objects/code_highlighting.rs"]
+mod __chigiri_internal_pbridge_pobjects_pcode_uhighlighting;
+use __chigiri_internal_pbridge_pobjects_pcode_uhighlighting::*;
+#[path = "internal/bridge/objects/code_line.rs"]
+mod __chigiri_internal_pbridge_pobjects_pcode_uline;
+use __chigiri_internal_pbridge_pobjects_pcode_uline::*;
+#[path = "internal/bridge/objects/code_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pcode_unode;
+use __chigiri_internal_pbridge_pobjects_pcode_unode::*;
 #[path = "internal/bridge/objects/content_change.rs"]
 mod __chigiri_internal_pbridge_pobjects_pcontent_uchange;
 use __chigiri_internal_pbridge_pobjects_pcontent_uchange::*;
-#[path = "internal/bridge/objects/html_block.rs"]
-mod __chigiri_internal_pbridge_pobjects_phtml_ublock;
-use __chigiri_internal_pbridge_pobjects_phtml_ublock::*;
-#[path = "internal/bridge/objects/inline_annotation.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_uannotation;
-use __chigiri_internal_pbridge_pobjects_pinline_uannotation::*;
-#[path = "internal/bridge/objects/inline_code.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_ucode;
-use __chigiri_internal_pbridge_pobjects_pinline_ucode::*;
-#[path = "internal/bridge/objects/inline_emoji.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_uemoji;
-use __chigiri_internal_pbridge_pobjects_pinline_uemoji::*;
-#[path = "internal/bridge/objects/inline_emphasis.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_uemphasis;
-use __chigiri_internal_pbridge_pobjects_pinline_uemphasis::*;
-#[path = "internal/bridge/objects/inline_footnote_reference.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_ufootnote_ureference;
-use __chigiri_internal_pbridge_pobjects_pinline_ufootnote_ureference::*;
-#[path = "internal/bridge/objects/inline_hard_break.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_uhard_ubreak;
-use __chigiri_internal_pbridge_pobjects_pinline_uhard_ubreak::*;
-#[path = "internal/bridge/objects/inline_html.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_uhtml;
-use __chigiri_internal_pbridge_pobjects_pinline_uhtml::*;
-#[path = "internal/bridge/objects/inline_image.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_uimage;
-use __chigiri_internal_pbridge_pobjects_pinline_uimage::*;
-#[path = "internal/bridge/objects/inline_link.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_ulink;
-use __chigiri_internal_pbridge_pobjects_pinline_ulink::*;
-#[path = "internal/bridge/objects/inline_math.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_umath;
-use __chigiri_internal_pbridge_pobjects_pinline_umath::*;
-#[path = "internal/bridge/objects/inline_soft_break.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_usoft_ubreak;
-use __chigiri_internal_pbridge_pobjects_pinline_usoft_ubreak::*;
-#[path = "internal/bridge/objects/inline_strikethrough.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_ustrikethrough;
-use __chigiri_internal_pbridge_pobjects_pinline_ustrikethrough::*;
-#[path = "internal/bridge/objects/inline_strong.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_ustrong;
-use __chigiri_internal_pbridge_pobjects_pinline_ustrong::*;
-#[path = "internal/bridge/objects/inline_text.rs"]
-mod __chigiri_internal_pbridge_pobjects_pinline_utext;
-use __chigiri_internal_pbridge_pobjects_pinline_utext::*;
+#[path = "internal/bridge/objects/document.rs"]
+mod __chigiri_internal_pbridge_pobjects_pdocument;
+use __chigiri_internal_pbridge_pobjects_pdocument::*;
+#[path = "internal/bridge/objects/document_diagnostic.rs"]
+mod __chigiri_internal_pbridge_pobjects_pdocument_udiagnostic;
+use __chigiri_internal_pbridge_pobjects_pdocument_udiagnostic::*;
+#[path = "internal/bridge/objects/document_font.rs"]
+mod __chigiri_internal_pbridge_pobjects_pdocument_ufont;
+use __chigiri_internal_pbridge_pobjects_pdocument_ufont::*;
+#[path = "internal/bridge/objects/document_root_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pdocument_uroot_unode;
+use __chigiri_internal_pbridge_pobjects_pdocument_uroot_unode::*;
+#[path = "internal/bridge/objects/document_source_range.rs"]
+mod __chigiri_internal_pbridge_pobjects_pdocument_usource_urange;
+use __chigiri_internal_pbridge_pobjects_pdocument_usource_urange::*;
+#[path = "internal/bridge/objects/emoji_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pemoji_unode;
+use __chigiri_internal_pbridge_pobjects_pemoji_unode::*;
+#[path = "internal/bridge/objects/emphasis_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pemphasis_unode;
+use __chigiri_internal_pbridge_pobjects_pemphasis_unode::*;
+#[path = "internal/bridge/objects/fenced_code_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pfenced_ucode_unode;
+use __chigiri_internal_pbridge_pobjects_pfenced_ucode_unode::*;
+#[path = "internal/bridge/objects/footnote_definition_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pfootnote_udefinition_unode;
+use __chigiri_internal_pbridge_pobjects_pfootnote_udefinition_unode::*;
+#[path = "internal/bridge/objects/footnote_reference_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pfootnote_ureference_unode;
+use __chigiri_internal_pbridge_pobjects_pfootnote_ureference_unode::*;
+#[path = "internal/bridge/objects/foreign_html_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pforeign_uhtml_unode;
+use __chigiri_internal_pbridge_pobjects_pforeign_uhtml_unode::*;
+#[path = "internal/bridge/objects/gfm_table_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pgfm_utable_unode;
+use __chigiri_internal_pbridge_pobjects_pgfm_utable_unode::*;
+#[path = "internal/bridge/objects/hard_break_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_phard_ubreak_unode;
+use __chigiri_internal_pbridge_pobjects_phard_ubreak_unode::*;
+#[path = "internal/bridge/objects/heading_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pheading_unode;
+use __chigiri_internal_pbridge_pobjects_pheading_unode::*;
+#[path = "internal/bridge/objects/html_block_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_phtml_ublock_unode;
+use __chigiri_internal_pbridge_pobjects_phtml_ublock_unode::*;
+#[path = "internal/bridge/objects/html_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_phtml_unode;
+use __chigiri_internal_pbridge_pobjects_phtml_unode::*;
+#[path = "internal/bridge/objects/image_candidate.rs"]
+mod __chigiri_internal_pbridge_pobjects_pimage_ucandidate;
+use __chigiri_internal_pbridge_pobjects_pimage_ucandidate::*;
+#[path = "internal/bridge/objects/image_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pimage_unode;
+use __chigiri_internal_pbridge_pobjects_pimage_unode::*;
+#[path = "internal/bridge/objects/image_presentation.rs"]
+mod __chigiri_internal_pbridge_pobjects_pimage_upresentation;
+use __chigiri_internal_pbridge_pobjects_pimage_upresentation::*;
+#[path = "internal/bridge/objects/indented_code_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pindented_ucode_unode;
+use __chigiri_internal_pbridge_pobjects_pindented_ucode_unode::*;
+#[path = "internal/bridge/objects/link_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_plink_unode;
+use __chigiri_internal_pbridge_pobjects_plink_unode::*;
+#[path = "internal/bridge/objects/link_reference_definition_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_plink_ureference_udefinition_unode;
+use __chigiri_internal_pbridge_pobjects_plink_ureference_udefinition_unode::*;
+#[path = "internal/bridge/objects/list_item_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_plist_uitem_unode;
+use __chigiri_internal_pbridge_pobjects_plist_uitem_unode::*;
+#[path = "internal/bridge/objects/list_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_plist_unode;
+use __chigiri_internal_pbridge_pobjects_plist_unode::*;
+#[path = "internal/bridge/objects/math_block_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pmath_ublock_unode;
+use __chigiri_internal_pbridge_pobjects_pmath_ublock_unode::*;
+#[path = "internal/bridge/objects/math_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pmath_unode;
+use __chigiri_internal_pbridge_pobjects_pmath_unode::*;
 #[path = "internal/bridge/objects/monthly_archive.rs"]
 mod __chigiri_internal_pbridge_pobjects_pmonthly_uarchive;
 use __chigiri_internal_pbridge_pobjects_pmonthly_uarchive::*;
 #[path = "internal/bridge/objects/page_info.rs"]
 mod __chigiri_internal_pbridge_pobjects_ppage_uinfo;
 use __chigiri_internal_pbridge_pobjects_ppage_uinfo::*;
+#[path = "internal/bridge/objects/paragraph_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pparagraph_unode;
+use __chigiri_internal_pbridge_pobjects_pparagraph_unode::*;
 #[path = "internal/bridge/objects/post.rs"]
 mod __chigiri_internal_pbridge_pobjects_ppost;
 use __chigiri_internal_pbridge_pobjects_ppost::*;
@@ -117,285 +129,351 @@ use __chigiri_internal_pbridge_pobjects_ppost_uconnection::*;
 #[path = "internal/bridge/objects/query.rs"]
 mod __chigiri_internal_pbridge_pobjects_pquery;
 use __chigiri_internal_pbridge_pobjects_pquery::*;
-#[path = "internal/bridge/objects/render_asset.rs"]
-mod __chigiri_internal_pbridge_pobjects_prender_uasset;
-use __chigiri_internal_pbridge_pobjects_prender_uasset::*;
-#[path = "internal/bridge/objects/structured_document.rs"]
-mod __chigiri_internal_pbridge_pobjects_pstructured_udocument;
-use __chigiri_internal_pbridge_pobjects_pstructured_udocument::*;
-#[path = "internal/bridge/objects/structured_entry.rs"]
-mod __chigiri_internal_pbridge_pobjects_pstructured_uentry;
-use __chigiri_internal_pbridge_pobjects_pstructured_uentry::*;
-#[path = "internal/bridge/objects/structured_footnote.rs"]
-mod __chigiri_internal_pbridge_pobjects_pstructured_ufootnote;
-use __chigiri_internal_pbridge_pobjects_pstructured_ufootnote::*;
-#[path = "internal/bridge/objects/structured_reference.rs"]
-mod __chigiri_internal_pbridge_pobjects_pstructured_ureference;
-use __chigiri_internal_pbridge_pobjects_pstructured_ureference::*;
-#[path = "internal/bridge/objects/structured_table_cell.rs"]
-mod __chigiri_internal_pbridge_pobjects_pstructured_utable_ucell;
-use __chigiri_internal_pbridge_pobjects_pstructured_utable_ucell::*;
-#[path = "internal/bridge/objects/structured_table_row.rs"]
-mod __chigiri_internal_pbridge_pobjects_pstructured_utable_urow;
-use __chigiri_internal_pbridge_pobjects_pstructured_utable_urow::*;
+#[path = "internal/bridge/objects/reference_definition_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_preference_udefinition_unode;
+use __chigiri_internal_pbridge_pobjects_preference_udefinition_unode::*;
+#[path = "internal/bridge/objects/soft_break_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_psoft_ubreak_unode;
+use __chigiri_internal_pbridge_pobjects_psoft_ubreak_unode::*;
+#[path = "internal/bridge/objects/strikethrough_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pstrikethrough_unode;
+use __chigiri_internal_pbridge_pobjects_pstrikethrough_unode::*;
+#[path = "internal/bridge/objects/strong_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pstrong_unode;
+use __chigiri_internal_pbridge_pobjects_pstrong_unode::*;
+#[path = "internal/bridge/objects/svg_content.rs"]
+mod __chigiri_internal_pbridge_pobjects_psvg_ucontent;
+use __chigiri_internal_pbridge_pobjects_psvg_ucontent::*;
+#[path = "internal/bridge/objects/syntax_token.rs"]
+mod __chigiri_internal_pbridge_pobjects_psyntax_utoken;
+use __chigiri_internal_pbridge_pobjects_psyntax_utoken::*;
+#[path = "internal/bridge/objects/table_cell_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_ptable_ucell_unode;
+use __chigiri_internal_pbridge_pobjects_ptable_ucell_unode::*;
+#[path = "internal/bridge/objects/table_row_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_ptable_urow_unode;
+use __chigiri_internal_pbridge_pobjects_ptable_urow_unode::*;
 #[path = "internal/bridge/objects/tag.rs"]
 mod __chigiri_internal_pbridge_pobjects_ptag;
 use __chigiri_internal_pbridge_pobjects_ptag::*;
+#[path = "internal/bridge/objects/text_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_ptext_unode;
+use __chigiri_internal_pbridge_pobjects_ptext_unode::*;
+#[path = "internal/bridge/objects/thematic_break_node.rs"]
+mod __chigiri_internal_pbridge_pobjects_pthematic_ubreak_unode;
+use __chigiri_internal_pbridge_pobjects_pthematic_ubreak_unode::*;
 #[path = "internal/bridge/schema.rs"]
 mod __chigiri_internal_pbridge_pschema;
 use __chigiri_internal_pbridge_pschema::*;
 #[path = "internal/bridge/subscription/subscription.rs"]
 mod __chigiri_internal_pbridge_psubscription_psubscription;
 use __chigiri_internal_pbridge_psubscription_psubscription::*;
-#[path = "internal/coercion/block_blank_line.rs"]
-mod __chigiri_internal_pcoercion_pblock_ublank_uline;
-use __chigiri_internal_pcoercion_pblock_ublank_uline::*;
-#[path = "internal/coercion/block_block_quote.rs"]
-mod __chigiri_internal_pcoercion_pblock_ublock_uquote;
-use __chigiri_internal_pcoercion_pblock_ublock_uquote::*;
-#[path = "internal/coercion/block_callout.rs"]
-mod __chigiri_internal_pcoercion_pblock_ucallout;
-use __chigiri_internal_pcoercion_pblock_ucallout::*;
-#[path = "internal/coercion/block_document.rs"]
-mod __chigiri_internal_pcoercion_pblock_udocument;
-use __chigiri_internal_pcoercion_pblock_udocument::*;
-#[path = "internal/coercion/block_fenced_code.rs"]
-mod __chigiri_internal_pcoercion_pblock_ufenced_ucode;
-use __chigiri_internal_pcoercion_pblock_ufenced_ucode::*;
-#[path = "internal/coercion/block_foreign_html.rs"]
-mod __chigiri_internal_pcoercion_pblock_uforeign_uhtml;
-use __chigiri_internal_pcoercion_pblock_uforeign_uhtml::*;
-#[path = "internal/coercion/block_gfm_table.rs"]
-mod __chigiri_internal_pcoercion_pblock_ugfm_utable;
-use __chigiri_internal_pcoercion_pblock_ugfm_utable::*;
-#[path = "internal/coercion/block_heading.rs"]
-mod __chigiri_internal_pcoercion_pblock_uheading;
-use __chigiri_internal_pcoercion_pblock_uheading::*;
-#[path = "internal/coercion/block_html_block.rs"]
-mod __chigiri_internal_pcoercion_pblock_uhtml_ublock;
-use __chigiri_internal_pcoercion_pblock_uhtml_ublock::*;
-#[path = "internal/coercion/block_indented_code.rs"]
-mod __chigiri_internal_pcoercion_pblock_uindented_ucode;
-use __chigiri_internal_pcoercion_pblock_uindented_ucode::*;
-#[path = "internal/coercion/block_link_reference_definition.rs"]
-mod __chigiri_internal_pcoercion_pblock_ulink_ureference_udefinition;
-use __chigiri_internal_pcoercion_pblock_ulink_ureference_udefinition::*;
-#[path = "internal/coercion/block_list.rs"]
-mod __chigiri_internal_pcoercion_pblock_ulist;
-use __chigiri_internal_pcoercion_pblock_ulist::*;
-#[path = "internal/coercion/block_list_item.rs"]
-mod __chigiri_internal_pcoercion_pblock_ulist_uitem;
-use __chigiri_internal_pcoercion_pblock_ulist_uitem::*;
-#[path = "internal/coercion/block_math_block.rs"]
-mod __chigiri_internal_pcoercion_pblock_umath_ublock;
-use __chigiri_internal_pcoercion_pblock_umath_ublock::*;
-#[path = "internal/coercion/block_paragraph.rs"]
-mod __chigiri_internal_pcoercion_pblock_uparagraph;
-use __chigiri_internal_pcoercion_pblock_uparagraph::*;
-#[path = "internal/coercion/block_thematic_break.rs"]
-mod __chigiri_internal_pcoercion_pblock_uthematic_ubreak;
-use __chigiri_internal_pcoercion_pblock_uthematic_ubreak::*;
+#[path = "internal/coercion/annotation_entry.rs"]
+mod __chigiri_internal_pcoercion_pannotation_uentry;
+use __chigiri_internal_pcoercion_pannotation_uentry::*;
+#[path = "internal/coercion/annotation_node.rs"]
+mod __chigiri_internal_pcoercion_pannotation_unode;
+use __chigiri_internal_pcoercion_pannotation_unode::*;
+#[path = "internal/coercion/blank_line_node.rs"]
+mod __chigiri_internal_pcoercion_pblank_uline_unode;
+use __chigiri_internal_pcoercion_pblank_uline_unode::*;
+#[path = "internal/coercion/block_quote_node.rs"]
+mod __chigiri_internal_pcoercion_pblock_uquote_unode;
+use __chigiri_internal_pcoercion_pblock_uquote_unode::*;
+#[path = "internal/coercion/callout_node.rs"]
+mod __chigiri_internal_pcoercion_pcallout_unode;
+use __chigiri_internal_pcoercion_pcallout_unode::*;
+#[path = "internal/coercion/code_highlighting.rs"]
+mod __chigiri_internal_pcoercion_pcode_uhighlighting;
+use __chigiri_internal_pcoercion_pcode_uhighlighting::*;
+#[path = "internal/coercion/code_line.rs"]
+mod __chigiri_internal_pcoercion_pcode_uline;
+use __chigiri_internal_pcoercion_pcode_uline::*;
+#[path = "internal/coercion/code_node.rs"]
+mod __chigiri_internal_pcoercion_pcode_unode;
+use __chigiri_internal_pcoercion_pcode_unode::*;
 #[path = "internal/coercion/content_change.rs"]
 mod __chigiri_internal_pcoercion_pcontent_uchange;
 use __chigiri_internal_pcoercion_pcontent_uchange::*;
-#[path = "internal/coercion/html_block.rs"]
-mod __chigiri_internal_pcoercion_phtml_ublock;
-use __chigiri_internal_pcoercion_phtml_ublock::*;
-#[path = "internal/coercion/inline_annotation.rs"]
-mod __chigiri_internal_pcoercion_pinline_uannotation;
-use __chigiri_internal_pcoercion_pinline_uannotation::*;
-#[path = "internal/coercion/inline_code.rs"]
-mod __chigiri_internal_pcoercion_pinline_ucode;
-use __chigiri_internal_pcoercion_pinline_ucode::*;
-#[path = "internal/coercion/inline_emoji.rs"]
-mod __chigiri_internal_pcoercion_pinline_uemoji;
-use __chigiri_internal_pcoercion_pinline_uemoji::*;
-#[path = "internal/coercion/inline_emphasis.rs"]
-mod __chigiri_internal_pcoercion_pinline_uemphasis;
-use __chigiri_internal_pcoercion_pinline_uemphasis::*;
-#[path = "internal/coercion/inline_footnote_reference.rs"]
-mod __chigiri_internal_pcoercion_pinline_ufootnote_ureference;
-use __chigiri_internal_pcoercion_pinline_ufootnote_ureference::*;
-#[path = "internal/coercion/inline_hard_break.rs"]
-mod __chigiri_internal_pcoercion_pinline_uhard_ubreak;
-use __chigiri_internal_pcoercion_pinline_uhard_ubreak::*;
-#[path = "internal/coercion/inline_html.rs"]
-mod __chigiri_internal_pcoercion_pinline_uhtml;
-use __chigiri_internal_pcoercion_pinline_uhtml::*;
-#[path = "internal/coercion/inline_image.rs"]
-mod __chigiri_internal_pcoercion_pinline_uimage;
-use __chigiri_internal_pcoercion_pinline_uimage::*;
-#[path = "internal/coercion/inline_link.rs"]
-mod __chigiri_internal_pcoercion_pinline_ulink;
-use __chigiri_internal_pcoercion_pinline_ulink::*;
-#[path = "internal/coercion/inline_math.rs"]
-mod __chigiri_internal_pcoercion_pinline_umath;
-use __chigiri_internal_pcoercion_pinline_umath::*;
-#[path = "internal/coercion/inline_soft_break.rs"]
-mod __chigiri_internal_pcoercion_pinline_usoft_ubreak;
-use __chigiri_internal_pcoercion_pinline_usoft_ubreak::*;
-#[path = "internal/coercion/inline_strikethrough.rs"]
-mod __chigiri_internal_pcoercion_pinline_ustrikethrough;
-use __chigiri_internal_pcoercion_pinline_ustrikethrough::*;
-#[path = "internal/coercion/inline_strong.rs"]
-mod __chigiri_internal_pcoercion_pinline_ustrong;
-use __chigiri_internal_pcoercion_pinline_ustrong::*;
-#[path = "internal/coercion/inline_text.rs"]
-mod __chigiri_internal_pcoercion_pinline_utext;
-use __chigiri_internal_pcoercion_pinline_utext::*;
+#[path = "internal/coercion/diagnostic_severity.rs"]
+mod __chigiri_internal_pcoercion_pdiagnostic_useverity;
+use __chigiri_internal_pcoercion_pdiagnostic_useverity::*;
+#[path = "internal/coercion/document.rs"]
+mod __chigiri_internal_pcoercion_pdocument;
+use __chigiri_internal_pcoercion_pdocument::*;
+#[path = "internal/coercion/document_diagnostic.rs"]
+mod __chigiri_internal_pcoercion_pdocument_udiagnostic;
+use __chigiri_internal_pcoercion_pdocument_udiagnostic::*;
+#[path = "internal/coercion/document_diagnostic_engine.rs"]
+mod __chigiri_internal_pcoercion_pdocument_udiagnostic_uengine;
+use __chigiri_internal_pcoercion_pdocument_udiagnostic_uengine::*;
+#[path = "internal/coercion/document_font.rs"]
+mod __chigiri_internal_pcoercion_pdocument_ufont;
+use __chigiri_internal_pcoercion_pdocument_ufont::*;
+#[path = "internal/coercion/document_node.rs"]
+mod __chigiri_internal_pcoercion_pdocument_unode;
+use __chigiri_internal_pcoercion_pdocument_unode::*;
+#[path = "internal/coercion/document_root_node.rs"]
+mod __chigiri_internal_pcoercion_pdocument_uroot_unode;
+use __chigiri_internal_pcoercion_pdocument_uroot_unode::*;
+#[path = "internal/coercion/document_source_range.rs"]
+mod __chigiri_internal_pcoercion_pdocument_usource_urange;
+use __chigiri_internal_pcoercion_pdocument_usource_urange::*;
+#[path = "internal/coercion/document_trust_level.rs"]
+mod __chigiri_internal_pcoercion_pdocument_utrust_ulevel;
+use __chigiri_internal_pcoercion_pdocument_utrust_ulevel::*;
+#[path = "internal/coercion/emoji_node.rs"]
+mod __chigiri_internal_pcoercion_pemoji_unode;
+use __chigiri_internal_pcoercion_pemoji_unode::*;
+#[path = "internal/coercion/emphasis_node.rs"]
+mod __chigiri_internal_pcoercion_pemphasis_unode;
+use __chigiri_internal_pcoercion_pemphasis_unode::*;
+#[path = "internal/coercion/fenced_code_node.rs"]
+mod __chigiri_internal_pcoercion_pfenced_ucode_unode;
+use __chigiri_internal_pcoercion_pfenced_ucode_unode::*;
+#[path = "internal/coercion/font_encoding.rs"]
+mod __chigiri_internal_pcoercion_pfont_uencoding;
+use __chigiri_internal_pcoercion_pfont_uencoding::*;
+#[path = "internal/coercion/footnote_definition_node.rs"]
+mod __chigiri_internal_pcoercion_pfootnote_udefinition_unode;
+use __chigiri_internal_pcoercion_pfootnote_udefinition_unode::*;
+#[path = "internal/coercion/footnote_reference_node.rs"]
+mod __chigiri_internal_pcoercion_pfootnote_ureference_unode;
+use __chigiri_internal_pcoercion_pfootnote_ureference_unode::*;
+#[path = "internal/coercion/foreign_html_node.rs"]
+mod __chigiri_internal_pcoercion_pforeign_uhtml_unode;
+use __chigiri_internal_pcoercion_pforeign_uhtml_unode::*;
+#[path = "internal/coercion/gfm_table_node.rs"]
+mod __chigiri_internal_pcoercion_pgfm_utable_unode;
+use __chigiri_internal_pcoercion_pgfm_utable_unode::*;
+#[path = "internal/coercion/hard_break_node.rs"]
+mod __chigiri_internal_pcoercion_phard_ubreak_unode;
+use __chigiri_internal_pcoercion_phard_ubreak_unode::*;
+#[path = "internal/coercion/heading_node.rs"]
+mod __chigiri_internal_pcoercion_pheading_unode;
+use __chigiri_internal_pcoercion_pheading_unode::*;
+#[path = "internal/coercion/html_block_node.rs"]
+mod __chigiri_internal_pcoercion_phtml_ublock_unode;
+use __chigiri_internal_pcoercion_phtml_ublock_unode::*;
+#[path = "internal/coercion/html_node.rs"]
+mod __chigiri_internal_pcoercion_phtml_unode;
+use __chigiri_internal_pcoercion_phtml_unode::*;
+#[path = "internal/coercion/image_candidate.rs"]
+mod __chigiri_internal_pcoercion_pimage_ucandidate;
+use __chigiri_internal_pcoercion_pimage_ucandidate::*;
+#[path = "internal/coercion/image_node.rs"]
+mod __chigiri_internal_pcoercion_pimage_unode;
+use __chigiri_internal_pcoercion_pimage_unode::*;
+#[path = "internal/coercion/image_presentation.rs"]
+mod __chigiri_internal_pcoercion_pimage_upresentation;
+use __chigiri_internal_pcoercion_pimage_upresentation::*;
+#[path = "internal/coercion/indented_code_node.rs"]
+mod __chigiri_internal_pcoercion_pindented_ucode_unode;
+use __chigiri_internal_pcoercion_pindented_ucode_unode::*;
+#[path = "internal/coercion/link_node.rs"]
+mod __chigiri_internal_pcoercion_plink_unode;
+use __chigiri_internal_pcoercion_plink_unode::*;
+#[path = "internal/coercion/link_reference_definition_node.rs"]
+mod __chigiri_internal_pcoercion_plink_ureference_udefinition_unode;
+use __chigiri_internal_pcoercion_plink_ureference_udefinition_unode::*;
+#[path = "internal/coercion/list_item_node.rs"]
+mod __chigiri_internal_pcoercion_plist_uitem_unode;
+use __chigiri_internal_pcoercion_plist_uitem_unode::*;
+#[path = "internal/coercion/list_node.rs"]
+mod __chigiri_internal_pcoercion_plist_unode;
+use __chigiri_internal_pcoercion_plist_unode::*;
+#[path = "internal/coercion/math_block_node.rs"]
+mod __chigiri_internal_pcoercion_pmath_ublock_unode;
+use __chigiri_internal_pcoercion_pmath_ublock_unode::*;
+#[path = "internal/coercion/math_node.rs"]
+mod __chigiri_internal_pcoercion_pmath_unode;
+use __chigiri_internal_pcoercion_pmath_unode::*;
 #[path = "internal/coercion/monthly_archive.rs"]
 mod __chigiri_internal_pcoercion_pmonthly_uarchive;
 use __chigiri_internal_pcoercion_pmonthly_uarchive::*;
 #[path = "internal/coercion/page_info.rs"]
 mod __chigiri_internal_pcoercion_ppage_uinfo;
 use __chigiri_internal_pcoercion_ppage_uinfo::*;
+#[path = "internal/coercion/paragraph_node.rs"]
+mod __chigiri_internal_pcoercion_pparagraph_unode;
+use __chigiri_internal_pcoercion_pparagraph_unode::*;
 #[path = "internal/coercion/post.rs"]
 mod __chigiri_internal_pcoercion_ppost;
 use __chigiri_internal_pcoercion_ppost::*;
 #[path = "internal/coercion/post_connection.rs"]
 mod __chigiri_internal_pcoercion_ppost_uconnection;
 use __chigiri_internal_pcoercion_ppost_uconnection::*;
-#[path = "internal/coercion/render_asset.rs"]
-mod __chigiri_internal_pcoercion_prender_uasset;
-use __chigiri_internal_pcoercion_prender_uasset::*;
-#[path = "internal/coercion/structured_block.rs"]
-mod __chigiri_internal_pcoercion_pstructured_ublock;
-use __chigiri_internal_pcoercion_pstructured_ublock::*;
-#[path = "internal/coercion/structured_document.rs"]
-mod __chigiri_internal_pcoercion_pstructured_udocument;
-use __chigiri_internal_pcoercion_pstructured_udocument::*;
-#[path = "internal/coercion/structured_entry.rs"]
-mod __chigiri_internal_pcoercion_pstructured_uentry;
-use __chigiri_internal_pcoercion_pstructured_uentry::*;
-#[path = "internal/coercion/structured_footnote.rs"]
-mod __chigiri_internal_pcoercion_pstructured_ufootnote;
-use __chigiri_internal_pcoercion_pstructured_ufootnote::*;
-#[path = "internal/coercion/structured_inline.rs"]
-mod __chigiri_internal_pcoercion_pstructured_uinline;
-use __chigiri_internal_pcoercion_pstructured_uinline::*;
-#[path = "internal/coercion/structured_reference.rs"]
-mod __chigiri_internal_pcoercion_pstructured_ureference;
-use __chigiri_internal_pcoercion_pstructured_ureference::*;
-#[path = "internal/coercion/structured_table_cell.rs"]
-mod __chigiri_internal_pcoercion_pstructured_utable_ucell;
-use __chigiri_internal_pcoercion_pstructured_utable_ucell::*;
-#[path = "internal/coercion/structured_table_row.rs"]
-mod __chigiri_internal_pcoercion_pstructured_utable_urow;
-use __chigiri_internal_pcoercion_pstructured_utable_urow::*;
-#[path = "internal/coercion/structured_trust_level.rs"]
-mod __chigiri_internal_pcoercion_pstructured_utrust_ulevel;
-use __chigiri_internal_pcoercion_pstructured_utrust_ulevel::*;
+#[path = "internal/coercion/reference_definition_node.rs"]
+mod __chigiri_internal_pcoercion_preference_udefinition_unode;
+use __chigiri_internal_pcoercion_preference_udefinition_unode::*;
+#[path = "internal/coercion/soft_break_node.rs"]
+mod __chigiri_internal_pcoercion_psoft_ubreak_unode;
+use __chigiri_internal_pcoercion_psoft_ubreak_unode::*;
+#[path = "internal/coercion/strikethrough_node.rs"]
+mod __chigiri_internal_pcoercion_pstrikethrough_unode;
+use __chigiri_internal_pcoercion_pstrikethrough_unode::*;
+#[path = "internal/coercion/strong_node.rs"]
+mod __chigiri_internal_pcoercion_pstrong_unode;
+use __chigiri_internal_pcoercion_pstrong_unode::*;
+#[path = "internal/coercion/svg_content.rs"]
+mod __chigiri_internal_pcoercion_psvg_ucontent;
+use __chigiri_internal_pcoercion_psvg_ucontent::*;
+#[path = "internal/coercion/syntax_token.rs"]
+mod __chigiri_internal_pcoercion_psyntax_utoken;
+use __chigiri_internal_pcoercion_psyntax_utoken::*;
+#[path = "internal/coercion/syntax_token_kind.rs"]
+mod __chigiri_internal_pcoercion_psyntax_utoken_ukind;
+use __chigiri_internal_pcoercion_psyntax_utoken_ukind::*;
 #[path = "internal/coercion/table_alignment.rs"]
 mod __chigiri_internal_pcoercion_ptable_ualignment;
 use __chigiri_internal_pcoercion_ptable_ualignment::*;
+#[path = "internal/coercion/table_cell_node.rs"]
+mod __chigiri_internal_pcoercion_ptable_ucell_unode;
+use __chigiri_internal_pcoercion_ptable_ucell_unode::*;
+#[path = "internal/coercion/table_row_node.rs"]
+mod __chigiri_internal_pcoercion_ptable_urow_unode;
+use __chigiri_internal_pcoercion_ptable_urow_unode::*;
 #[path = "internal/coercion/tag.rs"]
 mod __chigiri_internal_pcoercion_ptag;
 use __chigiri_internal_pcoercion_ptag::*;
+#[path = "internal/coercion/text_node.rs"]
+mod __chigiri_internal_pcoercion_ptext_unode;
+use __chigiri_internal_pcoercion_ptext_unode::*;
+#[path = "internal/coercion/thematic_break_node.rs"]
+mod __chigiri_internal_pcoercion_pthematic_ubreak_unode;
+use __chigiri_internal_pcoercion_pthematic_ubreak_unode::*;
 #[path = "internal/descriptor/schema.rs"]
 mod __chigiri_internal_pdescriptor_pschema;
 use __chigiri_internal_pdescriptor_pschema::*;
-#[path = "internal/descriptor/types/block_blank_line.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_ublank_uline;
-use __chigiri_internal_pdescriptor_ptypes_pblock_ublank_uline::*;
-#[path = "internal/descriptor/types/block_block_quote.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_ublock_uquote;
-use __chigiri_internal_pdescriptor_ptypes_pblock_ublock_uquote::*;
-#[path = "internal/descriptor/types/block_callout.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_ucallout;
-use __chigiri_internal_pdescriptor_ptypes_pblock_ucallout::*;
-#[path = "internal/descriptor/types/block_document.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_udocument;
-use __chigiri_internal_pdescriptor_ptypes_pblock_udocument::*;
-#[path = "internal/descriptor/types/block_fenced_code.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_ufenced_ucode;
-use __chigiri_internal_pdescriptor_ptypes_pblock_ufenced_ucode::*;
-#[path = "internal/descriptor/types/block_foreign_html.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_uforeign_uhtml;
-use __chigiri_internal_pdescriptor_ptypes_pblock_uforeign_uhtml::*;
-#[path = "internal/descriptor/types/block_gfm_table.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_ugfm_utable;
-use __chigiri_internal_pdescriptor_ptypes_pblock_ugfm_utable::*;
-#[path = "internal/descriptor/types/block_heading.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_uheading;
-use __chigiri_internal_pdescriptor_ptypes_pblock_uheading::*;
-#[path = "internal/descriptor/types/block_html_block.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_uhtml_ublock;
-use __chigiri_internal_pdescriptor_ptypes_pblock_uhtml_ublock::*;
-#[path = "internal/descriptor/types/block_indented_code.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_uindented_ucode;
-use __chigiri_internal_pdescriptor_ptypes_pblock_uindented_ucode::*;
-#[path = "internal/descriptor/types/block_link_reference_definition.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_ulink_ureference_udefinition;
-use __chigiri_internal_pdescriptor_ptypes_pblock_ulink_ureference_udefinition::*;
-#[path = "internal/descriptor/types/block_list.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_ulist;
-use __chigiri_internal_pdescriptor_ptypes_pblock_ulist::*;
-#[path = "internal/descriptor/types/block_list_item.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_ulist_uitem;
-use __chigiri_internal_pdescriptor_ptypes_pblock_ulist_uitem::*;
-#[path = "internal/descriptor/types/block_math_block.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_umath_ublock;
-use __chigiri_internal_pdescriptor_ptypes_pblock_umath_ublock::*;
-#[path = "internal/descriptor/types/block_paragraph.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_uparagraph;
-use __chigiri_internal_pdescriptor_ptypes_pblock_uparagraph::*;
-#[path = "internal/descriptor/types/block_thematic_break.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pblock_uthematic_ubreak;
-use __chigiri_internal_pdescriptor_ptypes_pblock_uthematic_ubreak::*;
+#[path = "internal/descriptor/types/annotation_entry.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pannotation_uentry;
+use __chigiri_internal_pdescriptor_ptypes_pannotation_uentry::*;
+#[path = "internal/descriptor/types/annotation_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pannotation_unode;
+use __chigiri_internal_pdescriptor_ptypes_pannotation_unode::*;
+#[path = "internal/descriptor/types/blank_line_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pblank_uline_unode;
+use __chigiri_internal_pdescriptor_ptypes_pblank_uline_unode::*;
+#[path = "internal/descriptor/types/block_quote_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pblock_uquote_unode;
+use __chigiri_internal_pdescriptor_ptypes_pblock_uquote_unode::*;
+#[path = "internal/descriptor/types/callout_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pcallout_unode;
+use __chigiri_internal_pdescriptor_ptypes_pcallout_unode::*;
+#[path = "internal/descriptor/types/code_highlighting.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pcode_uhighlighting;
+use __chigiri_internal_pdescriptor_ptypes_pcode_uhighlighting::*;
+#[path = "internal/descriptor/types/code_line.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pcode_uline;
+use __chigiri_internal_pdescriptor_ptypes_pcode_uline::*;
+#[path = "internal/descriptor/types/code_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pcode_unode;
+use __chigiri_internal_pdescriptor_ptypes_pcode_unode::*;
 #[path = "internal/descriptor/types/content_change.rs"]
 mod __chigiri_internal_pdescriptor_ptypes_pcontent_uchange;
 use __chigiri_internal_pdescriptor_ptypes_pcontent_uchange::*;
-#[path = "internal/descriptor/types/html_block.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_phtml_ublock;
-use __chigiri_internal_pdescriptor_ptypes_phtml_ublock::*;
-#[path = "internal/descriptor/types/inline_annotation.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_uannotation;
-use __chigiri_internal_pdescriptor_ptypes_pinline_uannotation::*;
-#[path = "internal/descriptor/types/inline_code.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_ucode;
-use __chigiri_internal_pdescriptor_ptypes_pinline_ucode::*;
-#[path = "internal/descriptor/types/inline_emoji.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_uemoji;
-use __chigiri_internal_pdescriptor_ptypes_pinline_uemoji::*;
-#[path = "internal/descriptor/types/inline_emphasis.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_uemphasis;
-use __chigiri_internal_pdescriptor_ptypes_pinline_uemphasis::*;
-#[path = "internal/descriptor/types/inline_footnote_reference.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_ufootnote_ureference;
-use __chigiri_internal_pdescriptor_ptypes_pinline_ufootnote_ureference::*;
-#[path = "internal/descriptor/types/inline_hard_break.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_uhard_ubreak;
-use __chigiri_internal_pdescriptor_ptypes_pinline_uhard_ubreak::*;
-#[path = "internal/descriptor/types/inline_html.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_uhtml;
-use __chigiri_internal_pdescriptor_ptypes_pinline_uhtml::*;
-#[path = "internal/descriptor/types/inline_image.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_uimage;
-use __chigiri_internal_pdescriptor_ptypes_pinline_uimage::*;
-#[path = "internal/descriptor/types/inline_link.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_ulink;
-use __chigiri_internal_pdescriptor_ptypes_pinline_ulink::*;
-#[path = "internal/descriptor/types/inline_math.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_umath;
-use __chigiri_internal_pdescriptor_ptypes_pinline_umath::*;
-#[path = "internal/descriptor/types/inline_soft_break.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_usoft_ubreak;
-use __chigiri_internal_pdescriptor_ptypes_pinline_usoft_ubreak::*;
-#[path = "internal/descriptor/types/inline_strikethrough.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_ustrikethrough;
-use __chigiri_internal_pdescriptor_ptypes_pinline_ustrikethrough::*;
-#[path = "internal/descriptor/types/inline_strong.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_ustrong;
-use __chigiri_internal_pdescriptor_ptypes_pinline_ustrong::*;
-#[path = "internal/descriptor/types/inline_text.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pinline_utext;
-use __chigiri_internal_pdescriptor_ptypes_pinline_utext::*;
+#[path = "internal/descriptor/types/diagnostic_severity.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pdiagnostic_useverity;
+use __chigiri_internal_pdescriptor_ptypes_pdiagnostic_useverity::*;
+#[path = "internal/descriptor/types/document.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pdocument;
+use __chigiri_internal_pdescriptor_ptypes_pdocument::*;
+#[path = "internal/descriptor/types/document_diagnostic.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pdocument_udiagnostic;
+use __chigiri_internal_pdescriptor_ptypes_pdocument_udiagnostic::*;
+#[path = "internal/descriptor/types/document_diagnostic_engine.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pdocument_udiagnostic_uengine;
+use __chigiri_internal_pdescriptor_ptypes_pdocument_udiagnostic_uengine::*;
+#[path = "internal/descriptor/types/document_font.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pdocument_ufont;
+use __chigiri_internal_pdescriptor_ptypes_pdocument_ufont::*;
+#[path = "internal/descriptor/types/document_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pdocument_unode;
+use __chigiri_internal_pdescriptor_ptypes_pdocument_unode::*;
+#[path = "internal/descriptor/types/document_root_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pdocument_uroot_unode;
+use __chigiri_internal_pdescriptor_ptypes_pdocument_uroot_unode::*;
+#[path = "internal/descriptor/types/document_source_range.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pdocument_usource_urange;
+use __chigiri_internal_pdescriptor_ptypes_pdocument_usource_urange::*;
+#[path = "internal/descriptor/types/document_trust_level.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pdocument_utrust_ulevel;
+use __chigiri_internal_pdescriptor_ptypes_pdocument_utrust_ulevel::*;
+#[path = "internal/descriptor/types/emoji_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pemoji_unode;
+use __chigiri_internal_pdescriptor_ptypes_pemoji_unode::*;
+#[path = "internal/descriptor/types/emphasis_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pemphasis_unode;
+use __chigiri_internal_pdescriptor_ptypes_pemphasis_unode::*;
+#[path = "internal/descriptor/types/fenced_code_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pfenced_ucode_unode;
+use __chigiri_internal_pdescriptor_ptypes_pfenced_ucode_unode::*;
+#[path = "internal/descriptor/types/font_encoding.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pfont_uencoding;
+use __chigiri_internal_pdescriptor_ptypes_pfont_uencoding::*;
+#[path = "internal/descriptor/types/footnote_definition_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pfootnote_udefinition_unode;
+use __chigiri_internal_pdescriptor_ptypes_pfootnote_udefinition_unode::*;
+#[path = "internal/descriptor/types/footnote_reference_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pfootnote_ureference_unode;
+use __chigiri_internal_pdescriptor_ptypes_pfootnote_ureference_unode::*;
+#[path = "internal/descriptor/types/foreign_html_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pforeign_uhtml_unode;
+use __chigiri_internal_pdescriptor_ptypes_pforeign_uhtml_unode::*;
+#[path = "internal/descriptor/types/gfm_table_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pgfm_utable_unode;
+use __chigiri_internal_pdescriptor_ptypes_pgfm_utable_unode::*;
+#[path = "internal/descriptor/types/hard_break_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_phard_ubreak_unode;
+use __chigiri_internal_pdescriptor_ptypes_phard_ubreak_unode::*;
+#[path = "internal/descriptor/types/heading_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pheading_unode;
+use __chigiri_internal_pdescriptor_ptypes_pheading_unode::*;
+#[path = "internal/descriptor/types/html_block_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_phtml_ublock_unode;
+use __chigiri_internal_pdescriptor_ptypes_phtml_ublock_unode::*;
+#[path = "internal/descriptor/types/html_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_phtml_unode;
+use __chigiri_internal_pdescriptor_ptypes_phtml_unode::*;
+#[path = "internal/descriptor/types/image_candidate.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pimage_ucandidate;
+use __chigiri_internal_pdescriptor_ptypes_pimage_ucandidate::*;
+#[path = "internal/descriptor/types/image_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pimage_unode;
+use __chigiri_internal_pdescriptor_ptypes_pimage_unode::*;
+#[path = "internal/descriptor/types/image_presentation.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pimage_upresentation;
+use __chigiri_internal_pdescriptor_ptypes_pimage_upresentation::*;
+#[path = "internal/descriptor/types/indented_code_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pindented_ucode_unode;
+use __chigiri_internal_pdescriptor_ptypes_pindented_ucode_unode::*;
+#[path = "internal/descriptor/types/link_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_plink_unode;
+use __chigiri_internal_pdescriptor_ptypes_plink_unode::*;
+#[path = "internal/descriptor/types/link_reference_definition_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_plink_ureference_udefinition_unode;
+use __chigiri_internal_pdescriptor_ptypes_plink_ureference_udefinition_unode::*;
+#[path = "internal/descriptor/types/list_item_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_plist_uitem_unode;
+use __chigiri_internal_pdescriptor_ptypes_plist_uitem_unode::*;
+#[path = "internal/descriptor/types/list_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_plist_unode;
+use __chigiri_internal_pdescriptor_ptypes_plist_unode::*;
+#[path = "internal/descriptor/types/math_block_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pmath_ublock_unode;
+use __chigiri_internal_pdescriptor_ptypes_pmath_ublock_unode::*;
+#[path = "internal/descriptor/types/math_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pmath_unode;
+use __chigiri_internal_pdescriptor_ptypes_pmath_unode::*;
 #[path = "internal/descriptor/types/monthly_archive.rs"]
 mod __chigiri_internal_pdescriptor_ptypes_pmonthly_uarchive;
 use __chigiri_internal_pdescriptor_ptypes_pmonthly_uarchive::*;
 #[path = "internal/descriptor/types/page_info.rs"]
 mod __chigiri_internal_pdescriptor_ptypes_ppage_uinfo;
 use __chigiri_internal_pdescriptor_ptypes_ppage_uinfo::*;
+#[path = "internal/descriptor/types/paragraph_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pparagraph_unode;
+use __chigiri_internal_pdescriptor_ptypes_pparagraph_unode::*;
 #[path = "internal/descriptor/types/post.rs"]
 mod __chigiri_internal_pdescriptor_ptypes_ppost;
 use __chigiri_internal_pdescriptor_ptypes_ppost::*;
@@ -405,147 +483,162 @@ use __chigiri_internal_pdescriptor_ptypes_ppost_uconnection::*;
 #[path = "internal/descriptor/types/query.rs"]
 mod __chigiri_internal_pdescriptor_ptypes_pquery;
 use __chigiri_internal_pdescriptor_ptypes_pquery::*;
-#[path = "internal/descriptor/types/render_asset.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_prender_uasset;
-use __chigiri_internal_pdescriptor_ptypes_prender_uasset::*;
-#[path = "internal/descriptor/types/structured_block.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pstructured_ublock;
-use __chigiri_internal_pdescriptor_ptypes_pstructured_ublock::*;
-#[path = "internal/descriptor/types/structured_document.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pstructured_udocument;
-use __chigiri_internal_pdescriptor_ptypes_pstructured_udocument::*;
-#[path = "internal/descriptor/types/structured_entry.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pstructured_uentry;
-use __chigiri_internal_pdescriptor_ptypes_pstructured_uentry::*;
-#[path = "internal/descriptor/types/structured_footnote.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pstructured_ufootnote;
-use __chigiri_internal_pdescriptor_ptypes_pstructured_ufootnote::*;
-#[path = "internal/descriptor/types/structured_inline.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pstructured_uinline;
-use __chigiri_internal_pdescriptor_ptypes_pstructured_uinline::*;
-#[path = "internal/descriptor/types/structured_reference.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pstructured_ureference;
-use __chigiri_internal_pdescriptor_ptypes_pstructured_ureference::*;
-#[path = "internal/descriptor/types/structured_table_cell.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pstructured_utable_ucell;
-use __chigiri_internal_pdescriptor_ptypes_pstructured_utable_ucell::*;
-#[path = "internal/descriptor/types/structured_table_row.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pstructured_utable_urow;
-use __chigiri_internal_pdescriptor_ptypes_pstructured_utable_urow::*;
-#[path = "internal/descriptor/types/structured_trust_level.rs"]
-mod __chigiri_internal_pdescriptor_ptypes_pstructured_utrust_ulevel;
-use __chigiri_internal_pdescriptor_ptypes_pstructured_utrust_ulevel::*;
+#[path = "internal/descriptor/types/reference_definition_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_preference_udefinition_unode;
+use __chigiri_internal_pdescriptor_ptypes_preference_udefinition_unode::*;
+#[path = "internal/descriptor/types/soft_break_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_psoft_ubreak_unode;
+use __chigiri_internal_pdescriptor_ptypes_psoft_ubreak_unode::*;
+#[path = "internal/descriptor/types/strikethrough_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pstrikethrough_unode;
+use __chigiri_internal_pdescriptor_ptypes_pstrikethrough_unode::*;
+#[path = "internal/descriptor/types/strong_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pstrong_unode;
+use __chigiri_internal_pdescriptor_ptypes_pstrong_unode::*;
 #[path = "internal/descriptor/types/subscription.rs"]
 mod __chigiri_internal_pdescriptor_ptypes_psubscription;
 use __chigiri_internal_pdescriptor_ptypes_psubscription::*;
+#[path = "internal/descriptor/types/svg_content.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_psvg_ucontent;
+use __chigiri_internal_pdescriptor_ptypes_psvg_ucontent::*;
+#[path = "internal/descriptor/types/syntax_token.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_psyntax_utoken;
+use __chigiri_internal_pdescriptor_ptypes_psyntax_utoken::*;
+#[path = "internal/descriptor/types/syntax_token_kind.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_psyntax_utoken_ukind;
+use __chigiri_internal_pdescriptor_ptypes_psyntax_utoken_ukind::*;
 #[path = "internal/descriptor/types/table_alignment.rs"]
 mod __chigiri_internal_pdescriptor_ptypes_ptable_ualignment;
 use __chigiri_internal_pdescriptor_ptypes_ptable_ualignment::*;
+#[path = "internal/descriptor/types/table_cell_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_ptable_ucell_unode;
+use __chigiri_internal_pdescriptor_ptypes_ptable_ucell_unode::*;
+#[path = "internal/descriptor/types/table_row_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_ptable_urow_unode;
+use __chigiri_internal_pdescriptor_ptypes_ptable_urow_unode::*;
 #[path = "internal/descriptor/types/tag.rs"]
 mod __chigiri_internal_pdescriptor_ptypes_ptag;
 use __chigiri_internal_pdescriptor_ptypes_ptag::*;
-#[path = "internal/dispatch/block_blank_line.rs"]
-mod __chigiri_internal_pdispatch_pblock_ublank_uline;
-use __chigiri_internal_pdispatch_pblock_ublank_uline::*;
-#[path = "internal/dispatch/block_block_quote.rs"]
-mod __chigiri_internal_pdispatch_pblock_ublock_uquote;
-use __chigiri_internal_pdispatch_pblock_ublock_uquote::*;
-#[path = "internal/dispatch/block_callout.rs"]
-mod __chigiri_internal_pdispatch_pblock_ucallout;
-use __chigiri_internal_pdispatch_pblock_ucallout::*;
-#[path = "internal/dispatch/block_document.rs"]
-mod __chigiri_internal_pdispatch_pblock_udocument;
-use __chigiri_internal_pdispatch_pblock_udocument::*;
-#[path = "internal/dispatch/block_fenced_code.rs"]
-mod __chigiri_internal_pdispatch_pblock_ufenced_ucode;
-use __chigiri_internal_pdispatch_pblock_ufenced_ucode::*;
-#[path = "internal/dispatch/block_foreign_html.rs"]
-mod __chigiri_internal_pdispatch_pblock_uforeign_uhtml;
-use __chigiri_internal_pdispatch_pblock_uforeign_uhtml::*;
-#[path = "internal/dispatch/block_gfm_table.rs"]
-mod __chigiri_internal_pdispatch_pblock_ugfm_utable;
-use __chigiri_internal_pdispatch_pblock_ugfm_utable::*;
-#[path = "internal/dispatch/block_heading.rs"]
-mod __chigiri_internal_pdispatch_pblock_uheading;
-use __chigiri_internal_pdispatch_pblock_uheading::*;
-#[path = "internal/dispatch/block_html_block.rs"]
-mod __chigiri_internal_pdispatch_pblock_uhtml_ublock;
-use __chigiri_internal_pdispatch_pblock_uhtml_ublock::*;
-#[path = "internal/dispatch/block_indented_code.rs"]
-mod __chigiri_internal_pdispatch_pblock_uindented_ucode;
-use __chigiri_internal_pdispatch_pblock_uindented_ucode::*;
-#[path = "internal/dispatch/block_link_reference_definition.rs"]
-mod __chigiri_internal_pdispatch_pblock_ulink_ureference_udefinition;
-use __chigiri_internal_pdispatch_pblock_ulink_ureference_udefinition::*;
-#[path = "internal/dispatch/block_list.rs"]
-mod __chigiri_internal_pdispatch_pblock_ulist;
-use __chigiri_internal_pdispatch_pblock_ulist::*;
-#[path = "internal/dispatch/block_list_item.rs"]
-mod __chigiri_internal_pdispatch_pblock_ulist_uitem;
-use __chigiri_internal_pdispatch_pblock_ulist_uitem::*;
-#[path = "internal/dispatch/block_math_block.rs"]
-mod __chigiri_internal_pdispatch_pblock_umath_ublock;
-use __chigiri_internal_pdispatch_pblock_umath_ublock::*;
-#[path = "internal/dispatch/block_paragraph.rs"]
-mod __chigiri_internal_pdispatch_pblock_uparagraph;
-use __chigiri_internal_pdispatch_pblock_uparagraph::*;
-#[path = "internal/dispatch/block_thematic_break.rs"]
-mod __chigiri_internal_pdispatch_pblock_uthematic_ubreak;
-use __chigiri_internal_pdispatch_pblock_uthematic_ubreak::*;
+#[path = "internal/descriptor/types/text_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_ptext_unode;
+use __chigiri_internal_pdescriptor_ptypes_ptext_unode::*;
+#[path = "internal/descriptor/types/thematic_break_node.rs"]
+mod __chigiri_internal_pdescriptor_ptypes_pthematic_ubreak_unode;
+use __chigiri_internal_pdescriptor_ptypes_pthematic_ubreak_unode::*;
+#[path = "internal/dispatch/annotation_entry.rs"]
+mod __chigiri_internal_pdispatch_pannotation_uentry;
+use __chigiri_internal_pdispatch_pannotation_uentry::*;
+#[path = "internal/dispatch/annotation_node.rs"]
+mod __chigiri_internal_pdispatch_pannotation_unode;
+use __chigiri_internal_pdispatch_pannotation_unode::*;
+#[path = "internal/dispatch/blank_line_node.rs"]
+mod __chigiri_internal_pdispatch_pblank_uline_unode;
+use __chigiri_internal_pdispatch_pblank_uline_unode::*;
+#[path = "internal/dispatch/block_quote_node.rs"]
+mod __chigiri_internal_pdispatch_pblock_uquote_unode;
+use __chigiri_internal_pdispatch_pblock_uquote_unode::*;
+#[path = "internal/dispatch/callout_node.rs"]
+mod __chigiri_internal_pdispatch_pcallout_unode;
+use __chigiri_internal_pdispatch_pcallout_unode::*;
+#[path = "internal/dispatch/code_highlighting.rs"]
+mod __chigiri_internal_pdispatch_pcode_uhighlighting;
+use __chigiri_internal_pdispatch_pcode_uhighlighting::*;
+#[path = "internal/dispatch/code_line.rs"]
+mod __chigiri_internal_pdispatch_pcode_uline;
+use __chigiri_internal_pdispatch_pcode_uline::*;
+#[path = "internal/dispatch/code_node.rs"]
+mod __chigiri_internal_pdispatch_pcode_unode;
+use __chigiri_internal_pdispatch_pcode_unode::*;
 #[path = "internal/dispatch/content_change.rs"]
 mod __chigiri_internal_pdispatch_pcontent_uchange;
 use __chigiri_internal_pdispatch_pcontent_uchange::*;
-#[path = "internal/dispatch/html_block.rs"]
-mod __chigiri_internal_pdispatch_phtml_ublock;
-use __chigiri_internal_pdispatch_phtml_ublock::*;
-#[path = "internal/dispatch/inline_annotation.rs"]
-mod __chigiri_internal_pdispatch_pinline_uannotation;
-use __chigiri_internal_pdispatch_pinline_uannotation::*;
-#[path = "internal/dispatch/inline_code.rs"]
-mod __chigiri_internal_pdispatch_pinline_ucode;
-use __chigiri_internal_pdispatch_pinline_ucode::*;
-#[path = "internal/dispatch/inline_emoji.rs"]
-mod __chigiri_internal_pdispatch_pinline_uemoji;
-use __chigiri_internal_pdispatch_pinline_uemoji::*;
-#[path = "internal/dispatch/inline_emphasis.rs"]
-mod __chigiri_internal_pdispatch_pinline_uemphasis;
-use __chigiri_internal_pdispatch_pinline_uemphasis::*;
-#[path = "internal/dispatch/inline_footnote_reference.rs"]
-mod __chigiri_internal_pdispatch_pinline_ufootnote_ureference;
-use __chigiri_internal_pdispatch_pinline_ufootnote_ureference::*;
-#[path = "internal/dispatch/inline_hard_break.rs"]
-mod __chigiri_internal_pdispatch_pinline_uhard_ubreak;
-use __chigiri_internal_pdispatch_pinline_uhard_ubreak::*;
-#[path = "internal/dispatch/inline_html.rs"]
-mod __chigiri_internal_pdispatch_pinline_uhtml;
-use __chigiri_internal_pdispatch_pinline_uhtml::*;
-#[path = "internal/dispatch/inline_image.rs"]
-mod __chigiri_internal_pdispatch_pinline_uimage;
-use __chigiri_internal_pdispatch_pinline_uimage::*;
-#[path = "internal/dispatch/inline_link.rs"]
-mod __chigiri_internal_pdispatch_pinline_ulink;
-use __chigiri_internal_pdispatch_pinline_ulink::*;
-#[path = "internal/dispatch/inline_math.rs"]
-mod __chigiri_internal_pdispatch_pinline_umath;
-use __chigiri_internal_pdispatch_pinline_umath::*;
-#[path = "internal/dispatch/inline_soft_break.rs"]
-mod __chigiri_internal_pdispatch_pinline_usoft_ubreak;
-use __chigiri_internal_pdispatch_pinline_usoft_ubreak::*;
-#[path = "internal/dispatch/inline_strikethrough.rs"]
-mod __chigiri_internal_pdispatch_pinline_ustrikethrough;
-use __chigiri_internal_pdispatch_pinline_ustrikethrough::*;
-#[path = "internal/dispatch/inline_strong.rs"]
-mod __chigiri_internal_pdispatch_pinline_ustrong;
-use __chigiri_internal_pdispatch_pinline_ustrong::*;
-#[path = "internal/dispatch/inline_text.rs"]
-mod __chigiri_internal_pdispatch_pinline_utext;
-use __chigiri_internal_pdispatch_pinline_utext::*;
+#[path = "internal/dispatch/document.rs"]
+mod __chigiri_internal_pdispatch_pdocument;
+use __chigiri_internal_pdispatch_pdocument::*;
+#[path = "internal/dispatch/document_diagnostic.rs"]
+mod __chigiri_internal_pdispatch_pdocument_udiagnostic;
+use __chigiri_internal_pdispatch_pdocument_udiagnostic::*;
+#[path = "internal/dispatch/document_font.rs"]
+mod __chigiri_internal_pdispatch_pdocument_ufont;
+use __chigiri_internal_pdispatch_pdocument_ufont::*;
+#[path = "internal/dispatch/document_root_node.rs"]
+mod __chigiri_internal_pdispatch_pdocument_uroot_unode;
+use __chigiri_internal_pdispatch_pdocument_uroot_unode::*;
+#[path = "internal/dispatch/document_source_range.rs"]
+mod __chigiri_internal_pdispatch_pdocument_usource_urange;
+use __chigiri_internal_pdispatch_pdocument_usource_urange::*;
+#[path = "internal/dispatch/emoji_node.rs"]
+mod __chigiri_internal_pdispatch_pemoji_unode;
+use __chigiri_internal_pdispatch_pemoji_unode::*;
+#[path = "internal/dispatch/emphasis_node.rs"]
+mod __chigiri_internal_pdispatch_pemphasis_unode;
+use __chigiri_internal_pdispatch_pemphasis_unode::*;
+#[path = "internal/dispatch/fenced_code_node.rs"]
+mod __chigiri_internal_pdispatch_pfenced_ucode_unode;
+use __chigiri_internal_pdispatch_pfenced_ucode_unode::*;
+#[path = "internal/dispatch/footnote_definition_node.rs"]
+mod __chigiri_internal_pdispatch_pfootnote_udefinition_unode;
+use __chigiri_internal_pdispatch_pfootnote_udefinition_unode::*;
+#[path = "internal/dispatch/footnote_reference_node.rs"]
+mod __chigiri_internal_pdispatch_pfootnote_ureference_unode;
+use __chigiri_internal_pdispatch_pfootnote_ureference_unode::*;
+#[path = "internal/dispatch/foreign_html_node.rs"]
+mod __chigiri_internal_pdispatch_pforeign_uhtml_unode;
+use __chigiri_internal_pdispatch_pforeign_uhtml_unode::*;
+#[path = "internal/dispatch/gfm_table_node.rs"]
+mod __chigiri_internal_pdispatch_pgfm_utable_unode;
+use __chigiri_internal_pdispatch_pgfm_utable_unode::*;
+#[path = "internal/dispatch/hard_break_node.rs"]
+mod __chigiri_internal_pdispatch_phard_ubreak_unode;
+use __chigiri_internal_pdispatch_phard_ubreak_unode::*;
+#[path = "internal/dispatch/heading_node.rs"]
+mod __chigiri_internal_pdispatch_pheading_unode;
+use __chigiri_internal_pdispatch_pheading_unode::*;
+#[path = "internal/dispatch/html_block_node.rs"]
+mod __chigiri_internal_pdispatch_phtml_ublock_unode;
+use __chigiri_internal_pdispatch_phtml_ublock_unode::*;
+#[path = "internal/dispatch/html_node.rs"]
+mod __chigiri_internal_pdispatch_phtml_unode;
+use __chigiri_internal_pdispatch_phtml_unode::*;
+#[path = "internal/dispatch/image_candidate.rs"]
+mod __chigiri_internal_pdispatch_pimage_ucandidate;
+use __chigiri_internal_pdispatch_pimage_ucandidate::*;
+#[path = "internal/dispatch/image_node.rs"]
+mod __chigiri_internal_pdispatch_pimage_unode;
+use __chigiri_internal_pdispatch_pimage_unode::*;
+#[path = "internal/dispatch/image_presentation.rs"]
+mod __chigiri_internal_pdispatch_pimage_upresentation;
+use __chigiri_internal_pdispatch_pimage_upresentation::*;
+#[path = "internal/dispatch/indented_code_node.rs"]
+mod __chigiri_internal_pdispatch_pindented_ucode_unode;
+use __chigiri_internal_pdispatch_pindented_ucode_unode::*;
+#[path = "internal/dispatch/link_node.rs"]
+mod __chigiri_internal_pdispatch_plink_unode;
+use __chigiri_internal_pdispatch_plink_unode::*;
+#[path = "internal/dispatch/link_reference_definition_node.rs"]
+mod __chigiri_internal_pdispatch_plink_ureference_udefinition_unode;
+use __chigiri_internal_pdispatch_plink_ureference_udefinition_unode::*;
+#[path = "internal/dispatch/list_item_node.rs"]
+mod __chigiri_internal_pdispatch_plist_uitem_unode;
+use __chigiri_internal_pdispatch_plist_uitem_unode::*;
+#[path = "internal/dispatch/list_node.rs"]
+mod __chigiri_internal_pdispatch_plist_unode;
+use __chigiri_internal_pdispatch_plist_unode::*;
+#[path = "internal/dispatch/math_block_node.rs"]
+mod __chigiri_internal_pdispatch_pmath_ublock_unode;
+use __chigiri_internal_pdispatch_pmath_ublock_unode::*;
+#[path = "internal/dispatch/math_node.rs"]
+mod __chigiri_internal_pdispatch_pmath_unode;
+use __chigiri_internal_pdispatch_pmath_unode::*;
 #[path = "internal/dispatch/monthly_archive.rs"]
 mod __chigiri_internal_pdispatch_pmonthly_uarchive;
 use __chigiri_internal_pdispatch_pmonthly_uarchive::*;
 #[path = "internal/dispatch/page_info.rs"]
 mod __chigiri_internal_pdispatch_ppage_uinfo;
 use __chigiri_internal_pdispatch_ppage_uinfo::*;
+#[path = "internal/dispatch/paragraph_node.rs"]
+mod __chigiri_internal_pdispatch_pparagraph_unode;
+use __chigiri_internal_pdispatch_pparagraph_unode::*;
 #[path = "internal/dispatch/post.rs"]
 mod __chigiri_internal_pdispatch_ppost;
 use __chigiri_internal_pdispatch_ppost::*;
@@ -555,165 +648,195 @@ use __chigiri_internal_pdispatch_ppost_uconnection::*;
 #[path = "internal/dispatch/query.rs"]
 mod __chigiri_internal_pdispatch_pquery;
 use __chigiri_internal_pdispatch_pquery::*;
-#[path = "internal/dispatch/render_asset.rs"]
-mod __chigiri_internal_pdispatch_prender_uasset;
-use __chigiri_internal_pdispatch_prender_uasset::*;
-#[path = "internal/dispatch/structured_document.rs"]
-mod __chigiri_internal_pdispatch_pstructured_udocument;
-use __chigiri_internal_pdispatch_pstructured_udocument::*;
-#[path = "internal/dispatch/structured_entry.rs"]
-mod __chigiri_internal_pdispatch_pstructured_uentry;
-use __chigiri_internal_pdispatch_pstructured_uentry::*;
-#[path = "internal/dispatch/structured_footnote.rs"]
-mod __chigiri_internal_pdispatch_pstructured_ufootnote;
-use __chigiri_internal_pdispatch_pstructured_ufootnote::*;
-#[path = "internal/dispatch/structured_reference.rs"]
-mod __chigiri_internal_pdispatch_pstructured_ureference;
-use __chigiri_internal_pdispatch_pstructured_ureference::*;
-#[path = "internal/dispatch/structured_table_cell.rs"]
-mod __chigiri_internal_pdispatch_pstructured_utable_ucell;
-use __chigiri_internal_pdispatch_pstructured_utable_ucell::*;
-#[path = "internal/dispatch/structured_table_row.rs"]
-mod __chigiri_internal_pdispatch_pstructured_utable_urow;
-use __chigiri_internal_pdispatch_pstructured_utable_urow::*;
+#[path = "internal/dispatch/reference_definition_node.rs"]
+mod __chigiri_internal_pdispatch_preference_udefinition_unode;
+use __chigiri_internal_pdispatch_preference_udefinition_unode::*;
+#[path = "internal/dispatch/soft_break_node.rs"]
+mod __chigiri_internal_pdispatch_psoft_ubreak_unode;
+use __chigiri_internal_pdispatch_psoft_ubreak_unode::*;
+#[path = "internal/dispatch/strikethrough_node.rs"]
+mod __chigiri_internal_pdispatch_pstrikethrough_unode;
+use __chigiri_internal_pdispatch_pstrikethrough_unode::*;
+#[path = "internal/dispatch/strong_node.rs"]
+mod __chigiri_internal_pdispatch_pstrong_unode;
+use __chigiri_internal_pdispatch_pstrong_unode::*;
 #[path = "internal/dispatch/subscription.rs"]
 mod __chigiri_internal_pdispatch_psubscription;
 use __chigiri_internal_pdispatch_psubscription::*;
+#[path = "internal/dispatch/svg_content.rs"]
+mod __chigiri_internal_pdispatch_psvg_ucontent;
+use __chigiri_internal_pdispatch_psvg_ucontent::*;
+#[path = "internal/dispatch/syntax_token.rs"]
+mod __chigiri_internal_pdispatch_psyntax_utoken;
+use __chigiri_internal_pdispatch_psyntax_utoken::*;
+#[path = "internal/dispatch/table_cell_node.rs"]
+mod __chigiri_internal_pdispatch_ptable_ucell_unode;
+use __chigiri_internal_pdispatch_ptable_ucell_unode::*;
+#[path = "internal/dispatch/table_row_node.rs"]
+mod __chigiri_internal_pdispatch_ptable_urow_unode;
+use __chigiri_internal_pdispatch_ptable_urow_unode::*;
 #[path = "internal/dispatch/tag.rs"]
 mod __chigiri_internal_pdispatch_ptag;
 use __chigiri_internal_pdispatch_ptag::*;
-#[path = "resolvers/objects/block_blank_line.rs"]
-mod __chigiri_resolvers_pobjects_pblock_ublank_uline;
-pub use __chigiri_resolvers_pobjects_pblock_ublank_uline::*;
-#[path = "resolvers/objects/block_block_quote.rs"]
-mod __chigiri_resolvers_pobjects_pblock_ublock_uquote;
-pub use __chigiri_resolvers_pobjects_pblock_ublock_uquote::*;
-#[path = "resolvers/objects/block_callout.rs"]
-mod __chigiri_resolvers_pobjects_pblock_ucallout;
-pub use __chigiri_resolvers_pobjects_pblock_ucallout::*;
-#[path = "resolvers/objects/block_document.rs"]
-mod __chigiri_resolvers_pobjects_pblock_udocument;
-pub use __chigiri_resolvers_pobjects_pblock_udocument::*;
-#[path = "resolvers/objects/block_fenced_code.rs"]
-mod __chigiri_resolvers_pobjects_pblock_ufenced_ucode;
-pub use __chigiri_resolvers_pobjects_pblock_ufenced_ucode::*;
-#[path = "resolvers/objects/block_foreign_html.rs"]
-mod __chigiri_resolvers_pobjects_pblock_uforeign_uhtml;
-pub use __chigiri_resolvers_pobjects_pblock_uforeign_uhtml::*;
-#[path = "resolvers/objects/block_gfm_table.rs"]
-mod __chigiri_resolvers_pobjects_pblock_ugfm_utable;
-pub use __chigiri_resolvers_pobjects_pblock_ugfm_utable::*;
-#[path = "resolvers/objects/block_heading.rs"]
-mod __chigiri_resolvers_pobjects_pblock_uheading;
-pub use __chigiri_resolvers_pobjects_pblock_uheading::*;
-#[path = "resolvers/objects/block_html_block.rs"]
-mod __chigiri_resolvers_pobjects_pblock_uhtml_ublock;
-pub use __chigiri_resolvers_pobjects_pblock_uhtml_ublock::*;
-#[path = "resolvers/objects/block_indented_code.rs"]
-mod __chigiri_resolvers_pobjects_pblock_uindented_ucode;
-pub use __chigiri_resolvers_pobjects_pblock_uindented_ucode::*;
-#[path = "resolvers/objects/block_link_reference_definition.rs"]
-mod __chigiri_resolvers_pobjects_pblock_ulink_ureference_udefinition;
-pub use __chigiri_resolvers_pobjects_pblock_ulink_ureference_udefinition::*;
-#[path = "resolvers/objects/block_list.rs"]
-mod __chigiri_resolvers_pobjects_pblock_ulist;
-pub use __chigiri_resolvers_pobjects_pblock_ulist::*;
-#[path = "resolvers/objects/block_list_item.rs"]
-mod __chigiri_resolvers_pobjects_pblock_ulist_uitem;
-pub use __chigiri_resolvers_pobjects_pblock_ulist_uitem::*;
-#[path = "resolvers/objects/block_math_block.rs"]
-mod __chigiri_resolvers_pobjects_pblock_umath_ublock;
-pub use __chigiri_resolvers_pobjects_pblock_umath_ublock::*;
-#[path = "resolvers/objects/block_paragraph.rs"]
-mod __chigiri_resolvers_pobjects_pblock_uparagraph;
-pub use __chigiri_resolvers_pobjects_pblock_uparagraph::*;
-#[path = "resolvers/objects/block_thematic_break.rs"]
-mod __chigiri_resolvers_pobjects_pblock_uthematic_ubreak;
-pub use __chigiri_resolvers_pobjects_pblock_uthematic_ubreak::*;
+#[path = "internal/dispatch/text_node.rs"]
+mod __chigiri_internal_pdispatch_ptext_unode;
+use __chigiri_internal_pdispatch_ptext_unode::*;
+#[path = "internal/dispatch/thematic_break_node.rs"]
+mod __chigiri_internal_pdispatch_pthematic_ubreak_unode;
+use __chigiri_internal_pdispatch_pthematic_ubreak_unode::*;
+#[path = "resolvers/objects/annotation_entry.rs"]
+mod __chigiri_resolvers_pobjects_pannotation_uentry;
+pub use __chigiri_resolvers_pobjects_pannotation_uentry::*;
+#[path = "resolvers/objects/annotation_node.rs"]
+mod __chigiri_resolvers_pobjects_pannotation_unode;
+pub use __chigiri_resolvers_pobjects_pannotation_unode::*;
+#[path = "resolvers/objects/blank_line_node.rs"]
+mod __chigiri_resolvers_pobjects_pblank_uline_unode;
+pub use __chigiri_resolvers_pobjects_pblank_uline_unode::*;
+#[path = "resolvers/objects/block_quote_node.rs"]
+mod __chigiri_resolvers_pobjects_pblock_uquote_unode;
+pub use __chigiri_resolvers_pobjects_pblock_uquote_unode::*;
+#[path = "resolvers/objects/callout_node.rs"]
+mod __chigiri_resolvers_pobjects_pcallout_unode;
+pub use __chigiri_resolvers_pobjects_pcallout_unode::*;
+#[path = "resolvers/objects/code_highlighting.rs"]
+mod __chigiri_resolvers_pobjects_pcode_uhighlighting;
+pub use __chigiri_resolvers_pobjects_pcode_uhighlighting::*;
+#[path = "resolvers/objects/code_line.rs"]
+mod __chigiri_resolvers_pobjects_pcode_uline;
+pub use __chigiri_resolvers_pobjects_pcode_uline::*;
+#[path = "resolvers/objects/code_node.rs"]
+mod __chigiri_resolvers_pobjects_pcode_unode;
+pub use __chigiri_resolvers_pobjects_pcode_unode::*;
 #[path = "resolvers/objects/content_change.rs"]
 mod __chigiri_resolvers_pobjects_pcontent_uchange;
 pub use __chigiri_resolvers_pobjects_pcontent_uchange::*;
-#[path = "resolvers/objects/html_block.rs"]
-mod __chigiri_resolvers_pobjects_phtml_ublock;
-pub use __chigiri_resolvers_pobjects_phtml_ublock::*;
-#[path = "resolvers/objects/inline_annotation.rs"]
-mod __chigiri_resolvers_pobjects_pinline_uannotation;
-pub use __chigiri_resolvers_pobjects_pinline_uannotation::*;
-#[path = "resolvers/objects/inline_code.rs"]
-mod __chigiri_resolvers_pobjects_pinline_ucode;
-pub use __chigiri_resolvers_pobjects_pinline_ucode::*;
-#[path = "resolvers/objects/inline_emoji.rs"]
-mod __chigiri_resolvers_pobjects_pinline_uemoji;
-pub use __chigiri_resolvers_pobjects_pinline_uemoji::*;
-#[path = "resolvers/objects/inline_emphasis.rs"]
-mod __chigiri_resolvers_pobjects_pinline_uemphasis;
-pub use __chigiri_resolvers_pobjects_pinline_uemphasis::*;
-#[path = "resolvers/objects/inline_footnote_reference.rs"]
-mod __chigiri_resolvers_pobjects_pinline_ufootnote_ureference;
-pub use __chigiri_resolvers_pobjects_pinline_ufootnote_ureference::*;
-#[path = "resolvers/objects/inline_hard_break.rs"]
-mod __chigiri_resolvers_pobjects_pinline_uhard_ubreak;
-pub use __chigiri_resolvers_pobjects_pinline_uhard_ubreak::*;
-#[path = "resolvers/objects/inline_html.rs"]
-mod __chigiri_resolvers_pobjects_pinline_uhtml;
-pub use __chigiri_resolvers_pobjects_pinline_uhtml::*;
-#[path = "resolvers/objects/inline_image.rs"]
-mod __chigiri_resolvers_pobjects_pinline_uimage;
-pub use __chigiri_resolvers_pobjects_pinline_uimage::*;
-#[path = "resolvers/objects/inline_link.rs"]
-mod __chigiri_resolvers_pobjects_pinline_ulink;
-pub use __chigiri_resolvers_pobjects_pinline_ulink::*;
-#[path = "resolvers/objects/inline_math.rs"]
-mod __chigiri_resolvers_pobjects_pinline_umath;
-pub use __chigiri_resolvers_pobjects_pinline_umath::*;
-#[path = "resolvers/objects/inline_soft_break.rs"]
-mod __chigiri_resolvers_pobjects_pinline_usoft_ubreak;
-pub use __chigiri_resolvers_pobjects_pinline_usoft_ubreak::*;
-#[path = "resolvers/objects/inline_strikethrough.rs"]
-mod __chigiri_resolvers_pobjects_pinline_ustrikethrough;
-pub use __chigiri_resolvers_pobjects_pinline_ustrikethrough::*;
-#[path = "resolvers/objects/inline_strong.rs"]
-mod __chigiri_resolvers_pobjects_pinline_ustrong;
-pub use __chigiri_resolvers_pobjects_pinline_ustrong::*;
-#[path = "resolvers/objects/inline_text.rs"]
-mod __chigiri_resolvers_pobjects_pinline_utext;
-pub use __chigiri_resolvers_pobjects_pinline_utext::*;
+#[path = "resolvers/objects/document.rs"]
+mod __chigiri_resolvers_pobjects_pdocument;
+pub use __chigiri_resolvers_pobjects_pdocument::*;
+#[path = "resolvers/objects/document_diagnostic.rs"]
+mod __chigiri_resolvers_pobjects_pdocument_udiagnostic;
+pub use __chigiri_resolvers_pobjects_pdocument_udiagnostic::*;
+#[path = "resolvers/objects/document_font.rs"]
+mod __chigiri_resolvers_pobjects_pdocument_ufont;
+pub use __chigiri_resolvers_pobjects_pdocument_ufont::*;
+#[path = "resolvers/objects/document_root_node.rs"]
+mod __chigiri_resolvers_pobjects_pdocument_uroot_unode;
+pub use __chigiri_resolvers_pobjects_pdocument_uroot_unode::*;
+#[path = "resolvers/objects/document_source_range.rs"]
+mod __chigiri_resolvers_pobjects_pdocument_usource_urange;
+pub use __chigiri_resolvers_pobjects_pdocument_usource_urange::*;
+#[path = "resolvers/objects/emoji_node.rs"]
+mod __chigiri_resolvers_pobjects_pemoji_unode;
+pub use __chigiri_resolvers_pobjects_pemoji_unode::*;
+#[path = "resolvers/objects/emphasis_node.rs"]
+mod __chigiri_resolvers_pobjects_pemphasis_unode;
+pub use __chigiri_resolvers_pobjects_pemphasis_unode::*;
+#[path = "resolvers/objects/fenced_code_node.rs"]
+mod __chigiri_resolvers_pobjects_pfenced_ucode_unode;
+pub use __chigiri_resolvers_pobjects_pfenced_ucode_unode::*;
+#[path = "resolvers/objects/footnote_definition_node.rs"]
+mod __chigiri_resolvers_pobjects_pfootnote_udefinition_unode;
+pub use __chigiri_resolvers_pobjects_pfootnote_udefinition_unode::*;
+#[path = "resolvers/objects/footnote_reference_node.rs"]
+mod __chigiri_resolvers_pobjects_pfootnote_ureference_unode;
+pub use __chigiri_resolvers_pobjects_pfootnote_ureference_unode::*;
+#[path = "resolvers/objects/foreign_html_node.rs"]
+mod __chigiri_resolvers_pobjects_pforeign_uhtml_unode;
+pub use __chigiri_resolvers_pobjects_pforeign_uhtml_unode::*;
+#[path = "resolvers/objects/gfm_table_node.rs"]
+mod __chigiri_resolvers_pobjects_pgfm_utable_unode;
+pub use __chigiri_resolvers_pobjects_pgfm_utable_unode::*;
+#[path = "resolvers/objects/hard_break_node.rs"]
+mod __chigiri_resolvers_pobjects_phard_ubreak_unode;
+pub use __chigiri_resolvers_pobjects_phard_ubreak_unode::*;
+#[path = "resolvers/objects/heading_node.rs"]
+mod __chigiri_resolvers_pobjects_pheading_unode;
+pub use __chigiri_resolvers_pobjects_pheading_unode::*;
+#[path = "resolvers/objects/html_block_node.rs"]
+mod __chigiri_resolvers_pobjects_phtml_ublock_unode;
+pub use __chigiri_resolvers_pobjects_phtml_ublock_unode::*;
+#[path = "resolvers/objects/html_node.rs"]
+mod __chigiri_resolvers_pobjects_phtml_unode;
+pub use __chigiri_resolvers_pobjects_phtml_unode::*;
+#[path = "resolvers/objects/image_candidate.rs"]
+mod __chigiri_resolvers_pobjects_pimage_ucandidate;
+pub use __chigiri_resolvers_pobjects_pimage_ucandidate::*;
+#[path = "resolvers/objects/image_node.rs"]
+mod __chigiri_resolvers_pobjects_pimage_unode;
+pub use __chigiri_resolvers_pobjects_pimage_unode::*;
+#[path = "resolvers/objects/image_presentation.rs"]
+mod __chigiri_resolvers_pobjects_pimage_upresentation;
+pub use __chigiri_resolvers_pobjects_pimage_upresentation::*;
+#[path = "resolvers/objects/indented_code_node.rs"]
+mod __chigiri_resolvers_pobjects_pindented_ucode_unode;
+pub use __chigiri_resolvers_pobjects_pindented_ucode_unode::*;
+#[path = "resolvers/objects/link_node.rs"]
+mod __chigiri_resolvers_pobjects_plink_unode;
+pub use __chigiri_resolvers_pobjects_plink_unode::*;
+#[path = "resolvers/objects/link_reference_definition_node.rs"]
+mod __chigiri_resolvers_pobjects_plink_ureference_udefinition_unode;
+pub use __chigiri_resolvers_pobjects_plink_ureference_udefinition_unode::*;
+#[path = "resolvers/objects/list_item_node.rs"]
+mod __chigiri_resolvers_pobjects_plist_uitem_unode;
+pub use __chigiri_resolvers_pobjects_plist_uitem_unode::*;
+#[path = "resolvers/objects/list_node.rs"]
+mod __chigiri_resolvers_pobjects_plist_unode;
+pub use __chigiri_resolvers_pobjects_plist_unode::*;
+#[path = "resolvers/objects/math_block_node.rs"]
+mod __chigiri_resolvers_pobjects_pmath_ublock_unode;
+pub use __chigiri_resolvers_pobjects_pmath_ublock_unode::*;
+#[path = "resolvers/objects/math_node.rs"]
+mod __chigiri_resolvers_pobjects_pmath_unode;
+pub use __chigiri_resolvers_pobjects_pmath_unode::*;
 #[path = "resolvers/objects/monthly_archive.rs"]
 mod __chigiri_resolvers_pobjects_pmonthly_uarchive;
 pub use __chigiri_resolvers_pobjects_pmonthly_uarchive::*;
 #[path = "resolvers/objects/page_info.rs"]
 mod __chigiri_resolvers_pobjects_ppage_uinfo;
 pub use __chigiri_resolvers_pobjects_ppage_uinfo::*;
+#[path = "resolvers/objects/paragraph_node.rs"]
+mod __chigiri_resolvers_pobjects_pparagraph_unode;
+pub use __chigiri_resolvers_pobjects_pparagraph_unode::*;
 #[path = "resolvers/objects/post.rs"]
 mod __chigiri_resolvers_pobjects_ppost;
 pub use __chigiri_resolvers_pobjects_ppost::*;
 #[path = "resolvers/objects/post_connection.rs"]
 mod __chigiri_resolvers_pobjects_ppost_uconnection;
 pub use __chigiri_resolvers_pobjects_ppost_uconnection::*;
-#[path = "resolvers/objects/render_asset.rs"]
-mod __chigiri_resolvers_pobjects_prender_uasset;
-pub use __chigiri_resolvers_pobjects_prender_uasset::*;
-#[path = "resolvers/objects/structured_document.rs"]
-mod __chigiri_resolvers_pobjects_pstructured_udocument;
-pub use __chigiri_resolvers_pobjects_pstructured_udocument::*;
-#[path = "resolvers/objects/structured_entry.rs"]
-mod __chigiri_resolvers_pobjects_pstructured_uentry;
-pub use __chigiri_resolvers_pobjects_pstructured_uentry::*;
-#[path = "resolvers/objects/structured_footnote.rs"]
-mod __chigiri_resolvers_pobjects_pstructured_ufootnote;
-pub use __chigiri_resolvers_pobjects_pstructured_ufootnote::*;
-#[path = "resolvers/objects/structured_reference.rs"]
-mod __chigiri_resolvers_pobjects_pstructured_ureference;
-pub use __chigiri_resolvers_pobjects_pstructured_ureference::*;
-#[path = "resolvers/objects/structured_table_cell.rs"]
-mod __chigiri_resolvers_pobjects_pstructured_utable_ucell;
-pub use __chigiri_resolvers_pobjects_pstructured_utable_ucell::*;
-#[path = "resolvers/objects/structured_table_row.rs"]
-mod __chigiri_resolvers_pobjects_pstructured_utable_urow;
-pub use __chigiri_resolvers_pobjects_pstructured_utable_urow::*;
+#[path = "resolvers/objects/reference_definition_node.rs"]
+mod __chigiri_resolvers_pobjects_preference_udefinition_unode;
+pub use __chigiri_resolvers_pobjects_preference_udefinition_unode::*;
+#[path = "resolvers/objects/soft_break_node.rs"]
+mod __chigiri_resolvers_pobjects_psoft_ubreak_unode;
+pub use __chigiri_resolvers_pobjects_psoft_ubreak_unode::*;
+#[path = "resolvers/objects/strikethrough_node.rs"]
+mod __chigiri_resolvers_pobjects_pstrikethrough_unode;
+pub use __chigiri_resolvers_pobjects_pstrikethrough_unode::*;
+#[path = "resolvers/objects/strong_node.rs"]
+mod __chigiri_resolvers_pobjects_pstrong_unode;
+pub use __chigiri_resolvers_pobjects_pstrong_unode::*;
+#[path = "resolvers/objects/svg_content.rs"]
+mod __chigiri_resolvers_pobjects_psvg_ucontent;
+pub use __chigiri_resolvers_pobjects_psvg_ucontent::*;
+#[path = "resolvers/objects/syntax_token.rs"]
+mod __chigiri_resolvers_pobjects_psyntax_utoken;
+pub use __chigiri_resolvers_pobjects_psyntax_utoken::*;
+#[path = "resolvers/objects/table_cell_node.rs"]
+mod __chigiri_resolvers_pobjects_ptable_ucell_unode;
+pub use __chigiri_resolvers_pobjects_ptable_ucell_unode::*;
+#[path = "resolvers/objects/table_row_node.rs"]
+mod __chigiri_resolvers_pobjects_ptable_urow_unode;
+pub use __chigiri_resolvers_pobjects_ptable_urow_unode::*;
 #[path = "resolvers/objects/tag.rs"]
 mod __chigiri_resolvers_pobjects_ptag;
 pub use __chigiri_resolvers_pobjects_ptag::*;
+#[path = "resolvers/objects/text_node.rs"]
+mod __chigiri_resolvers_pobjects_ptext_unode;
+pub use __chigiri_resolvers_pobjects_ptext_unode::*;
+#[path = "resolvers/objects/thematic_break_node.rs"]
+mod __chigiri_resolvers_pobjects_pthematic_ubreak_unode;
+pub use __chigiri_resolvers_pobjects_pthematic_ubreak_unode::*;
 #[path = "resolvers/query.rs"]
 mod __chigiri_resolvers_pquery;
 pub use __chigiri_resolvers_pquery::*;
@@ -723,15 +846,24 @@ pub use __chigiri_resolvers_psubscription::*;
 #[path = "schema_types.rs"]
 mod __chigiri_schema_utypes;
 pub use __chigiri_schema_utypes::*;
-#[path = "types/structured_block.rs"]
-mod __chigiri_types_pstructured_ublock;
-pub use __chigiri_types_pstructured_ublock::*;
-#[path = "types/structured_inline.rs"]
-mod __chigiri_types_pstructured_uinline;
-pub use __chigiri_types_pstructured_uinline::*;
-#[path = "types/structured_trust_level.rs"]
-mod __chigiri_types_pstructured_utrust_ulevel;
-pub use __chigiri_types_pstructured_utrust_ulevel::*;
+#[path = "types/diagnostic_severity.rs"]
+mod __chigiri_types_pdiagnostic_useverity;
+pub use __chigiri_types_pdiagnostic_useverity::*;
+#[path = "types/document_diagnostic_engine.rs"]
+mod __chigiri_types_pdocument_udiagnostic_uengine;
+pub use __chigiri_types_pdocument_udiagnostic_uengine::*;
+#[path = "types/document_node.rs"]
+mod __chigiri_types_pdocument_unode;
+pub use __chigiri_types_pdocument_unode::*;
+#[path = "types/document_trust_level.rs"]
+mod __chigiri_types_pdocument_utrust_ulevel;
+pub use __chigiri_types_pdocument_utrust_ulevel::*;
+#[path = "types/font_encoding.rs"]
+mod __chigiri_types_pfont_uencoding;
+pub use __chigiri_types_pfont_uencoding::*;
+#[path = "types/syntax_token_kind.rs"]
+mod __chigiri_types_psyntax_utoken_ukind;
+pub use __chigiri_types_psyntax_utoken_ukind::*;
 #[path = "types/table_alignment.rs"]
 mod __chigiri_types_ptable_ualignment;
 pub use __chigiri_types_ptable_ualignment::*;

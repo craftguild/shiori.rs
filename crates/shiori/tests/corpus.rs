@@ -92,7 +92,7 @@ async fn five_thousand_article_serial_corpus() {
     assert_eq!(renderer.calls(), 0);
     for i in [0, 1, 100, 2500, 4999] {
         let query_text = format!(
-            "{{ post(id:\"{}\") {{ id title blocks {{ id kind html }} assets {{ id kind mimeType content }} }} }}",
+            "{{ post(id:\"{}\") {{ id title document {{ nodes {{ __typename ... on TextNode {{ text }} ... on ImageNode {{ presentation {{ url }} }} ... on FencedCodeNode {{ svg {{ markup }} }} }} }} }} }}",
             BASE + i
         );
         let first = data(&router, &query_text).await;
@@ -123,7 +123,7 @@ async fn five_thousand_article_serial_corpus() {
     let edited = data(
         &router,
         &format!(
-            "{{ post(id:\"{}\") {{ title blocks {{ html }} }} }}",
+            "{{ post(id:\"{}\") {{ title document {{ nodes {{ ... on TextNode {{ text }} }} }} }} }}",
             BASE + 100
         ),
     )

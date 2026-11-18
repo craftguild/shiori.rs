@@ -3,7 +3,7 @@
 
 pub(super) fn __chigiri_schema_route_00_0000<'a, C, T>(
     __chigiri_resolvers: &'a super::Resolvers<C, T>,
-    __chigiri_context: &'a C,
+    __chigiri_context: ::chigiri::FieldContext<'a, C>,
     __chigiri_parent_type: &'a str,
     __chigiri_field_name: &'a str,
     __chigiri_parent: ::std::option::Option<&'a ::chigiri::__private::ResolvedObject>,
@@ -19,269 +19,237 @@ where
     T: super::SchemaTypes,
 {
     match __chigiri_parent_type {
-        "Query" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[0].resolve(
+        "Query" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[0].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "Subscription" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[1].resolve(
+            ),
+        ),
+        "Subscription" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[1].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "ContentChange" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[2].resolve(
+            ),
+        ),
+        "ContentChange" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[2].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "Post" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[3].resolve(
+            ),
+        ),
+        "Post" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[3].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "HtmlBlock" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[4].resolve(
+            ),
+        ),
+        "PostConnection" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[4].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "RenderAsset" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[5].resolve(
+            ),
+        ),
+        "PageInfo" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[5].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "PostConnection" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[6].resolve(
+            ),
+        ),
+        "Tag" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[6].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "PageInfo" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[7].resolve(
+            ),
+        ),
+        "MonthlyArchive" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[7].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "Tag" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[8].resolve(
+            ),
+        ),
+        "Document" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[8].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "MonthlyArchive" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[9].resolve(
+            ),
+        ),
+        "DocumentRootNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[9].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "StructuredDocument" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[10].resolve(
+            ),
+        ),
+        "ParagraphNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[10].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "StructuredTableCell" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[11].resolve(
+            ),
+        ),
+        "HeadingNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[11].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "StructuredTableRow" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[12].resolve(
+            ),
+        ),
+        "FencedCodeNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[12].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "StructuredEntry" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[13].resolve(
+            ),
+        ),
+        "IndentedCodeNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[13].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "StructuredReference" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[14].resolve(
+            ),
+        ),
+        "MathBlockNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[14].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "StructuredFootnote" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[15].resolve(
+            ),
+        ),
+        "ThematicBreakNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[15].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockDocument" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[16].resolve(
+            ),
+        ),
+        "HtmlBlockNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[16].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockParagraph" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[17].resolve(
+            ),
+        ),
+        "LinkReferenceDefinitionNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[17].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockHeading" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[18].resolve(
+            ),
+        ),
+        "BlockQuoteNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[18].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockFencedCode" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[19].resolve(
+            ),
+        ),
+        "ListNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[19].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockIndentedCode" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[20].resolve(
+            ),
+        ),
+        "ListItemNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[20].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockMathBlock" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[21].resolve(
+            ),
+        ),
+        "GfmTableNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[21].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockThematicBreak" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[22].resolve(
+            ),
+        ),
+        "TableRowNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[22].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockHtmlBlock" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[23].resolve(
+            ),
+        ),
+        "TableCellNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[23].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockLinkReferenceDefinition" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[24].resolve(
+            ),
+        ),
+        "BlankLineNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[24].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockBlockQuote" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[25].resolve(
+            ),
+        ),
+        "CalloutNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[25].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockList" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[26].resolve(
+            ),
+        ),
+        "ForeignHtmlNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[26].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockListItem" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[27].resolve(
+            ),
+        ),
+        "TextNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[27].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockGfmTable" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[28].resolve(
+            ),
+        ),
+        "EmojiNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[28].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockBlankLine" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[29].resolve(
+            ),
+        ),
+        "CodeNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[29].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockCallout" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[30].resolve(
+            ),
+        ),
+        "MathNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[30].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "BlockForeignHtml" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[31].resolve(
+            ),
+        ),
+        "HtmlNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[31].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
+            ),
+        ),
         _ => ::chigiri::__private::DispatchAttempt::Unmatched(__chigiri_arguments),
     }
 }
 
 pub(super) fn __chigiri_schema_route_00_0001<'a, C, T>(
     __chigiri_resolvers: &'a super::Resolvers<C, T>,
-    __chigiri_context: &'a C,
+    __chigiri_context: ::chigiri::FieldContext<'a, C>,
     __chigiri_parent_type: &'a str,
     __chigiri_field_name: &'a str,
     __chigiri_parent: ::std::option::Option<&'a ::chigiri::__private::ResolvedObject>,
@@ -297,125 +265,160 @@ where
     T: super::SchemaTypes,
 {
     match __chigiri_parent_type {
-        "InlineAnnotation" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[32].resolve(
+        "SoftBreakNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[32].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineText" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[33].resolve(
+            ),
+        ),
+        "HardBreakNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[33].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineEmoji" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[34].resolve(
+            ),
+        ),
+        "AnnotationNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[34].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineCode" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[35].resolve(
+            ),
+        ),
+        "EmphasisNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[35].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineMath" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[36].resolve(
+            ),
+        ),
+        "StrongNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[36].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineHtml" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[37].resolve(
+            ),
+        ),
+        "StrikethroughNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[37].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineSoftBreak" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[38].resolve(
+            ),
+        ),
+        "LinkNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[38].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineHardBreak" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[39].resolve(
+            ),
+        ),
+        "ImageNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[39].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineEmphasis" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[40].resolve(
+            ),
+        ),
+        "FootnoteReferenceNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[40].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineStrong" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[41].resolve(
+            ),
+        ),
+        "ReferenceDefinitionNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[41].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineStrikethrough" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[42].resolve(
+            ),
+        ),
+        "FootnoteDefinitionNode" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[42].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineLink" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[43].resolve(
+            ),
+        ),
+        "CodeHighlighting" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[43].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineImage" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[44].resolve(
+            ),
+        ),
+        "CodeLine" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[44].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
-        "InlineFootnoteReference" => {
-            ::chigiri::__private::DispatchAttempt::Matched(__chigiri_resolvers.groups[45].resolve(
+            ),
+        ),
+        "SyntaxToken" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[45].resolve_with_context(
                 __chigiri_context,
-                __chigiri_field_name,
                 __chigiri_parent,
                 __chigiri_arguments,
-            ))
-        }
+            ),
+        ),
+        "SvgContent" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[46].resolve_with_context(
+                __chigiri_context,
+                __chigiri_parent,
+                __chigiri_arguments,
+            ),
+        ),
+        "DocumentFont" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[47].resolve_with_context(
+                __chigiri_context,
+                __chigiri_parent,
+                __chigiri_arguments,
+            ),
+        ),
+        "DocumentDiagnostic" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[48].resolve_with_context(
+                __chigiri_context,
+                __chigiri_parent,
+                __chigiri_arguments,
+            ),
+        ),
+        "DocumentSourceRange" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[49].resolve_with_context(
+                __chigiri_context,
+                __chigiri_parent,
+                __chigiri_arguments,
+            ),
+        ),
+        "AnnotationEntry" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[50].resolve_with_context(
+                __chigiri_context,
+                __chigiri_parent,
+                __chigiri_arguments,
+            ),
+        ),
+        "ImagePresentation" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[51].resolve_with_context(
+                __chigiri_context,
+                __chigiri_parent,
+                __chigiri_arguments,
+            ),
+        ),
+        "ImageCandidate" => ::chigiri::__private::DispatchAttempt::Matched(
+            __chigiri_resolvers.groups[52].resolve_with_context(
+                __chigiri_context,
+                __chigiri_parent,
+                __chigiri_arguments,
+            ),
+        ),
         _ => ::chigiri::__private::DispatchAttempt::Unmatched(__chigiri_arguments),
     }
 }
 
 pub(super) fn __chigiri_schema_route_01_0000<'a, C, T>(
     __chigiri_resolvers: &'a super::Resolvers<C, T>,
-    __chigiri_context: &'a C,
+    __chigiri_context: ::chigiri::FieldContext<'a, C>,
     __chigiri_parent_type: &'a str,
     __chigiri_field_name: &'a str,
     __chigiri_parent: ::std::option::Option<&'a ::chigiri::__private::ResolvedObject>,

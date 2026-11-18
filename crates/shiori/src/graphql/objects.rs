@@ -1,66 +1,10 @@
 use crate::{
     graphql::{Connection, Context, Error, MonthlyArchive, PageInfo, Tag, Types},
     metadata::Article,
-    rendering::{Asset, HtmlBlock},
 };
 use chigiri::{FieldContext, Id};
 use std::sync::Arc;
 
-pub struct BlockFields;
-impl generated::HtmlBlockResolver<Context, Types, Error> for BlockFields {
-    async fn id<'a>(
-        &'a self,
-        _: FieldContext<'a, Context>,
-        parent: &'a HtmlBlock,
-    ) -> Result<Id, Error> {
-        Ok(parent.id.clone().into())
-    }
-    async fn kind<'a>(
-        &'a self,
-        _: FieldContext<'a, Context>,
-        parent: &'a HtmlBlock,
-    ) -> Result<String, Error> {
-        Ok(parent.kind.clone())
-    }
-    async fn html<'a>(
-        &'a self,
-        _: FieldContext<'a, Context>,
-        parent: &'a HtmlBlock,
-    ) -> Result<String, Error> {
-        Ok(parent.html.clone())
-    }
-}
-pub struct AssetFields;
-impl generated::RenderAssetResolver<Context, Types, Error> for AssetFields {
-    async fn id<'a>(
-        &'a self,
-        _: FieldContext<'a, Context>,
-        parent: &'a Asset,
-    ) -> Result<Id, Error> {
-        Ok(parent.id.clone().into())
-    }
-    async fn kind<'a>(
-        &'a self,
-        _: FieldContext<'a, Context>,
-        parent: &'a Asset,
-    ) -> Result<String, Error> {
-        Ok(parent.kind.clone())
-    }
-    async fn mime_type<'a>(
-        &'a self,
-        _: FieldContext<'a, Context>,
-        parent: &'a Asset,
-    ) -> Result<String, Error> {
-        Ok(parent.mime_type.clone())
-    }
-    async fn content<'a>(
-        &'a self,
-        _: FieldContext<'a, Context>,
-        parent: &'a Asset,
-    ) -> Result<String, Error> {
-        Ok(parent.content.clone())
-    }
-}
 pub struct ConnectionFields;
 impl generated::PostConnectionResolver<Context, Types, Error> for ConnectionFields {
     async fn nodes<'a>(

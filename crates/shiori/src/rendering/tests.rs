@@ -3,11 +3,7 @@ use crate::{
     catalog::{Catalog, Snapshot},
     metadata, storage,
 };
-use oriha_core::BlockOutputMode;
-use oriha_core::{
-    AssetKind, BlockNullReason, HtmlBlockKind, RenderAsset, RenderedBlockContent,
-    RenderedBlockOutput, RenderedHtmlBlock,
-};
+use oriha_core::{BlockOutput, BlockOutputMode, BlockOutputStatus, DocumentNodeKind, RenderInput};
 use std::sync::{Condvar, atomic::AtomicBool};
 
 pub(super) struct Gate {
@@ -82,7 +78,11 @@ fn request(
     renderer: Arc<Renderer>,
     article: Arc<Article>,
 ) -> tokio::task::JoinHandle<RenderResult> {
-    tokio::spawn(async move { renderer.render(article, &RequestMemo::default()).await })
+    tokio::spawn(async move {
+        renderer
+            .document(article, &RequestMemo::default(), Profile::default())
+            .await
+    })
 }
 async fn until(mut condition: impl FnMut() -> bool) {
     tokio::time::timeout(std::time::Duration::from_secs(5), async {
@@ -94,88 +94,46 @@ async fn until(mut condition: impl FnMut() -> bool) {
     .expect("controlled task must reach synchronization point");
 }
 
-#[test]
-fn adapter_preserves_all_typed_kinds_empty_html_order_and_resource_encoding() {
-    let kinds = [
-        HtmlBlockKind::Document,
-        HtmlBlockKind::Paragraph,
-        HtmlBlockKind::Heading,
-        HtmlBlockKind::FencedCode,
-        HtmlBlockKind::IndentedCode,
-        HtmlBlockKind::MathBlock,
-        HtmlBlockKind::ThematicBreak,
-        HtmlBlockKind::HtmlBlock,
-        HtmlBlockKind::LinkReferenceDefinition,
-        HtmlBlockKind::BlockQuote,
-        HtmlBlockKind::List,
-        HtmlBlockKind::ListItem,
-        HtmlBlockKind::GfmTable,
-        HtmlBlockKind::BlankLine,
-        HtmlBlockKind::Callout,
-        HtmlBlockKind::ForeignHtml,
-        HtmlBlockKind::Footnotes,
-    ];
-    let mut blocks: Vec<_> = kinds
-        .iter()
-        .enumerate()
-        .map(|(i, kind)| RenderedHtmlBlock {
-            id: i.to_string(),
-            kind: *kind,
-            content: RenderedBlockContent::Html(String::new()),
-        })
-        .collect();
-    blocks.insert(
-        1,
-        RenderedHtmlBlock {
-            id: "null".into(),
-            kind: HtmlBlockKind::BlankLine,
-            content: RenderedBlockContent::Null(BlockNullReason::BlankLine),
+fn sample(body: &str) -> Document {
+    let BlockOutput::Structured(data) = oriha_core::derive_blocks(
+        RenderInput {
+            markdown: body.into(),
+            ..Default::default()
         },
-    );
-    let assets = [
-        (AssetKind::Svg, "image/svg+xml", "<svg>λ</svg>"),
-        (AssetKind::Css, "text/css", "a{}"),
-        (AssetKind::Other, "font/otf", "AAEC"),
-    ]
-    .into_iter()
-    .enumerate()
-    .map(|(i, (kind, mime, content))| RenderAsset {
-        id: i.to_string(),
-        kind,
-        mime_type: mime.into(),
-        content: content.into(),
-    })
-    .collect();
-    let mut output = RenderedBlockOutput {
-        schema_version: 1,
-        mode: BlockOutputMode::Rendered,
-        status: BlockOutputStatus::Complete,
-        blocks,
-        assets,
-        diagnostics: vec![],
+        BlockOutputMode::Structured,
+    ) else {
+        unreachable!()
     };
-    let result = project(output.clone()).unwrap();
-    assert_eq!(result.blocks.len(), kinds.len());
-    for (i, block) in result.blocks.iter().enumerate() {
-        assert_eq!(block.id, i.to_string());
-        assert_eq!(
-            block.kind,
-            serde_json::to_value(kinds[i]).unwrap().as_str().unwrap()
-        );
-        assert_eq!(block.html, "");
-    }
-    assert_eq!(result.assets[0].content, "<svg>λ</svg>");
-    assert_eq!(result.assets[1].content, "a{}");
-    assert_eq!(result.assets[2].content, "AAEC");
-    assert_eq!(result.assets[2].mime_type, "font/otf");
-    let json = serde_json::to_string(result.as_ref()).unwrap();
-    for forbidden in ["children", "nullReason", "markdown", "properties"] {
-        assert!(!json.contains(forbidden));
-    }
+    Document::new(data).unwrap()
+}
+fn prose(value: &Document) -> String {
+    value
+        .data
+        .nodes
+        .iter()
+        .filter_map(|node| match &node.content {
+            DocumentNodeKind::Text { text } => Some(text.as_str()),
+            _ => None,
+        })
+        .collect()
+}
+#[test]
+fn document_boundary_rejects_failed_versions_and_invalid_graphs() {
+    let valid = sample("# Heading\n\nContent");
     for status in [BlockOutputStatus::Incomplete, BlockOutputStatus::Failed] {
-        output.status = status;
-        assert!(project(output.clone()).is_err());
+        let mut data = valid.data.clone();
+        data.status = status;
+        assert!(Document::new(data).is_err());
     }
+    let mut data = valid.data.clone();
+    data.schema_version = 1;
+    assert!(Document::new(data).is_err());
+    let mut data = valid.data.clone();
+    data.nodes.push(data.nodes[0].clone());
+    assert!(Document::new(data).is_err());
+    let mut data = valid.data;
+    data.root_ids.push("missing".into());
+    assert!(Document::new(data).is_err());
 }
 
 #[test]
@@ -185,28 +143,27 @@ fn cache_accounts_capacity_evicts_lru_and_invalidates_changed_deleted_entries() 
         hash: [id as u8; 32],
         profile: [0; 32],
     };
-    let value = Arc::new(Rendered::default());
+    let value = Arc::new(sample(""));
     let charge = value.retained_bytes() + std::mem::size_of::<Key>() + 128 + key(1).id.capacity();
     let mut cache = cache::RenderCache::new(charge * 2);
-    cache.insert(key(1), Projection::Html(value.clone()));
-    cache.insert(key(2), Projection::Html(value.clone()));
+    cache.insert(key(1), value.clone());
+    cache.insert(key(2), value.clone());
     assert_eq!(cache.bytes(), charge * 2);
     assert!(cache.get(&key(1)).is_some());
-    cache.insert(key(3), Projection::Html(value.clone()));
+    cache.insert(key(3), value.clone());
     assert!(cache.get(&key(2)).is_none());
     assert!(cache.get(&key(1)).is_some());
     let mut reserved = String::with_capacity(4096);
     reserved.push('x');
-    let oversized = Arc::new(Rendered {
-        blocks: vec![HtmlBlock {
-            id: "a".into(),
-            kind: "paragraph".into(),
-            html: reserved,
-        }],
-        assets: vec![],
-        ..Default::default()
-    });
-    cache.insert(key(4), Projection::Html(oversized));
+    let mut oversized = sample("x");
+    let text = oversized
+        .data
+        .nodes
+        .iter_mut()
+        .find(|node| matches!(node.content, DocumentNodeKind::Text { .. }))
+        .unwrap();
+    text.content = DocumentNodeKind::Text { text: reserved };
+    cache.insert(key(4), Arc::new(oversized));
     assert!(cache.get(&key(4)).is_none());
     assert_eq!(cache.bytes(), charge * 2);
     let changed = Arc::new(metadata::parse(1, b"---\ntitle: New\n---\n").unwrap());
@@ -247,7 +204,7 @@ async fn single_flight_cancellation_stale_completion_and_snapshot_consistency() 
     assert_eq!(catalog.snapshot().articles["1"].metadata.title, "New");
     gate.release();
     let old_result = second.await.unwrap().unwrap();
-    assert!(old_result.blocks[0].html.contains("Old"));
+    assert!(prose(&old_result).contains("Old"));
     assert!(catalog.state.lock().unwrap().cache.is_empty());
     assert_eq!(renderer.calls(), 1);
     assert_eq!(renderer.active_keys(), 0);
@@ -256,7 +213,7 @@ async fn single_flight_cancellation_stale_completion_and_snapshot_consistency() 
         .await
         .unwrap()
         .unwrap();
-    assert!(new.blocks[0].html.contains("New"));
+    assert!(prose(&new).contains("New"));
     assert_eq!(renderer.calls(), 2);
     std::fs::remove_file(root.path().join("articles/1.md")).unwrap();
     catalog.reconcile().await.unwrap();
@@ -288,7 +245,7 @@ async fn queued_cancellation_and_worker_panic_release_capacity_and_key() {
         .await
         .unwrap()
         .unwrap();
-    assert!(result.blocks[0].html.contains("Second"));
+    assert!(prose(&result).contains("Second"));
     assert_eq!(renderer.calls(), 2);
 }
 
@@ -302,7 +259,7 @@ async fn an_http_request_keeps_one_snapshot_during_overlapping_reload() {
     let _release = Release(gate.clone());
     *renderer.probe.lock().unwrap() = Some(gate.clone());
     let router = crate::server::router(catalog.clone(), renderer.clone()).unwrap();
-    let query = serde_json::json!({"query":"{ a: post(id:\"1\") { title blocks { html } } b: posts { nodes { title } } c: post(id:\"1\") { title } }"});
+    let query = serde_json::json!({"query":"{ a: post(id:\"1\") { title document { nodes { ... on TextNode { text } } } } b: posts { nodes { title } } c: post(id:\"1\") { title } }"});
     let mut pending = tokio::spawn(
         router.clone().oneshot(
             Request::post("/graphql")
@@ -339,10 +296,11 @@ async fn an_http_request_keeps_one_snapshot_during_overlapping_reload() {
             .any(|node| node["title"] == "Old")
     );
     assert!(
-        value["data"]["a"]["blocks"][0]["html"]
-            .as_str()
+        value["data"]["a"]["document"]["nodes"]
+            .as_array()
             .unwrap()
-            .contains("Old")
+            .iter()
+            .any(|node| node["text"] == "Old")
     );
 }
 
@@ -367,13 +325,23 @@ async fn cancelling_every_waiter_still_cleans_up_and_failure_memo_is_request_loc
     );
     let article = Arc::new(metadata::parse(1, malicious.as_bytes()).unwrap());
     let memo = RequestMemo::default();
-    assert!(renderer.render(article.clone(), &memo).await.is_err());
+    assert!(
+        renderer
+            .document(article.clone(), &memo, Profile::default())
+            .await
+            .is_err()
+    );
     let count = renderer.calls();
-    assert!(renderer.render(article.clone(), &memo).await.is_err());
+    assert!(
+        renderer
+            .document(article.clone(), &memo, Profile::default())
+            .await
+            .is_err()
+    );
     assert_eq!(renderer.calls(), count);
     assert!(
         renderer
-            .render(article, &RequestMemo::default())
+            .document(article, &RequestMemo::default(), Profile::default())
             .await
             .is_err()
     );
@@ -384,12 +352,15 @@ async fn cancelling_every_waiter_still_cleans_up_and_failure_memo_is_request_loc
 #[tokio::test]
 async fn actual_producer_block_and_output_limits_are_enforced() {
     let (_root, catalog, renderer) = fixture().await;
-    for body in ["x\n\n".repeat(20_001), "&".repeat(900_000)] {
+    for body in [
+        "x\n\n".repeat(20_001),
+        format!("```{}\nx\n```\n", "\"".repeat(600_000)),
+    ] {
         let source = format!("---\ntitle: Bounded\n---\n{body}");
         let article = Arc::new(metadata::parse(1, source.as_bytes()).unwrap());
         assert!(
             renderer
-                .render(article, &RequestMemo::default())
+                .document(article, &RequestMemo::default(), Profile::default())
                 .await
                 .is_err()
         );
@@ -398,15 +369,18 @@ async fn actual_producer_block_and_output_limits_are_enforced() {
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
-async fn structured_cancellation_keeps_shared_worker_supervision_and_cache_publication() {
+async fn document_cancellation_keeps_shared_worker_supervision_and_cache_publication() {
     let (_root, catalog, renderer) = fixture().await;
     let gate = Gate::new();
     let _release = Release(gate.clone());
     *renderer.probe.lock().unwrap() = Some(gate.clone());
     let worker = renderer.clone();
     let article = catalog.snapshot().articles["1"].clone();
-    let waiter =
-        tokio::spawn(async move { worker.structure(article, &RequestMemo::default()).await });
+    let waiter = tokio::spawn(async move {
+        worker
+            .document(article, &RequestMemo::default(), Profile::default())
+            .await
+    });
     gate.entered().await;
     waiter.abort();
     gate.release();
@@ -416,64 +390,36 @@ async fn structured_cancellation_keeps_shared_worker_supervision_and_cache_publi
     assert_eq!(renderer.calls(), 1);
     *renderer.probe.lock().unwrap() = None;
     let cached = renderer
-        .structure(
+        .document(
             catalog.snapshot().articles["1"].clone(),
             &RequestMemo::default(),
+            Profile::default(),
         )
         .await
         .unwrap();
-    assert!(!cached.blocks.is_empty());
+    assert!(!cached.data.nodes.is_empty());
     assert_eq!(renderer.calls(), 1);
 }
 
-#[tokio::test]
-async fn structured_producer_output_limit_is_enforced_before_flattening() {
-    let (_root, catalog, renderer) = fixture().await;
-    let source = format!("---\ntitle: Bounded\n---\n{}", "\"".repeat(900_000));
-    let article = Arc::new(metadata::parse(1, source.as_bytes()).unwrap());
-    assert!(
-        renderer
-            .structure(article, &RequestMemo::default())
-            .await
-            .is_err()
-    );
-    assert!(catalog.state.lock().unwrap().cache.is_empty());
-    assert_eq!(renderer.images.inspections(), 0);
-}
-
 #[test]
-fn html_and_structured_share_one_retained_capacity_budget() {
-    let html = Projection::Html(Arc::new(Rendered::default()));
-    let structured = Projection::Structured(
-        crate::structured::project(
-            oriha_core::StructuredBlockOutput {
-                schema_version: 1,
-                mode: oriha_core::BlockOutputMode::Structured,
-                status: BlockOutputStatus::Complete,
-                blocks: vec![],
-                references: Default::default(),
-                footnotes: vec![],
-                diagnostics: vec![],
-            },
-            vec![],
-        )
-        .unwrap(),
-    );
+fn preparation_profiles_share_one_retained_capacity_budget() {
+    let plain = Arc::new(sample(""));
+    let rich = Arc::new(sample("text"));
     let charge = |value: &Projection| {
         value.retained_bytes() + std::mem::size_of::<Key>() + 128 + "1".to_owned().capacity()
     };
-    let budget = charge(&html) + charge(&structured);
+    let budget = charge(&plain) + charge(&rich);
     let mut cache = cache::RenderCache::new(budget);
     let key = |mode| Key {
         id: "1".to_owned(),
         hash: [1; 32],
         profile: [mode; 32],
     };
-    cache.insert(key(0), html.clone());
-    cache.insert(key(1), structured);
+    cache.insert(key(0), plain.clone());
+    cache.insert(key(1), rich);
     assert_eq!(cache.len(), 2);
     assert_eq!(cache.bytes(), budget);
-    cache.insert(key(2), html);
+    cache.insert(key(2), plain);
     assert!(cache.get(&key(0)).is_none());
     assert!(cache.bytes() <= budget);
 }

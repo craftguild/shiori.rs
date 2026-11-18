@@ -66,28 +66,12 @@ where
     ) -> impl ::std::future::Future<Output = ::std::result::Result<::std::string::String, E>>
     + ::std::marker::Send
     + 'a;
-    fn blocks<'a>(
+    fn document<'a>(
         &'a self,
         ctx: ::chigiri::FieldContext<'a, C>,
         parent: &'a T::Post,
     ) -> impl ::std::future::Future<
-        Output = ::std::result::Result<::std::option::Option<::std::vec::Vec<T::HtmlBlock>>, E>,
-    > + ::std::marker::Send
-    + 'a;
-    fn assets<'a>(
-        &'a self,
-        ctx: ::chigiri::FieldContext<'a, C>,
-        parent: &'a T::Post,
-    ) -> impl ::std::future::Future<
-        Output = ::std::result::Result<::std::option::Option<::std::vec::Vec<T::RenderAsset>>, E>,
-    > + ::std::marker::Send
-    + 'a;
-    fn structured<'a>(
-        &'a self,
-        ctx: ::chigiri::FieldContext<'a, C>,
-        parent: &'a T::Post,
-    ) -> impl ::std::future::Future<
-        Output = ::std::result::Result<::std::option::Option<T::StructuredDocument>, E>,
+        Output = ::std::result::Result<::std::option::Option<T::Document>, E>,
     > + ::std::marker::Send
     + 'a;
 }

@@ -17,4 +17,4 @@ pub mod server;
 pub mod storage;
 mod timestamps;
 
-pub mod structured;
+pub mod document;

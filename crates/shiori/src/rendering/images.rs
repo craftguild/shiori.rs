@@ -1,13 +1,12 @@
-//! Collect parsed references and prepare immutable data before HTML derivation.
+//! Prepare typed image presentation once per selected document profile.
 use super::RenderFailure;
 use crate::{
     config::Config,
     images::{AssetPath, Dependency, ImageService, SourceState, WIDTHS},
 };
 use oriha_core::{
-    ImageCandidate, ImageLayout, ImagePresentation, ImageRenderRequest, RenderHook,
+    ImageCandidate, ImageLayout, ImagePresentation,
     ir::{BlockKind, BlockNode, Document, InlineKind, InlineNode},
-    render::RenderContext,
 };
 use std::{
     collections::{BTreeSet, HashMap},
@@ -16,38 +15,46 @@ use std::{
 #[cfg(test)]
 mod tests;
 
-#[derive(Clone)]
-pub(super) struct ImagePolicy(Arc<HashMap<String, ImagePresentation>>);
-impl RenderHook for ImagePolicy {
-    fn image_presentation<'a>(
-        &'a self,
-        image: &ImageRenderRequest<'_>,
-        _: &RenderContext<'_>,
-    ) -> Option<&'a ImagePresentation> {
-        self.0.get(image.destination)
-    }
-}
-
 pub(super) struct Prepared {
-    pub policy: ImagePolicy,
+    presentations: HashMap<String, ImagePresentation>,
     pub dependencies: Vec<Dependency>,
     pub cacheable: bool,
     originals: Vec<(String, String)>,
 }
 impl Prepared {
-    pub fn fallback(&self) -> ImagePolicy {
-        ImagePolicy(Arc::new(
-            self.originals
-                .iter()
-                .map(|(destination, url)| {
-                    (
-                        destination.clone(),
-                        ImagePresentation::new(url, vec![], None, None, ImageLayout::Responsive)
-                            .expect("original presentation"),
-                    )
-                })
-                .collect(),
-        ))
+    pub fn project(&self, fallback: bool) -> HashMap<String, Arc<crate::document::Image>> {
+        self.originals
+            .iter()
+            .map(|(destination, original)| {
+                let prepared = (!fallback)
+                    .then(|| self.presentations.get(destination))
+                    .flatten();
+                let dimensions = prepared.and_then(ImagePresentation::intrinsic_dimensions);
+                let image = crate::document::Image {
+                    url: prepared
+                        .map_or_else(|| original.clone(), |value| value.source().to_owned()),
+                    original_url: original.clone(),
+                    candidates: prepared
+                        .map(|value| {
+                            value
+                                .candidates()
+                                .iter()
+                                .map(|candidate| crate::document::Candidate {
+                                    url: candidate.url().to_owned(),
+                                    width: candidate.width(),
+                                })
+                                .collect()
+                        })
+                        .unwrap_or_default(),
+                    sizes: prepared
+                        .and_then(ImagePresentation::sizes)
+                        .map(str::to_owned),
+                    width: dimensions.map(|value| value.0),
+                    height: dimensions.map(|value| value.1),
+                };
+                (destination.clone(), Arc::new(image))
+            })
+            .collect()
     }
 }
 
@@ -141,7 +148,7 @@ pub(super) async fn prepare(
         .iter()
         .all(|d| d.state != SourceState::Unstable);
     Ok(Prepared {
-        policy: ImagePolicy(Arc::new(presentations)),
+        presentations,
         dependencies,
         cacheable,
         originals,

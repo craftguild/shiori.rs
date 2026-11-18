@@ -4,7 +4,6 @@ use std::sync::Arc;
 use crate::{
     graphql::{Context, Error, Types},
     metadata::Article,
-    rendering::{Asset, HtmlBlock},
 };
 
 pub struct PostFields;
@@ -65,41 +64,16 @@ impl generated::PostResolver<Context, Types, Error> for PostFields {
     ) -> Result<String, Error> {
         Ok(post.source_path.clone())
     }
-    async fn blocks<'a>(
+    async fn document<'a>(
         &'a self,
         ctx: FieldContext<'a, Context>,
         post: &'a Arc<Article>,
-    ) -> Result<Option<Vec<HtmlBlock>>, Error> {
-        let context = ctx.context();
-        let value = context
-            .renderer
-            .render(post.clone(), &context.memo)
-            .await
-            .map_err(|_| Error::Render)?;
-        Ok(Some(value.blocks.clone()))
-    }
-    async fn assets<'a>(
-        &'a self,
-        ctx: FieldContext<'a, Context>,
-        post: &'a Arc<Article>,
-    ) -> Result<Option<Vec<Asset>>, Error> {
-        let context = ctx.context();
-        let value = context
-            .renderer
-            .render(post.clone(), &context.memo)
-            .await
-            .map_err(|_| Error::Render)?;
-        Ok(Some(value.assets.clone()))
-    }
-    async fn structured<'a>(
-        &'a self,
-        ctx: FieldContext<'a, Context>,
-        post: &'a Arc<Article>,
-    ) -> Result<Option<Arc<crate::structured::Document>>, Error> {
+    ) -> Result<Option<Arc<crate::document::Document>>, Error> {
+        let profile = super::document::profile(ctx)?;
         let context = ctx.context();
         context
             .renderer
-            .structure(post.clone(), &context.memo)
+            .document(post.clone(), &context.memo, profile)
             .await
             .map(Some)
             .map_err(|_| Error::Structure)

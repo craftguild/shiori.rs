@@ -10,7 +10,11 @@ async fn reconciliation_retains_invalid_updates_repairs_and_confirms_deletions()
     article(root.path(), 20, "Second", &["shared"], "Second");
     let (catalog, renderer, router) = app(root.path()).await;
     let old = catalog.snapshot();
-    let original = data(&router, "{ post(id:\"10\") { title blocks { html } } }").await;
+    let original = data(
+        &router,
+        "{ post(id:\"10\") { title document { nodes { ... on TextNode { text } } } } }",
+    )
+    .await;
     std::fs::write(root.path().join("articles/10.md"), "invalid").unwrap();
     std::fs::write(root.path().join("articles/30.md"), "invalid new").unwrap();
     article(root.path(), 20, "Changed", &["new"], "New body");
@@ -25,7 +29,11 @@ async fn reconciliation_retains_invalid_updates_repairs_and_confirms_deletions()
         ["new", "old"]
     );
     assert_eq!(
-        data(&router, "{ post(id:\"10\") { title blocks { html } } }").await,
+        data(
+            &router,
+            "{ post(id:\"10\") { title document { nodes { ... on TextNode { text } } } } }"
+        )
+        .await,
         original
     );
     assert_eq!(renderer.calls(), 1);
@@ -43,11 +51,15 @@ async fn reconciliation_retains_invalid_updates_repairs_and_confirms_deletions()
     .unwrap();
     catalog.reconcile().await.unwrap();
     assert_eq!(catalog.snapshot().articles.len(), 3);
-    let fixed = data(&router, "{ post(id:\"10\") { id title blocks { html } } }").await;
+    let fixed = data(
+        &router,
+        "{ post(id:\"10\") { id title document { nodes { ... on TextNode { text } } } } }",
+    )
+    .await;
     assert_eq!(fixed["post"]["title"], "Fixed");
     assert!(fixed.to_string().contains("New revision"));
     assert_eq!(renderer.calls(), 2);
-    // Metadata-valid new source can fail lazy derivation; it must not reuse old HTML.
+    // Metadata-valid new source can fail lazy derivation; it must not reuse old document.
     article(
         root.path(),
         10,
@@ -58,13 +70,16 @@ async fn reconciliation_retains_invalid_updates_repairs_and_confirms_deletions()
     catalog.reconcile().await.unwrap();
     let failed = query(
         &router,
-        "{ post(id:\"10\") { title blocks { html } } }",
+        "{ post(id:\"10\") { title document { nodes { ... on TextNode { text } } } } }",
         serde_json::json!({}),
     )
     .await;
     assert_eq!(failed["data"]["post"]["title"], "New failed revision");
-    assert!(failed["data"]["post"]["blocks"].is_null());
-    assert_eq!(failed["errors"][0]["extensions"]["code"], "RENDER_FAILED");
+    assert!(failed["data"]["post"]["document"].is_null());
+    assert_eq!(
+        failed["errors"][0]["extensions"]["code"],
+        "STRUCTURE_FAILED"
+    );
     std::fs::remove_file(root.path().join("articles/10.md")).unwrap();
     catalog.reconcile().await.unwrap();
     assert!(!catalog.snapshot().articles.contains_key("10"));

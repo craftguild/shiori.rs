@@ -10,6 +10,43 @@ use image::{DynamicImage, ImageFormat, Rgba, RgbaImage};
 use std::{io::Cursor, path::Path};
 use tower::ServiceExt;
 
+pub async fn document(router: &Router) -> serde_json::Value {
+    super::data(router, "{post(id:\"1\"){document{nodes{__typename ... on TextNode{id text} ... on ImageNode{id altIds destination title presentation{url originalUrl candidates{url width} sizes width height}}}}}}")
+        .await["post"]["document"].clone()
+}
+pub fn image_nodes(document: &serde_json::Value) -> Vec<&serde_json::Value> {
+    document["nodes"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|node| node["__typename"] == "ImageNode")
+        .collect()
+}
+pub fn alternative(document: &serde_json::Value, image: &serde_json::Value) -> String {
+    image["altIds"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|id| {
+            document["nodes"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .find(|node| node["id"] == *id)
+                .unwrap()["text"]
+                .as_str()
+                .unwrap()
+        })
+        .collect()
+}
+pub fn candidate_widths(document: &serde_json::Value) -> Vec<u64> {
+    image_nodes(document)
+        .iter()
+        .flat_map(|node| node["presentation"]["candidates"].as_array().unwrap())
+        .map(|candidate| candidate["width"].as_u64().unwrap())
+        .collect()
+}
+
 pub fn pixels(width: u32, height: u32, transparent: bool) -> RgbaImage {
     RgbaImage::from_fn(width, height, |x, y| {
         if transparent {

@@ -6,7 +6,7 @@
   </a>
 </p>
 
-shiori.rs is a filesystem Markdown CMS from CraftGuild. Authors edit local files; applications query a read-only GraphQL API for article metadata, rendered HTML, typed documents, tags, search and UTC monthly archives. Local JPEG, PNG and WebP images receive responsive variants without an external image service.
+shiori.rs is a filesystem Markdown CMS from CraftGuild. Authors edit local files; applications query a read-only GraphQL API for article metadata, typed documents, tags, search and UTC monthly archives. Local JPEG, PNG and WebP images receive responsive variants without an external image service.
 
 > [!WARNING]
 > This project has not reached version 1.0 and may be unstable. Its behavior and specifications may change, and upgrades may require manual migration. Our team uses it in internal production systems to refine its design and implementation, but it may not meet your requirements. Please keep these limitations in mind when using it.
@@ -72,7 +72,7 @@ query Articles($after: ID) {
 }
 ```
 
-Select `post(id: ID!) { blocks { id kind html } assets { id kind mimeType content } }` for rendered bodies and resources, or `structured` for the typed document projection. The [public schema](graphql/schema.graphql), [contract](docs/headless-cms-design.md) and [operations guide](docs/operations.md) describe metadata, pagination, image negotiation, resource handling and recovery.
+Select `post(id: ID!) { document { schemaVersion rootIds nodes { __typename ... on TextNode { id text } } } }` for the flat typed body. Select additional union members and optional prepared fields for the content you need. The [public schema](graphql/schema.graphql), [contract](docs/headless-cms-design.md) and [operations guide](docs/operations.md) describe metadata, pagination, image negotiation, resource handling and recovery.
 
 ## Known limitations
 
