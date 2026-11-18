@@ -1,0 +1,42 @@
+{
+  "schema_version": 2,
+  "group": "shiori",
+  "config_hash": "f62a41bfe92278f23798fdb062f9b4a18b69f11583161f6af85f7c389b923945",
+  "head": "2a2ef35c0b7c8899311ed9425cd4a9975d0a3748",
+  "base": "v0.2.0",
+  "current": "0.2.0",
+  "next": "0.3.0",
+  "tag": "v0.3.0",
+  "bump": "minor",
+  "mode": "normal",
+  "prepared": false,
+  "receipt_path": "docs/releases/v0.3.0.json",
+  "notes": "# v0.3.0\n\nGroup: `shiori`\n\nCompare: `v0.2.0` → `2a2ef35c0b7c8899311ed9425cd4a9975d0a3748`\n\n## Changes\n\n- feat(document)!: replace article body fields with typed documents (2a2ef35c0b7c8899311ed9425cd4a9975d0a3748)\n\n## Breaking changes\n\n- Replace Post.blocks, Post.assets and Post.structured with nullable Post.document using the flat schema-version-2 node pool. (2a2ef35c0b7c8899311ed9425cd4a9975d0a3748)\n",
+  "changes": [
+    {
+      "path": "crates/shiori/Cargo.toml",
+      "before": "80dee821c540ac6895da384581ced34e3eb435d9b84e7a18d5e898b7d7c439e0",
+      "after": "7036a55470bb75a2e965557af63188b73ffaba85c91916b01e06a5f1d97c3459"
+    },
+    {
+      "path": "Cargo.lock",
+      "before": "d2da7afd2ffb3fafe1ed1881282c568fb71254d01547dfcd4afb07e6516fdd86",
+      "after": "a02bc365ff035b92519d91a01cc0feed4bff23174153d6dc8054b72e5d02f9bf"
+    },
+    {
+      "path": "tools/contract/Cargo.toml",
+      "before": "d2478c9b139e1a1141d23ec37a79eca80074bddaf56ce611cc122078d0463c80",
+      "after": "a0c0226aa78e16a91c018d37e58d6538b388bfda4835452260ec96ea5d6ad0bd"
+    },
+    {
+      "path": "tools/contract/Cargo.lock",
+      "before": "201a4570945ed6207dad6ee6578ecfcf861a0d8d8713c3cc3be83fe4fd0738ca",
+      "after": "1bd717f6beea833db4e821be262e27f6e78d47fed1697dcb4a492d904ed255eb"
+    },
+    {
+      "path": "docs/releases/v0.3.0.md",
+      "before": null,
+      "after": "3f371588bd554a2e74069d8ee92bb41d9324196d0f6b4f30c6835ebb8436cfef"
+    }
+  ]
+}
