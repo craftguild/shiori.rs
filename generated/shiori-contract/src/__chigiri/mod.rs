@@ -6,7 +6,7 @@
 // The ordered input source list is recorded in sources.rs.
 // schema content SHA-256: 0cc997ad6f039dfadc07a54ac32f55cf3df09fc469bcff9820ea91e0a5463298
 // enum binding config: chigiri.toml
-// enum binding config SHA-256: 57854011594734564e7e2b9ece219be31f50210e046bfd794864c77a6110ac44
+// enum binding config SHA-256: 35963557d20f4734ac1c93c581ff29c4facaa9e2482f0bb2f8017e4edf645d8f
 
 const _: () = assert!(
     ::chigiri::GENERATED_ABI_VERSION == 8,

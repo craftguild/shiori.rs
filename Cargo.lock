@@ -335,8 +335,8 @@ checksum = "4e7648175b45a9a48536d676f68d918270699102aa8dab5496df06904c914600"
 
 [[package]]
 name = "chigiri"
-version = "0.2.0"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
+version = "0.2.1"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c#1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"
 dependencies = [
  "chigiri_graphiql",
  "chigiri_http",
@@ -351,8 +351,8 @@ dependencies = [
 
 [[package]]
 name = "chigiri_axum"
-version = "0.2.0"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
+version = "0.2.1"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c#1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"
 dependencies = [
  "axum",
  "chigiri",
@@ -369,18 +369,18 @@ dependencies = [
 
 [[package]]
 name = "chigiri_core"
-version = "0.2.0"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
+version = "0.2.1"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c#1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"
 
 [[package]]
 name = "chigiri_graphiql"
-version = "0.2.0"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
+version = "0.2.1"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c#1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"
 
 [[package]]
 name = "chigiri_http"
-version = "0.2.0"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
+version = "0.2.1"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c#1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"
 dependencies = [
  "chigiri_core",
  "chigiri_runtime",
@@ -390,8 +390,8 @@ dependencies = [
 
 [[package]]
 name = "chigiri_observability"
-version = "0.2.0"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
+version = "0.2.1"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c#1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"
 dependencies = [
  "blake3",
  "chigiri_runtime",
@@ -401,8 +401,8 @@ dependencies = [
 
 [[package]]
 name = "chigiri_operation"
-version = "0.2.0"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
+version = "0.2.1"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c#1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"
 dependencies = [
  "chigiri_http",
  "chigiri_runtime",
@@ -411,8 +411,8 @@ dependencies = [
 
 [[package]]
 name = "chigiri_policy"
-version = "0.2.0"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
+version = "0.2.1"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c#1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"
 dependencies = [
  "chigiri_http",
  "chigiri_rate",
@@ -421,13 +421,13 @@ dependencies = [
 
 [[package]]
 name = "chigiri_rate"
-version = "0.2.0"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
+version = "0.2.1"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c#1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"
 
 [[package]]
 name = "chigiri_rate_memory"
-version = "0.2.0"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
+version = "0.2.1"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c#1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"
 dependencies = [
  "atomic-waker",
  "chigiri_rate",
@@ -435,8 +435,8 @@ dependencies = [
 
 [[package]]
 name = "chigiri_runtime"
-version = "0.2.0"
-source = "git+https://github.com/craftguild/chigiri.rs?rev=a21f2fce58a60ef1830f836da94c9a1a2ed95965#a21f2fce58a60ef1830f836da94c9a1a2ed95965"
+version = "0.2.1"
+source = "git+https://github.com/craftguild/chigiri.rs?rev=1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c#1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"
 dependencies = [
  "chigiri_core",
  "futures-core",

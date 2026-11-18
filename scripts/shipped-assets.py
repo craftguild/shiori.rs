@@ -49,7 +49,7 @@ def main():
     records = []
     graphiql_package = packages['chigiri_graphiql']
     upstream = dependency_root(packages, 'chigiri', 'chigiri_graphiql',
-                               'a21f2fce58a60ef1830f836da94c9a1a2ed95965')
+                               '1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c')
     graphiql = Path(graphiql_package['manifest_path']).parent
     inventory = json.loads((graphiql / 'asset-inventory.json').read_text())
     for relative, expected in inventory['sources'].items():

@@ -8,9 +8,9 @@
   "abi": 8,
   "generator": {
     "schema_version": "chigiri/generator-info-v1",
-    "version": "0.2.0",
-    "revision": "a21f2fce58a60ef1830f836da94c9a1a2ed95965",
-    "git_commit": "a21f2fce58a60ef1830f836da94c9a1a2ed95965",
+    "version": "0.2.1",
+    "revision": "1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c",
+    "git_commit": "1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c",
     "dirty": false,
     "build": {
       "rustc": "rustc 1.95.0 (59807616e 2026-04-14)",
@@ -22,11 +22,11 @@
   "runtime": {
     "source": "git",
     "url": "https://github.com/craftguild/chigiri.rs",
-    "revision": "a21f2fce58a60ef1830f836da94c9a1a2ed95965"
+    "revision": "1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"
   },
   "provenance": {
     "manifest_label": "chigiri.toml",
-    "manifest_sha256": "57854011594734564e7e2b9ece219be31f50210e046bfd794864c77a6110ac44",
+    "manifest_sha256": "35963557d20f4734ac1c93c581ff29c4facaa9e2482f0bb2f8017e4edf645d8f",
     "schema_sha256": "0cc997ad6f039dfadc07a54ac32f55cf3df09fc469bcff9820ea91e0a5463298",
     "binding_sha256": "45c8ff0c5974f886e130b97833005691c161e7b50dad410edf3102537a315e18",
     "sources": [
@@ -41,7 +41,7 @@
     {
       "path": "Cargo.toml",
       "bytes": 384,
-      "sha256": "ad73f2a10955e62f4edc8c01bccffdda406569695b5ea786b61111f54219ff76"
+      "sha256": "c0893d67882b67fa519049e21a118c50559f35016a50aecbd9ae93359bb1bd89"
     },
     {
       "path": "src/__chigiri/assembly.rs",
@@ -51,7 +51,7 @@
     {
       "path": "src/__chigiri/generator_info.rs",
       "bytes": 964,
-      "sha256": "2b5aa92e27ca348e07a3ee3aeb2065aeaa7fadb913d530da14b2ce12e94b8146"
+      "sha256": "10f85b06425bad6ccf3d5c9e0494027a386cf98d532c93ace1de936074007e63"
     },
     {
       "path": "src/__chigiri/internal/bridge/dispatch.rs",
@@ -1191,7 +1191,7 @@
     {
       "path": "src/__chigiri/mod.rs",
       "bytes": 1347,
-      "sha256": "382eef7b3a93f4fb2c2517468c0ff1071abdde8d611866ce7d164b035d7f05f8"
+      "sha256": "d0c052c0616e6cda9b12c0a7930f4c80688152511f5e4ebdef09cec8a2e3d561"
     },
     {
       "path": "src/__chigiri/modules.rs",

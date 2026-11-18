@@ -2,10 +2,10 @@
 // Information captured at generation time; never rediscovered at runtime.
 pub(super) static INFO: ::chigiri::core::GeneratorInfo = ::chigiri::core::GeneratorInfo {
     schema_version: ::std::borrow::Cow::Borrowed("chigiri/generator-info-v1"),
-    version: ::std::borrow::Cow::Borrowed("0.2.0"),
-    revision: ::std::borrow::Cow::Borrowed("a21f2fce58a60ef1830f836da94c9a1a2ed95965"),
+    version: ::std::borrow::Cow::Borrowed("0.2.1"),
+    revision: ::std::borrow::Cow::Borrowed("1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c"),
     git_commit: ::std::option::Option::Some(::std::borrow::Cow::Borrowed(
-        "a21f2fce58a60ef1830f836da94c9a1a2ed95965",
+        "1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c",
     )),
     dirty: ::std::option::Option::Some(false),
     build: ::chigiri::core::GeneratorBuild {

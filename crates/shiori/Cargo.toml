@@ -13,8 +13,8 @@ futures-util = "0.3.31"
 gix = { version = "=0.90.0", default-features = false, features = ["sha1", "sha256"] }
 base64 = "0.22"
 axum = "0.8.8"
-chigiri = { git = "https://github.com/craftguild/chigiri.rs", rev = "a21f2fce58a60ef1830f836da94c9a1a2ed95965", version = "=0.2.0", features = ["graphiql"] }
-chigiri_axum = { git = "https://github.com/craftguild/chigiri.rs", rev = "a21f2fce58a60ef1830f836da94c9a1a2ed95965", version = "=0.2.0" }
+chigiri = { git = "https://github.com/craftguild/chigiri.rs", rev = "1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c", version = "=0.2.1", features = ["graphiql"] }
+chigiri_axum = { git = "https://github.com/craftguild/chigiri.rs", rev = "1d82bfc814f8b9c8ffb9d7d21b9816fd54b41b4c", version = "=0.2.1" }
 generated = { package = "shiori-contract", path = "../../generated/shiori-contract" }
 clap = { version = "4.5.53", features = ["derive"] }
 lru = "0.18.5"
